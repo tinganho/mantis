@@ -26,7 +26,8 @@ function Request(origin) {
  *
  *       })
  * @param {String} authorization
- * @return {Object} Request
+ *
+ * @return {Request}
  */
 
 Request.prototype.setAccessToken = function(accessToken) {
@@ -46,7 +47,8 @@ Request.prototype.setAccessToken = function(accessToken) {
  *
  *       })
  * @param {String} authorization
- * @return {Object} Request
+ *
+ * @return {Request}
  */
 
 Request.prototype.setAuthorization = function(authorization) {
@@ -66,7 +68,8 @@ Request.prototype.setAuthorization = function(authorization) {
  *
  *       })
  * @param {String} authorization
- * @return {Object} Request
+ *
+ * @return {Request}
  */
 
 Request.prototype.setContentType = function(contentType) {
@@ -88,7 +91,7 @@ Request.prototype.setContentType = function(contentType) {
  * @param path {String}
  * @param type {String}, Optional and should be the URL for an API
  *
- * @return {Object} request
+ * @return {Request}
  */
 
 Request.prototype.post = function(url) {
@@ -120,7 +123,7 @@ Request.prototype.post = function(url) {
  *
  *       })
  *
- * @return {Object} request
+ * @return {Request}
  */
 
 Request.prototype.get = function(url) {

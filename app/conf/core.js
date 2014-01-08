@@ -6,90 +6,99 @@ var fs   = require('fs')
 
 var configs = {
 
-  // Default content type for all request
-  //
-  // @type {Number}
-  //
+  /** 
+   * Long time cache life time. Convenient configuration for 
+   * e.g. configuring resource cache lifetime
+   *
+   * @type {Number}
+   */
 
   LONG_TIME_CACHE_LIFE_TIME  : 6*30*24*3600,
 
-  // Default content type for all request
-  //
-  // @type {Number}
-  //
+  /** 
+   * Short time cache life time. Convenient configuration for 
+   * e.g. configuring resource cache lifetime
+   *
+   * @type {Number}
+   */
 
   SHORT_TIME_CACHE_LIFE_TIME : 24*3600,
 
-  // Default content type for all request
-  //
-  // @type {String}
-  //
+  /** 
+   * Default content type for all request
+   *
+   * @type {String}
+   */
 
   DEFAULT_CONTENT_TYPE : 'application/json',
 
-  // Root folder. Is just a convenient constant. It should not be
-  // configured, so please don't touch it.
-  //
-  // @type {String}
-  //
+  /** 
+   * Root folder. Is just a convenient constant. It should not be
+   * configured, so please don't touch it.
+   *
+   * @type {String}
+   */
 
   ROOT_FOLDER : path.join(__dirname, '../'),
 
-  // Temporary folder
-  //
-  // @type {String}
-  //
+  /**
+   * Temporary folder
+   *
+   * @type {String}
+   */
 
   TMP_FOLDER : '/public/tmp',
 
-  // All uploads will be stored on this folder
-  //
-  // @type {String}
-  //
+  /** 
+   * All uploads will be stored on this folder
+   *
+   * @type {String}
+   */
 
   UPLOAD_FOLDER : '/public/uploads',
 
-  // Public config folder is used for serving compiled client configs
-  // Every file in the client-conf folder will be compiled automatically
-  // int this folder.
-  //
-  // @type {String}
-  //
+  /**
+   * Public config folder is used for serving compiled client configs
+   * Every file in the client-conf folder will be compiled automatically
+   * int this folder.
+   *
+   * @type {String}
+   */
 
   PUBLIC_CONF_FOLDER : '/public/conf',
 
-  // Path to the default favicon for your website
-  //
-  // @type {String}
-  //
+  /** 
+   * Path to the default favicon for your website
+   *
+   * @type {String}
+   */
 
   FAVICON : path.join(__dirname, '../', 'public/images/favicon.ico'),
 
-  // Locales for your website. You could define it any format you want
-  // but we suggest using standard locale names. 
-  //
-  // Standard locale name definition:
-  //
-  // A locale name, either a language specification of the form ll or a 
-  // combined language and country specification of the form ll_CC. 
-  // Examples: it, de_AT, es, pt_BR. The language part is always in 
-  // lower case and the country part in upper case. The separator is an 
-  // underscore.
-  //
-  // @type {Array.<String>}
-  //
+  /**
+   * Locales for your website. You could define it any format you want
+   * but we suggest using standard locale names. 
+   *
+   * Standard locale name definition:
+   *
+   * A locale name, either a language specification of the form ll or a 
+   * combined language and country specification of the form ll_CC. 
+   * Examples: it, de_AT, es, pt_BR. The language part is always in 
+   * lower case and the country part in upper case. The separator is an 
+   * underscore.
+   *
+   * @type {Array.<String>}
+   */
 
   LOCALES : ['en-US'],
 
-  // The default locale used for the website
-  //
-  // @type {Array.<String>}
-  //
+  /**
+   * The default locale used for the website
+   *
+   * @type {Array.<String>}
+   */
 
-  DEFAULT_LOCALE : 'en-US',
-
-  // Cookie
-  COOKIE_LOCALE_MAXAGE : 2*360*24*3600*1000
+  DEFAULT_LOCALE : 'en-US'
 };
 
 var ENV;
