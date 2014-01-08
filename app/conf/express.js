@@ -18,9 +18,17 @@ module.exports = function(app) {
     app.use(app.router);
   });
 
+  /**
+   * Development configurations
+   */
+
   app.configure('development', function() {
       app.use(express.static(__dirname + '/'));
   });
+
+  /**
+   * Staging and production configurations
+   */
 
   app.configure(['staging', 'production'], function() {
     app.use(function(req, res, next) {
