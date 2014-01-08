@@ -1,0 +1,70 @@
+{
+  "name": "p1-web-app",
+  "version": "0.0.0",
+  "description": "Awesome P1 web",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./bin/test",
+    "preinstall": "bower install --allow-root && bundle install",
+    "postinstall": "gt compile && grunt build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tinganho/p1-landing-page.git"
+  },
+  "devDependencies": {
+    "mocha": "~1.7.4",
+    "chai": "~1.4.2",
+    "grunt": "~0.4.1",
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-contrib-compass": "~0.1.3",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-usemin": "https://github.com/tinganho/grunt-usemin/tarball/master",
+    "grunt-rev": "~0.1.0",
+    "grunt-sftp-deploy": "0.0.5",
+    "grunt-concurrent": "~0.1.1",
+    "grunt-zip": "~0.7.0",
+    "grunt-shell": "~0.2.2",
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
+    "grunt-contrib-imagemin": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-dot-compiler": "~0.5.10",
+    "grunt-exec": "~0.4.2",
+    "selenium-webdriver": "~2.35.1"
+  },
+  "author": "Tingan Ho",
+  "readmeFilename": "README.md",
+  "gitHead": "9843514536295d13511fc30c0fa3e432d9f47d2f",
+  "dependencies": {
+    "express": "~3.0.6",
+    "requirejs": "~2.1.8",
+    "amdefine": "0.0.4",
+    "request": "~2.14.0",
+    "querystring": "~0.2.0",
+    "findup-sync": "~0.1.2",
+    "colors": "~0.6.0-1",
+    "gm": "~1.8.2",
+    "superagent": "~0.15.2",
+    "grunt": "~0.4.1",
+    "connect-modrewrite": "~0.5.8",
+    "redis": "~0.8.4",
+    "hiredis": "~0.1.15",
+    "step": "0.0.5",
+    "validator": "~1.4.0",
+    "helmet": "~0.1.0",
+    "connect-redis": "~1.4.5",
+    "pinyinjs": "~2.0.1",
+    "nodemailer": "~0.5.2",
+    "underscore": "https://github.com/tinganho/underscore/tarball/master",
+    "autoroute": "~0.2.1",
+    "glob": "~3.2.6",
+    "wd": "~0.1.5",
+    "grunt-dot-compiler": "~0.5.6"
+  }
+}
