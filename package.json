@@ -34,9 +34,7 @@
     "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
     "grunt-contrib-imagemin": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.4",
-    "grunt-dot-compiler": "~0.5.10",
-    "grunt-exec": "~0.4.2",
-    "selenium-webdriver": "~2.35.1"
+    "grunt-dot-compiler": "~0.5.10"
   },
   "author": "Tingan Ho",
   "readmeFilename": "README.md",

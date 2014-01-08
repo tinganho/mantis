@@ -93,7 +93,8 @@ var configs = {
   LOCALES : ['en-US'],
 
   /**
-   * The default locale used for the website
+   * The default locale used for the website. Recommend us locale name.
+   * See definition above.
    *
    * @type {Array.<String>}
    */
@@ -183,22 +184,6 @@ var getters = {
 };
 
 Object.defineProperties(configs, getters);
-
-/**
- * Merge third party configs
- */
-
-var thirdParty = require('./thirdPartyConfig');
-configs = _.defaults(configs, thirdParty.configs);
-Object.defineProperties(configs, thirdParty.getters);
-
-/**
- * Merge links configs
- */
-
-var links = require('./linksConfig');
-configs = _.defaults(configs, links.configs);
-
 
 if(fs.existsSync(configs.GLOBAL_CONF)) {
   var globalConfig = require(configs.GLOBAL_CONF);

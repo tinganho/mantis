@@ -6,4 +6,7 @@
  * More info: https://github.com/tinganho/connect-modrewrite
  */
 
-module.exports = [];
+module.exports = [
+  // For application cache
+  '^/(yourapp.appcache)$ /$1 [T=text/cache-manifest]'
+];

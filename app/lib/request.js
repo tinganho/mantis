@@ -7,6 +7,8 @@ var request = require('superagent');
 
 /**
  * Request
+ *
+ * @constructor
  */
 
 function Request(origin) {
@@ -28,6 +30,7 @@ function Request(origin) {
  * @param {String} authorization
  *
  * @return {Request}
+ * @public
  */
 
 Request.prototype.setAccessToken = function(accessToken) {
@@ -49,6 +52,7 @@ Request.prototype.setAccessToken = function(accessToken) {
  * @param {String} authorization
  *
  * @return {Request}
+ * @public
  */
 
 Request.prototype.setAuthorization = function(authorization) {
@@ -70,11 +74,58 @@ Request.prototype.setAuthorization = function(authorization) {
  * @param {String} authorization
  *
  * @return {Request}
+ * @public
  */
 
 Request.prototype.setContentType = function(contentType) {
   this.contentType = contentType;
   return this;
+};
+
+/**
+ * Get the request object with proper method
+ *
+ * @param {String} (get|post|put|patch)
+ *
+ * @return {Request}
+ * @public
+ */
+
+Request.prototype._getReqestObject = function(method, url) {
+  url = /^http/.test(url) ? url : this.origin + url;
+
+  var req = request[method](url);
+
+  if(this.authorization !== false) {
+    req.set('Authorization', (this.authorization || cf.AUTHORIZATION) + '');
+  }
+
+  this.authorization = null;
+
+  return req
+    .set('User-Agent', cf.DEFAULT_WEB_SERVER_USER_AGENT)
+    .set('Content-Type', this.contentType || cf.DEFAULT_CONTENT_TYPE)
+    .set('Accept', '*/*');
+
+}
+
+/**
+ * Issue a new GET request.
+ *
+ *   Example:
+ *
+ *     this
+ *       .get('activation/token')
+ *       .end(function() {
+ *
+ *       })
+ *
+ * @return {Request}
+ * @public
+ */
+
+Request.prototype.get = function(url) {
+  return this._getReqestObject('get', url);
 };
 
 /**
@@ -92,56 +143,87 @@ Request.prototype.setContentType = function(contentType) {
  * @param type {String}, Optional and should be the URL for an API
  *
  * @return {Request}
+ * @public
  */
 
 Request.prototype.post = function(url) {
-  url = /^http/.test(url) ? url : this.origin + url;
-
-  var req = request.post(url);
-
-  if(this.authorization !== false) {
-    req.set('Authorization', (this.authorization || cf.AUTHORIZATION) + '');
-  }
-
-  this.authorization = null;
-
-  return req
-    .set('User-Agent', cf.DEFAULT_WEB_SERVER_USER_AGENT)
-    .set('Content-Type', this.contentType || cf.DEFAULT_CONTENT_TYPE)
-    .set('Accept', '*/*');
-
+  return this._getReqestObject('post', url);
 };
 
 /**
- * Issue a new GET request.
+ * Issue a new PUT request.
  *
  *   Example:
  *
  *     this
- *       .get('activation/token')
+ *       .patch('activation/token')
  *       .end(function() {
  *
  *       })
  *
  * @return {Request}
+ * @public
  */
 
-Request.prototype.get = function(url) {
-  url = /^http/.test(url) ? url : this.origin + url;
+Request.prototype.put = function(url) {
+  return this._getReqestObject('put', url);
+};
 
-  var req = request.get(url);
+/**
+ * Issue a new PATCH request.
+ *
+ *   Example:
+ *
+ *     this
+ *       .patch('activation/token')
+ *       .end(function() {
+ *
+ *       })
+ *
+ * @return {Request}
+ * @public
+ */
 
-  if(this.authorization !== false) {
-    req.set('Authorization', (this.authorization || cf.AUTHORIZATION) + '');
-  }
+Request.prototype.patch = function(url) {
+  return this._getReqestObject('patch', url);
+};
 
-  this.authorization = null;
+/**
+ * Issue a new DELETE request.
+ *
+ *   Example:
+ *
+ *     this
+ *       .patch('activation/token')
+ *       .end(function() {
+ *
+ *       })
+ *
+ * @return {Request}
+ * @public
+ */
 
-  return req
-    .set('User-Agent', cf.DEFAULT_WEB_SERVER_USER_AGENT)
-    .set('Content-Type', this.contentType || cf.DEFAULT_CONTENT_TYPE)
-    .set('Accept', '*/*');
+Request.prototype.del = function(url) {
+  return this._getReqestObject('del', url);
+};
 
+/**
+ * Issue a new HEAD request.
+ *
+ *   Example:
+ *
+ *     this
+ *       .patch('activation/token')
+ *       .end(function() {
+ *
+ *       })
+ *
+ * @return {Request}
+ * @public
+ */
+
+Request.prototype.head = function(url) {
+  return this._getReqestObject('head', url);
 };
 
 /**

@@ -18,7 +18,7 @@ var express = require('express')
   , gtMiddleware = require('./modules/translations/cookieMiddleware')
   , redis = require('redis')
   , helmet = require('helmet')
-  , configure = require('./conf/express')
+  , configure = require('./conf/server')
   , autorouteConfigs = require('./conf/autoroute')
   , modrewriteConfigs = require('./conf/modrewrite')
   // , cluster           = require('cluster')
@@ -49,7 +49,7 @@ if (cluster.isMaster && process.env.NODE_ENV === 'production') {
   cluster.on('exit', function(worker, code, signal) {
     console.log('worker ' + worker.process.pid + ' died');
   });
-} 
+}
 else {
 
   /**
