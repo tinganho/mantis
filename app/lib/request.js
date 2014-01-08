@@ -30,7 +30,7 @@ function Request(origin) {
  * @param {String} authorization
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.setAccessToken = function(accessToken) {
@@ -52,7 +52,7 @@ Request.prototype.setAccessToken = function(accessToken) {
  * @param {String} authorization
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.setAuthorization = function(authorization) {
@@ -74,7 +74,7 @@ Request.prototype.setAuthorization = function(authorization) {
  * @param {String} authorization
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.setContentType = function(contentType) {
@@ -88,7 +88,7 @@ Request.prototype.setContentType = function(contentType) {
  * @param {String} (get|post|put|patch)
  *
  * @return {Request}
- * @public
+ * @api private
  */
 
 Request.prototype._getReqestObject = function(method, url) {
@@ -121,7 +121,7 @@ Request.prototype._getReqestObject = function(method, url) {
  *       })
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.get = function(url) {
@@ -143,7 +143,7 @@ Request.prototype.get = function(url) {
  * @param type {String}, Optional and should be the URL for an API
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.post = function(url) {
@@ -162,7 +162,7 @@ Request.prototype.post = function(url) {
  *       })
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.put = function(url) {
@@ -181,7 +181,7 @@ Request.prototype.put = function(url) {
  *       })
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.patch = function(url) {
@@ -200,7 +200,7 @@ Request.prototype.patch = function(url) {
  *       })
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.del = function(url) {
@@ -219,7 +219,7 @@ Request.prototype.del = function(url) {
  *       })
  *
  * @return {Request}
- * @public
+ * @api public
  */
 
 Request.prototype.head = function(url) {
