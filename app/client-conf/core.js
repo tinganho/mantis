@@ -1,6 +1,6 @@
 
 /**
- * @fileoverview Client configs file. This file will be compiled 
+ * @fileoverview Client configs file. This file will be compiled
  * as an requirejs module. All unrelated environment configs
  * will be stripped off.
  */
@@ -22,23 +22,6 @@ var configs = {
   X_REQUESTED_BY : '1'
 
 };
-
-var ENV;
-
-switch(process.env.NODE_ENV) {
-  case 'development':
-    ENV = 'DEV';
-    break;
-  case 'staging':
-    ENV = 'DIST';
-    break;
-  case 'production':
-    ENV = 'PROD';
-    break;
-  default:
-    ENV = 'DEV';
-    break;
-}
 
 // Remove unrelated keys for this environment
 var copy = {}, prefix = new RegExp('^' + ENV + '_');

@@ -30,7 +30,7 @@ define([
    * Overrides Request#post
    *
    * @param {String} url
-   * @param {=data} data
+   * @param {=Object} data
    * @param {=Function} callback
    *
    * @return {Request}
@@ -112,7 +112,7 @@ define([
    * @override Request#del
    */
 
-  request.del = function(url, data, callback) {
+  request.delete = function(url, data, callback) {
     return getRequestObject('DELETE', url, data, callback);
   };
 

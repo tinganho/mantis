@@ -231,5 +231,3 @@ Request.prototype.head = function(url) {
  */
 
 module.exports.Requst = Request;
-
-

@@ -1,13 +1,16 @@
-var fs   = require('fs')
-  , path = require('path')
-  , _    = require('underscore')
-  , glob = require('glob');
+
+/**
+ * Module dependencies
+ */
+
+var config = require('../lib/config')
+  , path = require('path');
 
 
 var configs = {
 
-  /** 
-   * Long time cache life time. Convenient configuration for 
+  /**
+   * Long time cache life time. Convenient configuration for
    * e.g. configuring resource cache lifetime
    *
    * @type {Number}
@@ -15,8 +18,8 @@ var configs = {
 
   LONG_TIME_CACHE_LIFE_TIME  : 6*30*24*3600,
 
-  /** 
-   * Short time cache life time. Convenient configuration for 
+  /**
+   * Short time cache life time. Convenient configuration for
    * e.g. configuring resource cache lifetime
    *
    * @type {Number}
@@ -24,7 +27,7 @@ var configs = {
 
   SHORT_TIME_CACHE_LIFE_TIME : 24*3600,
 
-  /** 
+  /**
    * Default content type for all request
    *
    * @type {String}
@@ -32,7 +35,7 @@ var configs = {
 
   DEFAULT_CONTENT_TYPE : 'application/json',
 
-  /** 
+  /**
    * Root folder. Is just a convenient constant. It should not be
    * configured, so please don't touch it.
    *
@@ -49,7 +52,7 @@ var configs = {
 
   TMP_FOLDER : '/public/tmp',
 
-  /** 
+  /**
    * All uploads will be stored on this folder
    *
    * @type {String}
@@ -67,7 +70,7 @@ var configs = {
 
   PUBLIC_CONF_FOLDER : '/public/conf',
 
-  /** 
+  /**
    * Path to the default favicon for your website
    *
    * @type {String}
@@ -77,14 +80,14 @@ var configs = {
 
   /**
    * Locales for your website. You could define it any format you want
-   * but we suggest using standard locale names. 
+   * but we suggest using standard locale names.
    *
    * Standard locale name definition:
    *
-   * A locale name, either a language specification of the form ll or a 
-   * combined language and country specification of the form ll_CC. 
-   * Examples: it, de_AT, es, pt_BR. The language part is always in 
-   * lower case and the country part in upper case. The separator is an 
+   * A locale name, either a language specification of the form ll or a
+   * combined language and country specification of the form ll_CC.
+   * Examples: it, de_AT, es, pt_BR. The language part is always in
+   * lower case and the country part in upper case. The separator is an
    * underscore.
    *
    * @type {Array.<String>}
@@ -102,95 +105,20 @@ var configs = {
   DEFAULT_LOCALE : 'en-US'
 };
 
-var ENV;
-
-switch(process.env.NODE_ENV) {
-  case 'development':
-    ENV = 'DEV';
-    break;
-  case 'staging':
-    ENV = 'DIST';
-    break;
-  case 'production':
-    ENV = 'PROD';
-    break;
-  default:
-    ENV = 'DEV';
-    break;
-}
-
-/** globalize ENV **/
-global.ENV = ENV;
-
 /**
- * Getters
+ * Remove environmental prefixes
  */
 
-var getters = {
-  REDIS_PORT : {
-    get : function() {
-      return configs[ENV + '_REDIS_PORT'];
-    },
-    configurable : true
-  },
-  REDIS_PASS : {
-    get : function() {
-      return configs[ENV + '_REDIS_PASS'];
-    },
-    configurable : true
-  },
-  REDIS_HOST : {
-    get : function() {
-      return configs[ENV + '_REDIS_HOST'];
-    },
-    configurable : true
-  },
-  TMP_ACCESS_TOKEN : {
-    get : function() {
-      return configs[ENV + '_TMP_ACCESS_TOKEN'];
-    },
-    configurable : true
-  },
-  APP_HOME_URL : {
-    get : function() {
-      return configs[ENV + '_APP_HOME_URL'];
-    },
-    configurable : true
-  },
-  APP_LOGIN_URL : {
-    get : function() {
-      return configs[ENV + '_APP_LOGIN_URL'];
-    },
-    configurable : true
-  },
-  ACCOUNT_SERVICE_URL : {
-    get : function() {
-      return configs[ENV + '_ACCOUNT_SERVICE_URL'];
-    },
-    configurable : true
-  },
-  API_URL : {
-    get : function() {
-      return configs[ENV + '_API_URL'];
-    },
-    configurable : true
-  },
-  TRANSLATION_PATH : {
-    get : function() {
-      return configs[ENV + '_TRANSLATION_PATH'];
-    },
-    configurable : true
-  }
-};
+configs = config.formatConfigs(configs);
 
-Object.defineProperties(configs, getters);
+/**
+ * Merge external configs
+ */
 
-if(fs.existsSync(configs.GLOBAL_CONF)) {
-  var globalConfig = require(configs.GLOBAL_CONF);
-  for(var key in globalConfig) {
-    delete configs[key];
-    configs[key] = globalConfig[key];
-  }
-}
+configs = config.mergeExternalConfigs(configs);
+
+/**
+ * Export configs
+ */
 
 module.exports = configs;
