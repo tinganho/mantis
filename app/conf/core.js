@@ -119,8 +119,8 @@ var configs = {
   LOCALES : ['en-US'],
 
   /**
-   * The default locale used for the website. Recommend us locale name.
-   * See definition above.
+   * The default locale used for the website. Recommend use locale name.
+   * See locale name definition above.
    *
    * @type {Array.<String>}
    */

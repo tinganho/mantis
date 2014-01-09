@@ -156,7 +156,7 @@ Request.prototype.post = function(url) {
  *   Example:
  *
  *     this
- *       .patch('activation/token')
+ *       .put('activation/token')
  *       .end(function() {
  *
  *       })
@@ -194,7 +194,7 @@ Request.prototype.patch = function(url) {
  *   Example:
  *
  *     this
- *       .patch('activation/token')
+ *       .del('activation/token')
  *       .end(function() {
  *
  *       })
@@ -213,7 +213,7 @@ Request.prototype.del = function(url) {
  *   Example:
  *
  *     this
- *       .patch('activation/token')
+ *       .head('activation/token')
  *       .end(function() {
  *
  *       })

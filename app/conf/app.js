@@ -22,7 +22,7 @@ module.exports = function(app) {
     app.use(express.logger('dev'));
     app.use(express.errorHandler());
     app.use(express.cookieParser());
-    app.use(express.bodyParser({ uploadDir: __dirname + '/public/uploads' }));
+    app.use(express.bodyParser({ uploadDir: __dirname + cf.UPLOAD_FOLDER }));
     app.use(app.router);
   });
 
