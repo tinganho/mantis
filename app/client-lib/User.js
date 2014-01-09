@@ -17,7 +17,7 @@ define([
    * User object provides convinient functions for different
    * user actions. Validating firstname, lastname, birthdate, email
    * etc. The object is very useful to use as it is and could be
-   * extend to include more methods and properties.
+   * extended to include more methods and properties.
    *
    * @constructor User
    */
