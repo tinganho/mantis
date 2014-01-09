@@ -10,9 +10,10 @@ define([
 ) {
 
   /**
-   * Collection
+   * We alias the `Backbone.Collection` to just `Collection`. Because 
+   * we wan't to generalize the constructor name.
    *
-   * @constructor
+   * @constructor Collection
    */
 
   return Backbone.Collection;

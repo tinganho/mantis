@@ -25,6 +25,14 @@ var config = require('../lib/config')
 var configs = {
 
   /**
+   * Default user agent string in all outgoing requests
+   *
+   * @type {String}
+   */
+
+  USER_AGENT : 'mantis-server',
+
+  /**
    * Default port for express server
    *
    * @type {Number}

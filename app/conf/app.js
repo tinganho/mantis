@@ -19,7 +19,6 @@ module.exports = function(app) {
     app.use(express.favicon(cf.FAVICON, { maxAge: 2592000000 }));
     app.use(helmet.xframe('SAMEORIGIN'));
     app.use(modrewrite(modrewrites));
-    app.use(express.logger('dev'));
     app.use(express.errorHandler());
     app.use(express.cookieParser());
     app.use(express.bodyParser({ uploadDir: __dirname + cf.UPLOAD_FOLDER }));
@@ -39,6 +38,7 @@ module.exports = function(app) {
    */
 
   app.configure('development', 'staging', function() {
+    app.use(express.logger('dev'));
   });
 
   /**
