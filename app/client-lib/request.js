@@ -27,7 +27,7 @@ define([
   };
 
   /**
-   * Overrides Request#post
+   * Overrides Request#get
    *
    * @param {String} url
    * @param {=Object} data
