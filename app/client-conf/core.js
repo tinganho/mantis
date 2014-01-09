@@ -60,7 +60,7 @@ var configs = {
   AJAX_TIMEOUT : 10000,
 
   /**
-   * E-Request-By header for protecting against CSRF attacks.
+   * X-Request-By header for protecting against CSRF attacks.
    *
    * More info: http://www.adambarth.com/papers/2008/barth-jackson-mitchell-b.pdf
    *
