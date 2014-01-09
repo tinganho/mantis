@@ -61,8 +61,8 @@ Config.prototype.mergeExternalConfigs = function(configs) {
   if(typeof configs !== 'object') {
     throw new TypeError('first parameter mustbe of type object');
   }
-  if(fs.existsSync(process.env.GLOBAL_CORE_CONF)) {
-    var globalConfig = require(process.env.GLOBAL_CORE_CONF);
+  if(fs.existsSync(process.env.EXTERNAL_CORE_CONF)) {
+    var globalConfig = require(process.env.EXTERNAL_CORE_CONF);
     for(var key in globalConfig) {
       delete configs[key];
       configs[key] = globalConfig[key];
