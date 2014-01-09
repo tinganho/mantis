@@ -13,7 +13,7 @@ var configs = {
 
   BREAKPOINT_MOBILE_WIDTH : 400,
 
-  MOBILE_WIDTH : 400,
+  MOBILE_WIDTH : 500,
 
   TOUCH_OUT_OF_RANGE : 10,
 

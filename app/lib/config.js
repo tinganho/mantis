@@ -6,11 +6,20 @@
 var fs = require('fs');
 
 /**
- * RegExps
+ * Config
+ *
+ * @constructor
  */
 
-var envPrefixRegExp = /^DEV__|^STAG__|^PROD__/
-  , envRegExp = /^([A-Z]{3,4})__/;
+function Config() {
+  if(!ENV) {
+    throw new TypeError('global variable ENV is not set');
+  }
+
+  this.env = ENV;
+  this.envPrefixRegExp = /^DEV__|^STAG__|^PROD__/;
+  this.envRegExp = /^([A-Z]{3,4})__/;
+}
 
 /**
  * Format configs. Formatting removes DEV__, DIST__ and PROD__
@@ -21,15 +30,15 @@ var envPrefixRegExp = /^DEV__|^STAG__|^PROD__/
  * @api public
  */
 
-function formatConfigs(configs) {
+Config.prototype.formatConfigs = function(configs) {
   if(typeof configs !== 'object') {
     throw new TypeError('first parameter mustbe of type object');
   }
   for(var key in configs) {
-    if(envPrefixRegExp.test(key)) {
-      var env = envRegExp.exec(key)[1]
-        , _key = key.replace(envRegExp, '');
-      if(env === ENV) {
+    if(this.envPrefixRegExp.test(key)) {
+      var env = this.envRegExp.exec(key)[1]
+        , _key = key.replace(this.envRegExp, '');
+      if(env === this.env) {
         configs[_key] = configs[key];
       }
       delete configs[key];
@@ -40,12 +49,6 @@ function formatConfigs(configs) {
 };
 
 /**
- * Export `formatConfigs` method
- */
-
-module.exports.formatConfigs = formatConfigs;
-
-/**
  * Merge external configs from a JSON file defined
  * in environmental variable GLOBAL_CORE_CONF
  *
@@ -54,7 +57,7 @@ module.exports.formatConfigs = formatConfigs;
  * @api public
  */
 
-function mergeExternalConfigs(configs) {
+Config.prototype.mergeExternalConfigs = function(configs) {
   if(fs.existsSync(process.env.GLOBAL_CORE_CONF)) {
     var globalConfig = require(process.env.GLOBAL_CORE_CONF);
     for(var key in globalConfig) {
@@ -70,6 +73,6 @@ function mergeExternalConfigs(configs) {
  * Export `mergeExternalConfigs` method
  */
 
-module.exports.mergeExternalConfigs = mergeExternalConfigs;
+module.exports = new Config;
 
 
