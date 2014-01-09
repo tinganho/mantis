@@ -7,6 +7,20 @@ var config = require('../lib/config')
   , path = require('path');
 
 
+/**
+ * Core server configs for your app. Use DEV__, STAG__, PROD__ prefixes
+ * to set specific environmental configurations. When you set specific
+ * environmental configurations. Please set it for all three DEV__,
+ * STAG__, PROD__ environments and not leave any environments without
+ * a configuration.
+ *
+ *   Example:
+ *
+ *     DEV__X_REQUESTED_BY : '1',
+ *     STAG__X_REQUESTED_BY : '1',
+ *     PROD__X_REQUESTED_BY : '1',
+ */
+
 var configs = {
 
   /**
