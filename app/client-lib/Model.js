@@ -9,6 +9,12 @@ define([
 
 ) {
 
+  /**
+   * Model
+   *
+   * @constructor
+   */
+
   return Backbone.Model;
 
 });

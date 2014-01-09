@@ -5,35 +5,70 @@
  * will be stripped off.
  */
 
+/**
+ * Module dependencies
+ */
+
+var config = require('../lib/config')
+  , path = require('path');
+
 var configs = {
 
-  MIN_PAGE_LOAD_PERCENT : 0.6,
+  /**
+   * The range from touch start and release of finger in pixels
+   *
+   * @type {Number}
+   */
 
   MIN_PAGE_LOAD_TIME : 500,
 
-  BREAKPOINT_MOBILE_WIDTH : 400,
+  /**
+   * The range from touch start and release of finger in pixels
+   *
+   * @type {Number}
+   */
 
   MOBILE_WIDTH : 500,
 
+  /**
+   * The range from touch start and release of finger in pixels
+   *
+   * @type {Number}
+   */
+
   TOUCH_OUT_OF_RANGE : 10,
+
+  /**
+   * Default AJAX timeout for every request measured in ms.
+   *
+   * @type {Number}
+   */
 
   AJAX_TIMEOUT : 10000,
 
-  X_REQUESTED_BY : '1'
+  /**
+   * E-Request-By header for protecting against CSRF attacks
+   *
+   * @type {String}
+   */
 
+  X_REQUESTED_BY : '1'
 };
 
-// Remove unrelated keys for this environment
-var copy = {}, prefix = new RegExp('^' + ENV + '_');
-for(var key in configs) {
-  if(/^(DEV_|DIST_|PROD_)/.test(key)) {
-    if(prefix.test(key)) {
-      copy[key.replace(prefix, '')] = configs[key];
-    }
-  }
-  else {
-    copy[key.replace(prefix, '')] = configs[key];
-  }
-}
+/**
+ * Remove environmental prefixes
+ */
 
-module.exports = copy;
+configs = config.formatConfigs(configs);
+
+/**
+ * Merge external configs
+ */
+
+configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONF);
+
+/**
+ * Export config
+ */
+
+module.exports = configs;

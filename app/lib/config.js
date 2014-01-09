@@ -77,5 +77,3 @@ Config.prototype.mergeExternalConfigs = function(configs) {
  */
 
 module.exports = new Config;
-
-

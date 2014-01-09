@@ -9,6 +9,12 @@ define([
 
 ) {
 
+  /**
+   * View
+   *
+   * @constructor
+   */
+
   return Backbone.View.extend({
 
     /**

@@ -10,6 +10,14 @@ var config = require('../lib/config')
 var configs = {
 
   /**
+   * Default port for express server
+   *
+   * @type {Number}
+   */
+
+  DEFAULT_PORT : 3000,
+
+  /**
    * Long time cache life time. Convenient configuration for
    * e.g. configuring resource cache lifetime
    *
@@ -115,7 +123,7 @@ configs = config.formatConfigs(configs);
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs);
+configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CORE_CONF);
 
 /**
  * Export configs

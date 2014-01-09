@@ -9,6 +9,12 @@ define([
 
 ) {
 
+  /**
+   * Collection
+   *
+   * @constructor
+   */
+
   return Backbone.Collection;
 
 });

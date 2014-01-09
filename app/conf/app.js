@@ -14,7 +14,7 @@ module.exports = function(app) {
   app.configure(function() {
     app.use(express.query());
     app.use(express.compress());
-    app.set('port', process.env.PORT || 3000);
+    app.set('port', process.env.PORT || cf.DEFAULT_PORT);
     app.set('dist', path.dirname(__dirname) === 'dist');
     app.use(express.favicon(cf.FAVICON, { maxAge: 2592000000 }));
     app.use(helmet.xframe('SAMEORIGIN'));
