@@ -12,7 +12,8 @@ var config = require('../lib/config')
  * to set specific environmental configurations. When you set specific
  * environmental configurations. Please set it for all three DEV__,
  * STAG__, PROD__ environments and not leave any environments without
- * a configuration.
+ * a configuration. Otherwise your app may have an undefined configuration
+ * variable.
  *
  *   Example:
  *
