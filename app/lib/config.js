@@ -58,6 +58,9 @@ Config.prototype.formatConfigs = function(configs) {
  */
 
 Config.prototype.mergeExternalConfigs = function(configs) {
+  if(typeof configs !== 'object') {
+    throw new TypeError('first parameter mustbe of type object');
+  }
   if(fs.existsSync(process.env.GLOBAL_CORE_CONF)) {
     var globalConfig = require(process.env.GLOBAL_CORE_CONF);
     for(var key in globalConfig) {
