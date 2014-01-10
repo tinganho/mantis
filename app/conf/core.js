@@ -68,7 +68,8 @@ var configs = {
 
   /**
    * Root folder. Is just a convenient constant. It should not be
-   * configured, so please don't touch it.
+   * configured, so please don't touch it. You should use it through
+   * out the project whenever a absolute path needs to be set.
    *
    * @type {String}
    */
@@ -81,7 +82,7 @@ var configs = {
    * @type {String}
    */
 
-  TMP_FOLDER : '/public/tmp',
+  TMP_FOLDER : 'public/tmp',
 
   /**
    * All uploads will be stored on this folder
@@ -89,17 +90,27 @@ var configs = {
    * @type {String}
    */
 
-  UPLOAD_FOLDER : '/public/uploads',
+  UPLOAD_FOLDER : 'public/uploads',
 
   /**
-   * Public config folder is used for serving compiled client configs
-   * Every file in the client-conf folder will be compiled automatically
-   * int this folder.
+   * We write all client configuration files written in nodejs to client
+   * javascript. Please specify glob file pattern to your client
+   * configuration files.
    *
    * @type {String}
    */
 
-  PUBLIC_CONF_FOLDER : '/public/conf',
+  CLIENT_CONF_GLOB : 'client-conf/*.js',
+
+  /**
+   * We write all client configuration files written in nodejs to client
+   * javascript. Please specify glob file pattern to your client
+   * configuration files.
+   *
+   * @type {String}
+   */
+
+  CLIENT_CONF_BUILD : 'public/conf',
 
   /**
    * Path to the default favicon for your website
@@ -107,7 +118,7 @@ var configs = {
    * @type {String}
    */
 
-  FAVICON : path.join(__dirname, '../', 'public/images/favicon.ico'),
+  FAVICON : 'public/images/favicon.ico',
 
   /**
    * Locales for your website. You could define it any format you want

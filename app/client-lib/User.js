@@ -151,11 +151,7 @@ define([
       }
 
       if(track && this.get('emailError')) {
-        _mixpanel.track(this.defaultValidationErrorEventTitle, {
-          type : this.getSignupType(),
-          error : 'Invalid email',
-          details : this.get('emailError')
-        });
+        // Tracking info
       }
     },
 
@@ -184,11 +180,7 @@ define([
       }
 
       if(track && this.get('passwordError')) {
-        _mixpanel.track(this.defaultValidationErrorEventTitle, {
-          type : this.getSignupType(),
-          error : 'Invalid password',
-          details : this.get('passwordError')
-        });
+        // Tracking info
       }
     },
 
@@ -204,12 +196,16 @@ define([
     _sendBirthdateTrackingInfo : function(error) {
       switch(error) {
         case 'UNTYPED_BIRTHDATE':
+          // Tracking info
           break;
         case 'INVALID_BIRTHDATE_DAY_SPECIAL_CASE':
+          // Tracking info
           break;
         case 'INVALID_BIRTHDATE':
+          // Tracking info
           break;
         case 'TOO_OLD':
+          // Tracking info
           break;
       }
     },

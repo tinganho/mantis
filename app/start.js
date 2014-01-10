@@ -48,6 +48,7 @@ var express = require('express')
   , helmet = require('helmet')
   , scf = require('./conf/core')
   , autoroute = require('autoroute')
+  , config = require('./lib/config')
   , configure = require('./conf/app')
   , autoroutes = require('./conf/autoroutes');
 
@@ -89,30 +90,20 @@ else {
    * Create necessary folders
    */
 
-  var uploadFolderPath = __dirname + cf.UPLOAD_FOLDER;
+  var uploadFolderPath = cf.ROOT_FOLDER + cf.UPLOAD_FOLDER;
   if(!fs.existsSync(uploadFolderPath)) {
     fs.mkdirSync(uploadFolderPath);
   }
-  var tmpFolderPath = __dirname + cf.TMP_FOLDER;
+  var tmpFolderPath = cf.ROOT_FOLDER + cf.TMP_FOLDER;
   if(!fs.existsSync(tmpFolderPath)) {
     fs.mkdirSync(tmpFolderPath);
   }
-  var confPath = __dirname + scf.PUBLIC_CONF_FOLDER;
-  if(!fs.existsSync(confPath)) {
-    fs.mkdirSync(confPath);
-  }
 
   /**
-   * Compile client config file
+   * Write client config file
    */
 
-  // var startWrap  = 'window.cf = (function() { var configs = '
-  //   , body       = JSON.stringify(ccf, null, 2) + ';'
-  //   , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
-  //   , endWrap    = 'return configs; })();';
-
-  // var str = startWrap + body + makeRegExp + endWrap;
-  // fs.writeFileSync(confPath + '/clientConfig.js', str);
+  config.writeClientConfigs();
 
   /**
    * App namespace.

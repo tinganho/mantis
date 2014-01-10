@@ -14,7 +14,7 @@ define([
   /**
    * Session Model
    *
-   * @constructor
+   * @constructor Session
    */
 
   return Backbone.Model.extend({

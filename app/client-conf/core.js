@@ -29,7 +29,19 @@ var config = require('../lib/config');
 var configs = {
 
   /**
-   * The range from touch start and release of finger in pixels
+   * We will have a compiler the compiles this object and namespace the file
+   * to window.[NAMESPACE]. It will be a global configuration for your client
+   * to use.
+   *
+   * @type {String}
+   */
+
+  NAMESPACE : 'cf',
+
+  /**
+   * Minimum page load time for a client request. If the developer don't want
+   * any form submission to submit to fast. They can use this configuration
+   * value through out the project.
    *
    * @type {Number}
    */
@@ -37,7 +49,7 @@ var configs = {
   MIN_PAGE_LOAD_TIME : 500,
 
   /**
-   * The range from touch start and release of finger in pixels
+   * Convinient configuration for mobile width.
    *
    * @type {Number}
    */
@@ -45,7 +57,7 @@ var configs = {
   MOBILE_WIDTH : 500,
 
   /**
-   * The range from touch start and release of finger in pixels
+   * The range from touch start and release of finger in pixels.
    *
    * @type {Number}
    */

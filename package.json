@@ -1,7 +1,7 @@
 {
-  "name": "p1-web-app",
+  "name": "mantis",
   "version": "0.0.0",
-  "description": "Awesome P1 web",
+  "description": "Multi-page application (MPA) framework",
   "directories": {
     "test": "test"
   },

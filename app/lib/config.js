@@ -1,9 +1,10 @@
 
-/** 
+/**
  * Module dependencies
  */
 
-var fs = require('fs');
+var fs = require('fs')
+  , glob = require('glob');
 
 /**
  * Config
@@ -70,6 +71,40 @@ Config.prototype.mergeExternalConfigs = function(configs) {
   }
 
   return configs;
+};
+
+/**
+ * We write the configurations from a folder that has configuration files
+ * written in Node to a public folder, so your client can access these
+ * configurations.
+ *
+ * @return {void}
+ * @api public
+ */
+
+Config.prototype.writeClientConfigs = function() {
+  var confPath = cf.ROOT_FOLDER + cf.CLIENT_CONF_BUILD;
+  if(!fs.existsSync(confPath)) {
+    fs.mkdirSync(confPath);
+  }
+  var files = glob.sync(cf.CLIENT_CONF_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
+  files.forEach(function(file) {
+    fs.unlinkSync(cf.ROOT_FOLDER + file);
+  });
+
+  glob(cf.CLIENT_CONF_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
+    for(var i = 0; i < matches.length; i++) {
+      var configurations = require(cf.ROOT_FOLDER + matches[i]);
+
+      var startWrap  = 'window.' + configurations.NAMESPACE + ' = (function() { var configs = '
+        , body       = JSON.stringify(configurations, null, 2) + ';'
+        , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
+        , endWrap    = 'return configs; })();';
+
+      var str = startWrap + body + makeRegExp + endWrap;
+      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONF_BUILD + '/' + configurations.NAMESPACE + '.js', str);
+    }
+  });
 };
 
 /**
