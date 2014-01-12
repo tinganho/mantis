@@ -19,7 +19,8 @@
     "hammerjs": "~1.0.5",
     "xregexp": "~2.0.0",
     "backbone-relational": "~0.8.6",
-    "fastclick": "~0.6.10"
+    "fastclick": "~0.6.10",
+    "transitionEnd": "~1.0.2"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

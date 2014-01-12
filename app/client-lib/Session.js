@@ -45,7 +45,7 @@ define([
       switch(method) {
         case 'create':
           request
-            .post('/login')
+            .post('/session')
             .send({
               username : this.get('username'),
               password : this.get('password')
@@ -56,7 +56,7 @@ define([
           break;
         case 'delete':
           request
-            .post('/logout')
+            .post('/session')
             .send()
             .end(function(err, res) {
 

@@ -108,7 +108,7 @@ Config.prototype.writeClientConfigs = function() {
 };
 
 /**
- * Export `mergeExternalConfigs` method
+ * Export `config` instance
  */
 
 module.exports = new Config;

@@ -8,7 +8,7 @@ var request = require('superagent');
 /**
  * Request
  *
- * @constructor
+ * @constructor Request
  */
 
 function Request(origin) {
@@ -203,7 +203,7 @@ Request.prototype.patch = function(url) {
  * @api public
  */
 
-Request.prototype.del = function(url) {
+Request.prototype.delete = function(url) {
   return this._getReqestObject('del', url);
 };
 
