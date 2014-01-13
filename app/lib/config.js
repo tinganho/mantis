@@ -33,7 +33,7 @@ function Config() {
 
 Config.prototype.formatConfigs = function(configs) {
   if(typeof configs !== 'object') {
-    throw new TypeError('first parameter mustbe of type object');
+    throw new TypeError('first parameter must be of type object');
   }
   for(var key in configs) {
     if(this.envPrefixRegExp.test(key)) {
@@ -60,7 +60,7 @@ Config.prototype.formatConfigs = function(configs) {
 
 Config.prototype.mergeExternalConfigs = function(configs) {
   if(typeof configs !== 'object') {
-    throw new TypeError('first parameter mustbe of type object');
+    throw new TypeError('first parameter must be of type object');
   }
   if(fs.existsSync(process.env.EXTERNAL_CORE_CONF)) {
     var globalConfig = require(process.env.EXTERNAL_CORE_CONF);
