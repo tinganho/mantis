@@ -7,6 +7,7 @@ docs/
 app/public/images/main-*
 app/public/images/icons-*
 app/public/styles/*
+app/public/conf/*
 app/vendor
 test/translations/cache/latestSearch.json
 test/translations/output/
