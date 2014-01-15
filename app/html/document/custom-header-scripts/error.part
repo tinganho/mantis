@@ -1,4 +1,10 @@
 
+<!--
+
+Error report script
+
+!-->
+
 <script>
 window.onerror = function(message, file, line) {
   var now = (new Date()).getTime();
@@ -7,7 +13,7 @@ window.onerror = function(message, file, line) {
     return;
   }
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open('post', '/log/error', true);
+  xmlHttp.open('post', cf.CLIENT_ERROR_PATH, true);
   xmlHttp.setRequestHeader('X-Requested-By', cf.X_REQUESTED_BY);
   xmlHttp.setRequestHeader('Content-type', 'application/json');
   xmlHttp.send(JSON.stringify({

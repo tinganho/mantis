@@ -1,0 +1,14 @@
+
+<!DOCTYPE html>
+<html lang="{{=it.locale}}" class="{{=it.locale}} {{=it.device}}">
+  <head>
+
+    {{=it.head}}
+
+  </head>
+  <body>
+
+    {{=it.body}}
+
+  </body>
+</html>

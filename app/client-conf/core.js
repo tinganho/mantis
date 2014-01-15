@@ -80,7 +80,16 @@ var configs = {
    * @type {String}
    */
 
-  X_REQUESTED_BY : '1'
+  X_REQUESTED_BY : '1',
+
+  /**
+   * You can log client errors by prvoiding a path to the POST request
+   * See `error.part` in `/html/document/custom-header-scripts/error.part`
+   *
+   * @type {String}
+   */
+
+  CLIENT_ERROR_PATH : '/log/error'
 };
 
 /**
