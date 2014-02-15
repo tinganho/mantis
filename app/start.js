@@ -57,7 +57,7 @@ var express = require('express')
  */
 
 var numCPUs = require('os').cpus().length;
-http.globalAgent.maxSockets = 10240;
+http.globalAgent.maxSockets = cf.MAX_SOCKETS;
 
 if(cluster.isMaster && process.env.NODE_ENV === 'production') {
   // Fork workers.

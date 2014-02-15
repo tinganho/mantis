@@ -144,7 +144,15 @@ var configs = {
    * @type {Array.<String>}
    */
 
-  DEFAULT_LOCALE : 'en-US'
+  DEFAULT_LOCALE : 'en-US',
+
+  /**
+   * Maximum number of sockets.
+   *
+   * @type {Number}
+   */
+
+  MAX_SOCKETS
 };
 
 /**

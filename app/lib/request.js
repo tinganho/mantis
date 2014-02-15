@@ -106,8 +106,7 @@ Request.prototype._getReqestObject = function(method, url) {
     .set('User-Agent', cf.DEFAULT_WEB_SERVER_USER_AGENT)
     .set('Content-Type', this.contentType || cf.DEFAULT_CONTENT_TYPE)
     .set('Accept', '*/*');
-
-}
+};
 
 /**
  * Issue a new GET request.

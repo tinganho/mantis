@@ -1,4 +1,4 @@
-module.exports = function( grunt ) {
+module.exports = function(grunt) {
 
   'use strict';
 
@@ -207,49 +207,26 @@ module.exports = function( grunt ) {
     },
 
     dot: {
-      devLogin: {
-        options: {
-          variable  : 'tmpl',
+      documents : {
+        options : {
+          variable  : 'documents',
           root      : __dirname + '/app',
           requirejs : true,
           node      : true
         },
-        src : ['app/**/*.dot'],
-        dest : 'app/public/templates/login.js'
+        src : ['app/page/document/*.dot'],
+        dest : 'app/page/document/build/tmpl.js'
       },
-
-      devStreetstyle : {
-        options: {
-          variable  : 'tmpl',
+      layout : {
+        options : {
+          variable  : 'layouts',
           root      : __dirname + '/app',
           requirejs : true,
           node      : true
         },
-        src : ['app/**/*.dot'],
-        dest : 'app/public/templates/streetstyle.js'
-      },
-
-      distLogin : {
-        options: {
-          variable  : 'tmpl',
-          root      : __dirname + '/dist',
-          requirejs : true,
-          node      : true
-        },
-        src : ['dist/**/*.dot'],
-        dest : 'dist/public/templates/login.js'
-      },
-
-      distStreetstyle : {
-        options: {
-          variable  : 'tmpl',
-          root      : __dirname + '/dist',
-          requirejs : true,
-          node      : true
-        },
-        src : ['dist/**/*.dot'],
-        dest : 'dist/public/templates/streetstyle.js'
-      },
+        src : ['app/page/layout/*.dot'],
+        dest : 'app/page/layout/build/tmpl.js'
+      }
     },
 
     translate: {
@@ -293,7 +270,7 @@ module.exports = function( grunt ) {
       }
     },
 
-    
+
 
     uglify: {
       dist: {

@@ -12,3 +12,6 @@ app/vendor
 test/translations/cache/latestSearch.json
 test/translations/output/
 Gemfile.lock
+
+app/page/document/build/
+app/page/layout/build/
