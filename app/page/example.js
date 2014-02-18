@@ -18,7 +18,7 @@ page('/home')
       title : 'some-title',
       description : 'some-description',
       main : 'some-main', // Requirejs main
-      outputRouter : 'path/to/output/file' // We build one router file
+      outputRouter : 'path/to/output/file'// We build one router file
     });
   })
 
@@ -51,6 +51,7 @@ page('/home')
       view : './MenuView'
     }
   })
+
   .fail(function(err) {
     // Do something if it fails
   });

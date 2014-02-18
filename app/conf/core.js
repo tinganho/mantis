@@ -165,7 +165,17 @@ var configs = {
    * @type {String}
    */
 
-  JSON_HIJACKING_PREFIX : 'while(1);'
+  JSON_HIJACKING_PREFIX : 'while(1);',
+
+  /**
+   * X-Request-By header for protecting against CSRF attacks.
+   *
+   * More info: http://www.adambarth.com/papers/2008/barth-jackson-mitchell-b.pdf
+   *
+   * @type {String}
+   */
+
+  X_REQUESTED_BY : '1'
 };
 
 /**
