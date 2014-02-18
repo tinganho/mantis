@@ -1,5 +1,16 @@
 
-var _ = require('underscore');
+/**
+ * Module dependencies
+ */
+
+var _ = require('underscore')
+  , fs = require('fs');
+
+/**
+ * Add terminal colors
+ */
+
+require('terminal-colors');
 
 /**
  * The Page object builds up the whole html for your website.
@@ -19,12 +30,12 @@ function page(url) {
   this._url = url;
   this._title = '';
   this._description = '';
-  this._styles = [];
-  this._scripts = [];
+  this._style = '';
+  this._main = '';
+  this._outputRouter = '';
   this._moduleHtml = {};
   this._documentTmpls = documentTmpls;
   this._layoutTmpls = layoutTmpls;
-  this.defaultStyle = cf.DEFAULT_STYLE;
   this.boilerplate = cf.boilerplate;
 
   return this;
@@ -53,11 +64,23 @@ Page.prototype.document = function(name, opts) {
   if(opts.description) {
     this._description = opts.description;
   }
-  if(opts.styles && _.isArray(opts.styles)) {
-    this._styles = opts._styles;
+  if(opts.style && typeof opts.style === 'string' ) {
+    this._style = opts.style;
   }
-  if(opts.scripts && _.isArray(opts.scripts)) {
-    this._scripts = opts._scripts;
+  if(opts.main && typeof opts.main === 'string') {
+    this._main = opts.main;
+  }
+  if(opts.outputRouter && typeof opts.outputRouter === 'string') {
+    this._outputRouter = opts.outputRouter;
+    if(GLOBAL._outputRouters
+    && _.isArray(GLOBAL._outputRouters)) {
+      if(GLOBAL._outputRouters.indexOf(opts.outputRouter) !== -1) {
+        GLOBAL._outputRouters.push(opts.outputRouter);
+      }
+    }
+    else {
+      GLOBAL._outputRouters = [opts.outputRouter];
+    }
   }
 
   return this;
@@ -82,7 +105,11 @@ Page.prototype.layout = function(name) {
 };
 
 /**
+ * Define (modules) views and models
  *
+ * @param {Object} modules
+ * @return {void}
+ * @api public
  */
 
 Page.prototype.modules = function(modules) {
@@ -144,3 +171,30 @@ Page.prototype._serve = function() {
  */
 
 module.exports = Page;
+
+/**
+ * Read template
+ *
+ * @exit if built files doesn't exist
+ * @return {void}
+ */
+
+module.exports.readTmpls = function() {
+  if(!fs.existsSync(cf.DOCUMENT_TEMPLATES)
+  || !fs.existsSync(cf.LAYOUT_TEMPLATES)) {
+    console.log('[:(]'.red + ' Have you built your templates yet?');
+    process.exit();
+  }
+
+  GLOBAL.documentTmpls = requirejs('page/document/build/tmpl');
+  GLOBAL.layoutTmpls = requirejs('page/layout/build/tmpl');
+};
+
+/**
+ * Write router files
+ *
+ * @return {void}
+ */
+
+module.exports.writeRouters = function() {
+};

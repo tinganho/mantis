@@ -44,7 +44,7 @@ var express = require('express')
   , path = require('path')
   , cluster = require('cluster')
   /*jshint unused:false */
-  , colors = require('colors')
+  , readTmpls = require('./page/page').readTmpls
   , helmet = require('helmet')
   , scf = require('./conf/core')
   , autoroute = require('autoroute')
@@ -85,6 +85,13 @@ else {
    */
 
   GLOBAL.cf = scf;
+
+
+  /**
+   * Read document and layout templates
+   */
+
+  readTmpls();
 
   /**
    * Create necessary folders

@@ -175,7 +175,24 @@ var configs = {
    * @type {String}
    */
 
-  X_REQUESTED_BY : '1'
+  X_REQUESTED_BY : '1',
+
+  /**
+   * Document built templates path
+   *
+   * @type {String}
+   */
+
+  DOCUMENT_TEMPLATES : 'page/document/build/tmpl',
+
+
+  /**
+   * Layout built templates path
+   *
+   * @type {String}
+   */
+
+  LAYOUT_TEMPLATES : 'page/layout/build/tmpl'
 };
 
 /**

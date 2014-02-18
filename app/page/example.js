@@ -17,6 +17,7 @@ page('/home')
     next({
       title : 'some-title',
       description : 'some-description',
+      style : 'path/to/some/style',
       main : 'some-main', // Requirejs main
       outputRouter : 'path/to/output/file'// We build one router file
     });
