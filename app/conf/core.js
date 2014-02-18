@@ -152,7 +152,20 @@ var configs = {
    * @type {Number}
    */
 
-  MAX_SOCKETS
+  MAX_SOCKETS : 1024,
+
+  /**
+   * We want to prevent people from JSON hijacking. Other site can include
+   * script tags and override Object and Array constructor to read any kind
+   * of JSON content we provide. We can prevent this if we have a script that
+   * crashes the web page.
+   *
+   * More info: http://stackoverflow.com/questions/2669690/why-does-google-prepend-while1-to-their-json-responses
+   *
+   * @type {String}
+   */
+
+  JSON_HIJACKING_PREFIX : 'while(1);'
 };
 
 /**

@@ -11,11 +11,17 @@ var _ = require('underscore');
  */
 
 function page(url) {
+  if(typeof url !== 'string'
+  || !_.isArray(url)) {
+    throw new TypeError('first parameter must be string or array of strings');
+  }
+
   this._url = url;
   this._title = '';
   this._description = '';
   this._styles = [];
   this._scripts = [];
+  this._moduleHtml = {};
   this._documentTmpls = documentTmpls;
   this._layoutTmpls = layoutTmpls;
   this.defaultStyle = cf.DEFAULT_STYLE;
@@ -80,7 +86,36 @@ Page.prototype.layout = function(name) {
  */
 
 Page.prototype.modules = function(modules) {
-  this._serve();
+  var n = 0; size = _.size(modules);
+  for(var container in modules) {
+    if(!modules[container].fetch) {
+      throw new TypeError('module must have fetch method');
+    }
+
+    var model = new modules[i].model;
+
+    model.fetch({
+      success : function() {
+        _this._moduleHtml[container] =
+        modules[container].view.template(model.attributes);
+        n++;
+        if(n === size) {
+          _this._serve();
+        }
+      },
+      error : this.fail
+    });
+  }
+};
+
+/**
+ * If something fails it will be forwarded to this callback
+ *
+ * @callback
+ */
+
+Page.prototype.fail = function(callback) {
+  this.fail = callback;
 };
 
 /**
@@ -91,14 +126,12 @@ Page.prototype.modules = function(modules) {
  */
 
 Page.prototype._serve = function() {
-  var layout = this._layoutTmpl();
-
   var html = this._documentTmpl({
     title : this._title,
     description : this._description,
     styles : this._styles,
     scripts : this._scripts,
-    layout : layout
+    layout : this._layoutTmpl(_this._moduleHtml)
   });
 
   app.get(this._url, function(req, res) {
