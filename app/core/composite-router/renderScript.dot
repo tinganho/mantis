@@ -1,0 +1,25 @@
+<!--
+
+{
+  contents : [
+    {
+      model : '',
+      view : '',
+      region : '',
+      path : ''
+    }
+  ]
+}
+
+!-->
+
+{{~it :content:index}}
+    app.document.trigger('render{{=content.model.toLowerCase()}}start');
+    try {
+      app.views.{{=content.model.toLowerCase()}}.render();
+    }
+    catch(err) {
+      throw err;
+    }
+    app.document.trigger('render{{=content.model.toLowerCase()}}end');
+{{~}}
