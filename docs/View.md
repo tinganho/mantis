@@ -57,5 +57,7 @@ Bind touch event listeners.
 ###`void _addMouseInteractions()`
 Bind mouse event listeners.
 
+###`void remove()`
+The remove method will be called whenever the `Composer` object don't have this view specified on the next page and the layout if the `layout` is the same.
 
 
