@@ -18,8 +18,11 @@ If it is in the client `render()` should edit the current DOM so that the HTML f
 If it is in the server it will just return the correct HTML string corresponding to the `Model` state. The `Page` object, which is the server composer, will take the HTML string and insert it to the correct place in the HTML document.
 
 ####Sub views
+Any sub views will be initiated with their corresponding sub models. The model will have properties pointing to sub models. And it is up to the parent view to instantiate the correct subviews with the correct sub models. The model will always have synced properties that corresponds to the sub models properties. Don't use this synced properties to render the DOM or to render the HTML string. Instead use the sub model property with a sub view to render the DOM or HTML string. All subviews should have a link to their parent using a parent property. The link is used for syncing interactions with both the parent and child views. Sub views will call `render()` to render sub views in HTML or appending the DOM to their parent `render()` call. 
 
 ###`CssString root`
+A CSS string that corresponds to the root element. The root element will be checked on instantiation to bind the DOM with the view object. If the root element is not currently on DOM `render()` function will be called.
+
 
 
 
