@@ -4,10 +4,10 @@ Model
 
 Model's methods and behaviors:
 
-###`void callback constructor(*...)`
+###`void autocalled constructor(*...)`
 Set any identity data if possible and meta data.
 
-###`void callback sync(String method, Model model, Object options, Request request)`
+###`void autocalled sync(String method, Model model, Object options, Request request)`
 `sync()` will be called whenever `Model#fetch()|#save()|#destroy()` is called. The `method` parameter could have values `create|read|update|write` depending on the state of the `Model` instance and also which method `Model#fetch()|#save()|#destroy()` is called. You should use the the global variables `inClient` and `inServer` to decide how to fetch the model's data on each environment. 
 
 ###`void setPageTitle()`
@@ -19,6 +19,6 @@ Convenience method for setting the page description.
 ###`void setPageKeywords()`
 Convenience method for setting the page keyword. 
 
-###`void callback onHistoryChange()`
+###`void autocalled onHistoryChange()`
 This callback is called if the next page has defined the same object. It checks if `app.models[NAME]` and `app.views[NAME]` is defined or not to execute or not execute this callback.
 
