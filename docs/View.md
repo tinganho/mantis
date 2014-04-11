@@ -5,10 +5,10 @@ The `View` constructor are extended from `Backbone.View`. The main task is to re
 
 These are methods and behaviors of `View` constructor:
 
-###`void constructor(Model model, ...)`
+###`void autocalled constructor(Model model, ...)`
 During initialization of a `View` constructor. A `Model` instance should always be passed. A `View` instance can't exist without a `Model` instance. The constructor method will always check if it is on the client or if it is on the server. If it is on the client and the specified `root` element for the view is not available on the DOM. The `View` object will call `render()` to render the `View` to the DOM. That the `root` element is not on the current DOM happens when the `Composer` object want to compose a new page or if you want to render a `Model` explicitly. If the element is on the DOM, which happens oftenly when the server renders the page it will set the `root` element and call `_setElements()` to set all elements object properties. 
 
-###`void render()`
+###`void autocalled render()`
 A `View` object will call `render` in the client if the HTML doesn't exist in the DOM. On the server `render()` will be called when the `Page` object compose the page. It is up to the developer to render the page correctly. The developer needs to figure out if the current instance is in the server or in the client using the global variables `inClient` and `inServer` that exist both in the client and the server. 
 
 ####In client
@@ -23,7 +23,7 @@ Any sub views will be initiated with their corresponding sub models. The model w
 ###`CssSelectorString root`
 A CSS string that corresponds to the root element. The root element will be checked on instantiation to bind the DOM with the `View` object. If the `root` element is not currently on DOM `render()` function will be called. This property will be converted to a `HtmlObject` corresponding to the root element, whenever `setRootElement()` is called.
 
-###`void setRootElement()`
+###`void autocalled setRootElement()`
 Set the root element using the `root` property. It will convert the `root` property from a CSS selector string to an `HTMLObject` that corresponds to to the root element of the `View` object.
 
 ###`HTMLObject root`
@@ -33,7 +33,7 @@ The root element.
 A jQuery object represenation of the root element.
 
 
-###`void bindDOM()`
+###`void autocalled bindDOM()`
 `bindDOM()` will be called on instantiation of a class if the `root` element is currently present on the DOM. if the `root` element is present on the DOM it will be called during the `render()` call. Best practice is to use jQuery's event delegation `on()` to bind all interactions with the DOM to the `View` object. 
 
 ```javascript
@@ -57,7 +57,7 @@ Bind touch event listeners.
 ###`void _addMouseInteractions()`
 Bind mouse event listeners.
 
-###`void remove()`
+###`void autocalled remove()`
 The remove method will be called whenever the `Composer` object don't have this view specified on the next page and the layout if the `layout` is the same.
 
 
