@@ -58,6 +58,6 @@ Bind touch event listeners.
 Bind mouse event listeners.
 
 ###`void autocalled remove()`
-The remove method will be called whenever the `Composer` object don't have this view specified on the next page and the layout if the `layout` is the same.
+The remove method will be called whenever the `Composer` object don't have this view specified on the next page and if the current `layout` of the page is the same as the next page.
 
 
