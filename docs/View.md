@@ -26,10 +26,30 @@ A CSS string that corresponds to the root element. The root element will be chec
 ###`void setRootElement()`
 Set the root element using the `root` property. It will convert the `root` property from a CSS selector string to an `HTMLObject` that corresponds to to the root element of the `View` object.
 
-###`HtmlObject root`
+###`HTMLObject root`
 The root element.
 
 ###`jQuery $root`
 A jQuery object represenation of the root element.
+
+
+###`void bindDOM()`
+`bindDOM()` will be called on instantiation of a class if the `root` element is currently present on the DOM. if not it will call during `render()` call. Best practice is to use jQuery's event delegation `on()` to bind all interactions with the DOM to the `View` object. 
+
+```javascript
+  bindDOM : function() {
+    this.$root.on('click', '.element1', function() {...});
+    this.$root.on('click', '.element2', function() {...});
+  }
+```
+Sub view elements shouldn't be binded. The corresponding sub view should bind the DOM.
+```javascript
+  bindDOM : function() {
+    this.$root.on('click', '.element1', function() {...});
+    this.$root.on('click', '.element2', function() {...});
+    this.subView.bindDOM();
+  }
+```
+
 
 
