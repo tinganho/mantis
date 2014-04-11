@@ -8,5 +8,5 @@ Model's methods and behaviors:
 Set any identity data if possible and meta data.
 
 #####`void sync(String method, Model model, Object options, Request request)`
-`sync()` will be called whenever `Model#fetch()|#save()|#destroy()` is called. The `method` parameter could have values `create|read|update|write` depending on the state of the `Model` instance and also which method `Model#fetch()|#save()|#destroy()` is called. You should use the the global variables `inClient` and `inServer` to decide how to fetch the model's data. 
+`sync()` will be called whenever `Model#fetch()|#save()|#destroy()` is called. The `method` parameter could have values `create|read|update|write` depending on the state of the `Model` instance and also which method `Model#fetch()|#save()|#destroy()` is called. You should use the the global variables `inClient` and `inServer` to decide how to fetch the model's data on each environment. 
 
