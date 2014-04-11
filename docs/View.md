@@ -34,7 +34,7 @@ A jQuery object represenation of the root element.
 
 
 ###`void bindDOM()`
-`bindDOM()` will be called on instantiation of a class if the `root` element is currently present on the DOM. if not it will call during `render()` call. Best practice is to use jQuery's event delegation `on()` to bind all interactions with the DOM to the `View` object. 
+`bindDOM()` will be called on instantiation of a class if the `root` element is currently present on the DOM. if the `root` element is present on the DOM it will be called during the `render()` call. Best practice is to use jQuery's event delegation `on()` to bind all interactions with the DOM to the `View` object. 
 
 ```javascript
   bindDOM : function() {
@@ -42,7 +42,7 @@ A jQuery object represenation of the root element.
     this.$root.on('click', '.element2', function() {...});
   }
 ```
-Sub view elements shouldn't be binded. The corresponding sub view should bind the DOM.
+Sub view elements shouldn't be binded. You should call the sub view's `bindDOM()` method.
 ```javascript
   bindDOM : function() {
     this.$root.on('click', '.element1', function() {...});
@@ -50,6 +50,12 @@ Sub view elements shouldn't be binded. The corresponding sub view should bind th
     this.subView.bindDOM();
   }
 ```
+
+###`void _addTouchInteractions()`
+Bind touch event listeners.
+
+###`void _addMouseInteractions()`
+Bind mouse event listeners.
 
 
 
