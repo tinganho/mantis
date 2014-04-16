@@ -4,7 +4,7 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Backbone = require('backbone');
+  var Backbone = require('backbone-relational');
 
   /**
    * We alias the `Backbone.Model` to just `Model`. Because
@@ -13,7 +13,7 @@ define(function(require) {
    * @constructor Model
    */
 
-  var Constructor = Backbone.Model.extend({
+  var Constructor = Backbone.RelationalModel.extend({
 
     /**
      * Set page title
@@ -76,6 +76,22 @@ define(function(require) {
      */
 
     onHistoryChange : function(path) {}
+
+    /**
+     * Check if the given model may use the given `id`
+     *
+     * @param model
+     * @param [id]
+     * @return {void}
+     * @api public
+     * @override checkId
+     */
+
+    checkId: function( model, id ) {
+      if(inClient) {
+        Backbone.RelationalModel.prototype.checkId.apply(this, arguments);
+      }
+    }
 
   });
 

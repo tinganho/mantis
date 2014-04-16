@@ -18,7 +18,7 @@
     "backbone-query-parameters-patch": "~0.1.0",
     "hammerjs": "~1.0.5",
     "xregexp": "~2.0.0",
-    "backbone-relational": "~0.8.6",
+    "backbone-relational": "~0.8.8",
     "fastclick": "~0.6.10",
     "transitionEnd": "~1.0.2"
   },
