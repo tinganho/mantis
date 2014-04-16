@@ -4,7 +4,16 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Backbone = require('backbone-relational');
+  var Backbone;
+
+  if(inClient) {
+    Backbone = require('backbone');
+  }
+
+  if(inServer) {
+    Backbone = require('backbone-relational');
+    Backbone.Relational.store.checkId = function(model, id) {};
+  }
 
   /**
    * We alias the `Backbone.Collection` to just `Collection`. Because
@@ -90,7 +99,7 @@ define(function(require) {
      * In order to provide the views with the meta data. We need to set it
      * on toJSON method.
      *
-     * @overried toJSON
+     * @override toJSON
      */
 
     toJSON : function() {
