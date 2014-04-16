@@ -50,6 +50,23 @@ define(function(require) {
     },
 
     /**
+     * Set keywords
+     *
+     * @param {String} keywords
+     * @return {void}
+     * @api public
+     */
+
+    setKeywords : function(keywords) {
+      if(inServer) {
+        this.page.keywords = keywords;
+      }
+      else {
+        app.document.set('keywords', keywords);
+      }
+    },
+
+    /**
      * CompositeRouter is always executing this callback if it doesn't
      * render the view for this model.
      *
