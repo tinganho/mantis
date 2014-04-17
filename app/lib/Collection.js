@@ -12,7 +12,6 @@ define(function(require) {
 
   if(inServer) {
     Backbone = require('backbone-relational');
-    Backbone.Relational.store.checkId = function(model, id) {};
   }
 
   /**
