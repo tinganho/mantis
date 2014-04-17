@@ -9,8 +9,7 @@ define(function(require) {
   if(inClient) {
     Backbone = require('backbone');
   }
-
-  if(inServer) {
+  else if(inServer) {
     Backbone = require('backbone-relational');
     // We override `Backbone.Relational.store.checkId`, because
     // we don't need to check the id of a model in the server.

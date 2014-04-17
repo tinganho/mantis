@@ -9,8 +9,7 @@ define(function(require) {
   if(inClient) {
     Backbone = require('backbone');
   }
-
-  if(inServer) {
+  else if(inServer) {
     Backbone = require('backbone-relational');
   }
 
