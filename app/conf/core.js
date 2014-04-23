@@ -192,7 +192,15 @@ var configs = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'page/layout/build/tmpl'
+  LAYOUT_TEMPLATES : 'page/layout/build/tmpl',
+
+  /**
+   * Locale cookie max age
+   *
+   * @type {Number}
+   */
+
+  LOCALE_COOKIE_MAX_AGE : 2*360*24*3600*1000
 };
 
 /**
