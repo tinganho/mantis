@@ -132,7 +132,7 @@ Page.prototype._getContent = function(callback, req) {
 
     var model = new Model;
 
-    var view = new View;
+    var view = new View(model);
     if(!view.template) {
       throw new TypeError(this.content[name].view + ' have no template');
     }
@@ -144,9 +144,7 @@ Page.prototype._getContent = function(callback, req) {
     try {
       model.fetch({
         success : function() {
-          var data = {};
-          var json = model.toJSON();
-          content[name] = view.template(json);
+          content[name] = view.render();
 
           if(typeof model.page.title === 'string' && model.page.title.length > 0) {
             _this._documentProps.title = model.page.title;
