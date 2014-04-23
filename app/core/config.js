@@ -102,7 +102,7 @@ Config.prototype.writeClientConfigs = function() {
         , endWrap    = 'return configs; })();';
 
       var str = startWrap + body + makeRegExp + endWrap;
-      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONF_BUILD + '/' + configurations.NAMESPACE + '.js', str);
+      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGS_BUILD + '/' + configurations.NAMESPACE + '.js', str);
     }
   });
 };

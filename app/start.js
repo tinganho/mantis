@@ -46,11 +46,11 @@ var express = require('express')
   /*jshint unused:false */
   , readTmpls = require('./page/page').readTmpls
   , helmet = require('helmet')
-  , scf = require('./conf/core')
+  , scf = require('./configs/server')
   , autoroute = require('autoroute')
-  , config = require('./lib/config')
+  , config = require('./libraries/config')
   , configure = require('./conf/app')
-  , autoroutes = require('./conf/autoroutes');
+  , autoroutes = require('./conf/autoRoutes');
 
 /**
  * Define cluster

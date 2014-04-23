@@ -99,7 +99,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONF_GLOB : 'client-conf/*.js',
+  CLIENT_CONFIGS_GLOB : 'configs/client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -109,7 +109,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONF_BUILD : 'public/conf',
+  CLIENT_CONFIGS_BUILD : 'public/configs',
 
   /**
    * Path to the default favicon for your website
@@ -182,7 +182,7 @@ var configs = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'page/document/build/tmpl',
+  DOCUMENT_TEMPLATES : 'page/document/build/templates',
 
 
   /**
@@ -191,7 +191,7 @@ var configs = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'page/layout/build/tmpl',
+  LAYOUT_TEMPLATES : 'page/layout/build/templates',
 
   /**
    * Locale cookie max age
