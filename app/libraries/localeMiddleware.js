@@ -9,7 +9,8 @@
  *    express()
  */
 
-var localeSyntax = /^[a-z]{2}$/;
+var localeSyntax = /^[a-z]{2}$/
+  , acceptLanguage = require('accept-language');
 
 /**
  * Accept language configuration

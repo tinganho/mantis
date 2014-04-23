@@ -3,9 +3,8 @@
  * Module dependencies
  */
 
-var config = require('../lib/config')
+var config = require('../libraries/config')
   , path = require('path');
-
 
 /**
  * Core server configs for your app. Use DEV__, STAG__, PROD__ prefixes
