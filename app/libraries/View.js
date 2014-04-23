@@ -1,13 +1,10 @@
 
-define([
+if(typeof define !== 'function') {
+  var define = require('amdefine')(module);
+}
 
-  'backbone'
-
-], function(
-
-  Backbone
-
-) {
+define(function(require) {
+  var Backbone = require('backbone');
 
   /**
    * View
@@ -15,7 +12,20 @@ define([
    * @constructor
    */
 
-  return Backbone.View.extend({
+  var Constructor = Backbone.View.extend({
+
+    /**
+     * We create a noop of this element if on server. Because it requires the DOM
+     * to be run.
+     *
+     * @overrides _ensureElement
+     */
+
+    _ensureElement : function() {
+      if(inClient) {
+        Backbone.View.prototype._ensureElement.call(this, arguments);
+      }
+    },
 
     /**
      * fingerIsOutOfRangeRange checks if a finger is out of range for firing a release event.
@@ -43,7 +53,34 @@ define([
       }
 
       return isOutOfRange;
-    }
+    },
+
+    /**
+     * CompositeRouter is always executing this callback if it doesn't
+     * render the view for this model.
+     *
+     * @param {String} path
+     * @return {void}
+     * @api public
+     */
+
+    onHistoryChange : function(path) {},
+
+    /**
+     * Render noop.
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {}
+
   });
+
+  /**
+   * Export
+   */
+
+  return Constructor;
 
 });
