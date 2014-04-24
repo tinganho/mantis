@@ -9,7 +9,7 @@
  * Module dependencies
  */
 
-var config = require('../libraries/config');
+var config = require('../libraries/server/config');
 
 /**
  * Core client configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -115,7 +115,7 @@ configs = config.formatConfigs(configs);
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONF);
+configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONFIGS);
 
 /**
  * Export config

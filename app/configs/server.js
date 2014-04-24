@@ -3,7 +3,7 @@
  * Module dependencies
  */
 
-var config = require('../libraries/config')
+var config = require('../libraries/server/config')
   , path = require('path');
 
 /**
