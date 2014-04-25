@@ -5,6 +5,9 @@ The `View` constructor are extended from `Backbone.View`. The main task is to re
 
 These are methods and behaviors of `View` constructor:
 
+###`Model model`
+The `View's` model.
+
 ###`void autocalled constructor(Model model, ...)`
 During initialization of a `View` constructor. A `Model` instance should always be passed. A `View` instance can't exist without a `Model` instance. The constructor method will always check if it is on the client or if it is on the server. If it is on the client and the specified `root` element for the view is not available on the DOM. The `View` object will call `render()` to render the `View` to the DOM. That the `root` element is not on the current DOM happens when the `Composer` object want to compose a new page or if you want to render a `Model` explicitly. If the element is on the DOM, which happens oftenly when the server renders the page it will set the `root` element and call `_setElements()` to set all elements object properties. 
 
