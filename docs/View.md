@@ -23,19 +23,6 @@ If it is in the server it will just return the correct HTML string corresponding
 ####Sub views
 Any sub views will be initiated with their corresponding sub models. The model will have properties pointing to sub models. And it is up to the parent view to instantiate the correct subviews with the correct sub models. The model will always have synced properties that corresponds to the sub models properties. Don't use this synced properties to render the DOM or to render the HTML string. Instead use the sub model property with a sub view to render the DOM or HTML string. All subviews should have a link to their parent using a parent property. The link is used for syncing interactions with both the parent and child views. Sub views will call `render()` to render sub views in HTML or appending the DOM to their parent `render()` call. 
 
-###`CssSelectorString root`
-A CSS string that corresponds to the root element. The root element will be checked on instantiation to bind the DOM with the `View` object. If the `root` element is not currently on DOM `render()` function will be called. This property will be converted to a `HtmlObject` corresponding to the root element, whenever `setRootElement()` is called.
-
-###`void autocalled setRootElement()`
-Set the root element using the `root` property. It will convert the `root` property from a CSS selector string to an `HTMLObject` that corresponds to to the root element of the `View` object.
-
-###`HTMLObject root`
-The root element.
-
-###`jQuery $root`
-A jQuery object represenation of the root element.
-
-
 ###`void autocalled bindDOM()`
 `bindDOM()` will be called on instantiation of a class if the `root` element is currently present on the DOM. if the `root` element is present on the DOM it will be called during the `render()` call. Best practice is to use jQuery's event delegation `on()` to bind all interactions with the DOM to the `View` object. 
 
