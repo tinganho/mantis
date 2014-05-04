@@ -75,14 +75,13 @@ define([
       app.document.trigger('renderstart');
       if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
         {{=page.renderScript}}
-
-        return;
       }
-
-      app.$layout.remove();
-      app.$body.append(app.layoutTmpls.{{=page.layout}}({
-        {{=page.mapScript}}
-      }));
+      else {
+        app.$layout.remove();
+        app.$body.append(app.layoutTmpls.{{=page.layout}}({
+          {{=page.mapScript}}
+        }));
+      }
 
       app.document.trigger('renderend');
     },
