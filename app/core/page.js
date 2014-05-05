@@ -60,7 +60,7 @@ Page.prototype.document = function(name, props) {
 
   this._documentTmpl = this._documentTmpls[name];
 
-  this._documentProps = requirejs('documents/' + name + 'Props')(this._url);
+  this._documentProps = requirejs('documents/' + name + 'Properties')(this._url);
 
   return this;
 };
