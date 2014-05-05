@@ -11,8 +11,7 @@ module.exports = function(page) {
           '/public/styles/content/app.css'
         ],
         main : '/documents/mains/app',
-        templates : '/public/templates/content/app.js',
-        noScroll : true
+        templates : '/public/templates/content/app.js'
       })
     .hasLayout('three-rows')
       .withRegions({
