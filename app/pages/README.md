@@ -49,6 +49,21 @@ We define which document to use:
 ```javascript
   .hasDocument('default')
 ```
+We define which kind of properties the document uses:
+```javascript
+.withProperties({
+  title : null,
+  description : null,
+  locale : 'en',
+  styles : [
+    '/public/styles/documents/default.css',
+    '/public/styles/content/app.css'
+  ],
+  main : '/documents/mains/app',
+  templates : '/public/templates/content/app.js',
+  noScroll : true
+})
+```
 We define which layout to use:
 ```javascript
   .hasLayout('three-rows')
