@@ -25,7 +25,7 @@ module.exports = function(page) {
 };
 
 ```
-We  begin with and export function statement that takes an `Page` instance as an argument:
+We begin with and export function statement that takes an `Page` instance as an argument:
 ```javascript
 module.exports = function(page) {
 ```
