@@ -3,8 +3,8 @@
  * Set inServer and inClient globals
  */
 
-GLOBAL.inServer = true;
-GLOBAL.inClient = false;
+global.inServer = true;
+global.inClient = false;
 
 /**
  * Environmental vars dependencies
@@ -69,11 +69,11 @@ var express = require('express')
   , cluster = require('cluster')
   /*jshint unused:false */
   , helmet = require('helmet')
-  , scf = require('./configs/server')
-  , autoroute = require('autoroute')
+  , cf = require('./configs/server')
+  , autoRoute = require('autoroute')
+  , autoRoutes = require('./configs/autoRoutes')
   , config = require('./core/config')
   , configure = require('./configs/express')
-  , autoroutes = require('./configs/autoRoutes')
   , page = require('./core/page')
   , readTmpls = page.readTmpls
   , createComposer = page.createComposer;
@@ -82,7 +82,7 @@ var express = require('express')
  * Globals.
  */
 
-GLOBAL.cf = scf;
+global.cf = cf;
 
 /**
  * Define cluster
@@ -102,13 +102,6 @@ if(cluster.isMaster && process.env.NODE_ENV === 'production') {
   });
 }
 else {
-
-  /**
-   * Globals.
-   */
-
-  GLOBAL.cf = scf;
-
 
   /**
    * Read document and layout templates
@@ -157,11 +150,12 @@ else {
    * Autoroute.
    */
 
-  autoroute(autoroutes, app);
+  autoRoute(autoRoutes, app);
 
   /**
-   *
+   * Create composer object.
    */
+
   createComposer();
 
   /**
