@@ -102,16 +102,16 @@ var configs = {
  * Remove environmental prefixes
  */
 
-configs = config.formatConfigs(configs);
+configurations = configuration.formatConfigurations(configurations);
 
 /**
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONF);
+configurations = configuration.mergeExternalConfigurations(configurations, process.env.EXTERNAL_CLIENT_CORE_CONF);
 
 /**
  * Export config
  */
 
-module.exports = configs;
+module.exports = configurations;

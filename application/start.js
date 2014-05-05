@@ -69,11 +69,11 @@ var express = require('express')
   , cluster = require('cluster')
   /*jshint unused:false */
   , helmet = require('helmet')
-  , cf = require('./configs/server')
+  , cf = require('./configurations/server')
   , autoRoute = require('autoroute')
-  , autoRoutes = require('./configs/autoRoutes')
-  , config = require('./core/config')
-  , configure = require('./configs/express')
+  , autoRoutes = require('./configurations/autoRoutes')
+  , configuration = require('./core/configuration')
+  , configure = require('./configurations/express')
   , page = require('./core/page')
   , readTmpls = page.readTmpls
   , createComposer = page.createComposer;
@@ -117,7 +117,7 @@ else {
   if(!fs.existsSync(uploadFolderPath)) {
     fs.mkdirSync(uploadFolderPath);
   }
-  var tmpFolderPath = cf.ROOT_FOLDER + cf.TMP_FOLDER;
+  var tmpFolderPath = cf.ROOT_FOLDER + cf.TEMPORARY_FOLDER;
   if(!fs.existsSync(tmpFolderPath)) {
     fs.mkdirSync(tmpFolderPath);
   }
@@ -126,7 +126,7 @@ else {
    * Write client config file
    */
 
-  config.writeClientConfigs();
+  configuration.writeClientConfigurations();
 
   /**
    * App namespace.

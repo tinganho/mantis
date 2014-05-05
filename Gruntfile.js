@@ -71,13 +71,13 @@ module.exports = function(grunt) {
 
       files: [
         'grunt.js',
-        'app/**/*.js',
+        'application/**/*.js',
         'lib/**/*.js',
-        '!app/build/tmpl.js',
-        '!app/vendor/**',
-        '!app/public/templates/**/*.js',
-        '!app/public/scripts/**/*.js',
-        '!app/translations/output/**/*.js',
+        '!application/build/tmpl.js',
+        '!application/vendor/**',
+        '!application/public/templates/**/*.js',
+        '!application/public/scripts/**/*.js',
+        '!application/translations/output/**/*.js',
         'src/**/*.js'
       ]
     },
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
     compass: {
       prod: {
         options: {
-          config         : 'app/conf/compass.rb',
+          config         : 'application/configs/compass.rb',
           require        : [
             'compass-placeholder',
             'compass-retina-sprites',
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
 
       dev: {
         options: {
-          config         : 'app/conf/compass.rb',
+          config         : 'application/configs/compass.rb',
           require        : [
             'compass-placeholder',
             'compass-retina-sprites',
@@ -139,26 +139,26 @@ module.exports = function(grunt) {
 
       loginTemplates: {
         files: [
-          'app/components/**/*.{dot,part}',
-          'app/modules/**/*.{dot,part}',
-          'app/scaffolds/**/*.{dot,part}',
-          '!app/modules/streetstyle/**/*.{dot,part}',
-          '!app/scaffolds/streetstyle/**/*.{dot,part}'
+          'application/components/**/*.{dot,part}',
+          'application/modules/**/*.{dot,part}',
+          'application/scaffolds/**/*.{dot,part}',
+          '!application/modules/streetstyle/**/*.{dot,part}',
+          '!application/scaffolds/streetstyle/**/*.{dot,part}'
         ],
         tasks: ['dot:devLogin']
       },
 
       streetStyleTemplates: {
         files: [
-          'app/components/**/*.{dot,part}',
-          'app/modules/streetstyle/**/*.{dot,part}',
-          'app/scaffolds/streetstyle/**/*.{dot,part}'
+          'application/components/**/*.{dot,part}',
+          'application/modules/streetstyle/**/*.{dot,part}',
+          'application/scaffolds/streetstyle/**/*.{dot,part}'
         ],
         tasks: ['dot:devStreetstyle']
       },
 
       compass: {
-        files: ['app/**/*.scss'],
+        files: ['application/**/*.scss'],
         tasks: ['compass:dev']
       }
     },
@@ -166,12 +166,12 @@ module.exports = function(grunt) {
     clean: {
       app: [
         'dist',
-        'app/public/styles/*',
-        'app/public/scripts/*',
-        'app/public/images-webp/*',
-        'app/public/tmp/*',
-        'app/public/uploads/*',
-        'app/public/templates/*'
+        'application/public/styles/*',
+        'application/public/scripts/*',
+        'application/public/images-webp/*',
+        'application/public/tmp/*',
+        'application/public/uploads/*',
+        'application/public/templates/*'
       ],
       dist: [
         'dist/vendor/**/*',
@@ -180,7 +180,7 @@ module.exports = function(grunt) {
         'dist/components'
       ],
       deploy: ['deploy'],
-      css: ['app/public/styles/*']
+      css: ['application/public/styles/*']
     },
 
     rev: {
@@ -213,8 +213,8 @@ module.exports = function(grunt) {
           requirejs : true,
           node : true
         },
-        src : ['app/core/**/*.dot'],
-        dest : 'app/public/templates/core/tmpl.js'
+        src : ['application/core/**/*.dot'],
+        dest : 'application/public/templates/core/tmpl.js'
       },
 
       documents : {
@@ -223,8 +223,8 @@ module.exports = function(grunt) {
           requirejs : true,
           node : true
         },
-        src : ['app/documents/**/*.dot'],
-        dest : 'app/public/templates/documents/tmpl.js'
+        src : ['application/documents/**/*.dot'],
+        dest : 'application/public/templates/documents/tmpl.js'
       },
 
       layouts : {
@@ -233,8 +233,8 @@ module.exports = function(grunt) {
           requirejs : true,
           node : true
         },
-        src : ['app/layouts/**/*.dot'],
-        dest : 'app/public/templates/layouts/tmpl.js'
+        src : ['application/layouts/**/*.dot'],
+        dest : 'application/public/templates/layouts/tmpl.js'
       },
 
       content_app : {
@@ -244,11 +244,11 @@ module.exports = function(grunt) {
           node : true
         },
         src : [
-          'app/content/translations/**/*.dot',
-          'app/content/search/**/*.dot',
-          'app/content/translation/**/*.dot'
+          'application/content/translations/**/*.dot',
+          'application/content/search/**/*.dot',
+          'application/content/translation/**/*.dot'
         ],
-        dest : 'app/public/templates/content/app.js'
+        dest : 'application/public/templates/content/app.js'
       }
     },
 
@@ -265,11 +265,11 @@ module.exports = function(grunt) {
     translate: {
       dist: {
         options: {
-          config          : './app/translations',
+          config          : './application/translations',
           requirejs       : true,
           defaultLanguage : 'en', // grunt-translate use it to update translation.
-          output          : './app/translations/output',
-          src             : ['./app/**/*.js', '!./app/vendor/**/*.js'],
+          output          : './application/translations/output',
+          src             : ['./application/**/*.js', '!./application/vendor/**/*.js'],
           interface: {
             autoOpen : false,
             port     : 3001
@@ -279,7 +279,7 @@ module.exports = function(grunt) {
     },
 
     useminPrepare: {
-      html: 'app/profiles/p1/lib/templates/layout/login-shell.dot',
+      html: 'application/profiles/p1/lib/templates/layout/login-shell.dot',
       options: {
         dest: 'dist'
       }
@@ -298,7 +298,7 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'app/', src: ['**'], dest: 'dist/'}, // makes all src relative to cwd
+          {expand: true, cwd: 'application/', src: ['**'], dest: 'dist/'}, // makes all src relative to cwd
         ]
       }
     },
@@ -319,13 +319,13 @@ module.exports = function(grunt) {
     webp: {
       dev : {
         expand: true,
-        cwd : 'app/public/images',
+        cwd : 'application/public/images',
         src : [
           '*.{jpg,png}',
           'mobile/*.{jpg,png}',
           'streetstyle/*.{jpg,png}'
         ],
-        dest : 'app/public/images-webp'
+        dest : 'application/public/images-webp'
       },
       dist : {
         expand: true,

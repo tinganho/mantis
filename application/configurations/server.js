@@ -3,7 +3,7 @@
  * Module dependencies
  */
 
-var config = require('../core/config')
+var configuration = require('../core/configuration')
   , path = require('path')
   , glob = require('glob')
   , corePath = require('../core/path');
@@ -23,7 +23,7 @@ var config = require('../core/config')
  *     PROD__X_REQUESTED_BY : '1',
  */
 
-var configs = {
+var configurations = {
 
   /**
    * Default user agent string in all outgoing requests
@@ -83,7 +83,7 @@ var configs = {
    * @type {String}
    */
 
-  TMP_FOLDER : 'public/tmp',
+  TEMPORARY_FOLDER : 'public/tmp',
 
   /**
    * All uploads will be stored on this folder
@@ -101,7 +101,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONFIG_GLOB : 'configs/client/*.js',
+  CLIENT_CONFIGURATION_GLOB : 'configs/client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -111,7 +111,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONFIG_BUILD : 'public/scripts/configs',
+  CLIENT_CONFIGURATION_BUILD : 'public/scripts/configurations',
 
   /**
    * Path to the default favicon for your website
@@ -245,23 +245,23 @@ var configs = {
    * @type {String}
    */
 
-  COMPOSER_PATH : 'public/scripts/routers/composer.js'
+  COMPOSER_BUILD_PATH : 'public/scripts/routers/composer.js'
 };
 
 /**
  * Remove environmental prefixes
  */
 
-configs = config.formatConfigs(configs);
+configurations = configuration.formatConfigurations(configurations);
 
 /**
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CORE_CONF);
+configurations = configuration.mergeExternalConfigurations(configurations, process.env.EXTERNAL_CORE_CONFIGURATIONS);
 
 /**
  * Export configs
  */
 
-module.exports = configs;
+module.exports = configurations;
