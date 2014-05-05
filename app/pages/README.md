@@ -5,10 +5,22 @@ Please specify your page manifest files here. Each page manifest should represen
 ```javascript
 module.exports = function(page) {
   page('/')
-    .document('default')
-    .layout('three-rows')
-    .content({
-      topbar : {
+    .hasDocument('default')
+    .withProperties({
+      title : null,
+      description : null,
+      locale : 'en',
+      styles : [
+        '/public/styles/documents/default.css',
+        '/public/styles/content/app.css'
+      ],
+      main : '/documents/mains/app',
+      templates : '/public/templates/content/app.js',
+      noScroll : true
+    })
+    .hasLayout('three-rows')
+    .withRegions({
+      search : {
         model : 'content/search/Search',
         view : 'content/search/SearchView'
       },
@@ -16,12 +28,12 @@ module.exports = function(page) {
         model : 'content/translations/Translations',
         view : 'content/translations/TranslationsView'
       },
-      footer : {
+      translation : {
         model : 'content/translation/Translation',
         view : 'content/translation/TranslationView'
       }
     })
-    .error(function(err) {});
+    .handleErrorsUsing(function(err) {});
 };
 
 ```
@@ -35,15 +47,15 @@ page('/')
 ```
 We define which document to use:
 ```javascript
-  .document('default')
+  .hasDocument('default')
 ```
 We define which layout to use:
 ```javascript
-  .layout('three-rows')
+  .hasLayout('three-rows')
 ```
-All content is defined as paths to models and views. and the models and views is grouped in regions if the layout.
+Define what content each region will placehold.
 ```javascript
-  .content({
+  .withRegions({
     topbar : {
       model : 'content/search/Search',
       view : 'content/search/SearchView'
@@ -60,6 +72,6 @@ All content is defined as paths to models and views. and the models and views is
 ```
 At last we must handle potential errors. All errors will bubble up to the error callback.
 ```javascript
-  .error(function(error) {});
+  .handleErrorsUsing(function(error) {});
 ```
 
