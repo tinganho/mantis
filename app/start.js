@@ -44,7 +44,7 @@ var express = require('express')
   , path = require('path')
   , cluster = require('cluster')
   /*jshint unused:false */
-  , readTmpls = require('./page/page').readTmpls
+  , readTmpls = require('./core/page').readTmpls
   , helmet = require('helmet')
   , scf = require('./configs/server')
   , autoroute = require('autoroute')
