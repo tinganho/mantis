@@ -9,7 +9,7 @@
  * Module dependencies
  */
 
-var config = require('../../core/config');
+var configuration = require('../../core/configuration');
 
 /**
  * Core client configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -26,7 +26,7 @@ var config = require('../../core/config');
  *     PROD__X_REQUESTED_BY : '1',
  */
 
-var configs = {
+var configurations = {
 
   /**
    * We will have a compiler the compiles this object and namespace the file

@@ -101,7 +101,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATION_GLOB : 'configs/client/*.js',
+  CLIENT_CONFIGURATIONS_GLOB : 'configurations/client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -111,7 +111,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATION_BUILD : 'public/scripts/configurations',
+  CLIENT_CONFIGURATIONS_BUILD : 'public/scripts/configurations',
 
   /**
    * Path to the default favicon for your website
