@@ -310,9 +310,9 @@ module.exports = function(url) {
 };
 
 
-module.exports.createCompositeRouter = function() {
+module.exports.createComposer = function() {
   var router = coreTmpls['compositeRouter']({ pages : pages, imports : imports });
-  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSITE_ROUTER_PATH, router);
+  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_PATH, router);
 };
 
 /**

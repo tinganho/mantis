@@ -68,13 +68,15 @@ var express = require('express')
   , path = require('path')
   , cluster = require('cluster')
   /*jshint unused:false */
-  , readTmpls = require('./core/page').readTmpls
   , helmet = require('helmet')
   , scf = require('./configs/server')
   , autoroute = require('autoroute')
   , config = require('./core/config')
   , configure = require('./configs/express')
-  , autoroutes = require('./configs/autoRoutes');
+  , autoroutes = require('./configs/autoRoutes')
+  , page = require('./core/page')
+  , readTmpls = page.readTmpls
+  , createComposer = page.createComposer;
 
 /**
  * Globals.
@@ -156,6 +158,11 @@ else {
    */
 
   autoroute(autoroutes, app);
+
+  /**
+   *
+   */
+  createComposer();
 
   /**
    * Server start.

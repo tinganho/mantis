@@ -245,7 +245,7 @@ var configs = {
    * @type {String}
    */
 
-  COMPOSITE_ROUTER_PATH : 'public/scripts/routers/composer.js'
+  COMPOSER_PATH : 'public/scripts/routers/composer.js'
 };
 
 /**
