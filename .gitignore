@@ -3,15 +3,15 @@ node_modules/
 !node_modules/lib
 test/translations/delete.log
 .sass-cache/
-app/public/images/main-*
-app/public/images/icons-*
-app/public/styles/*
-app/public/scripts/*
-app/public/templates/*
-app/vendor
+application/public/images/main-*
+application/public/images/icons-*
+application/public/styles/*
+application/public/scripts/*
+application/public/templates/*
+application/vendor
 test/translations/cache/latestSearch.json
 test/translations/output/
 Gemfile.lock
 
-app/page/document/build/
-app/page/layout/build/
+application/page/document/build/
+application/page/layout/build/
