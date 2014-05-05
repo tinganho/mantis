@@ -6,7 +6,8 @@ test/translations/delete.log
 app/public/images/main-*
 app/public/images/icons-*
 app/public/styles/*
-app/public/conf/*
+app/public/scripts/*
+app/public/templates/*
 app/vendor
 test/translations/cache/latestSearch.json
 test/translations/output/
