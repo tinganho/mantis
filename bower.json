@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "mocha": "~1.14.0",
-    "squire": "*"
+    "squire": "~0.2.0",
+    "chai": "~1.9.1",
+    "sinon-chai": "~2.5.0"
   }
 }
