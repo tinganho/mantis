@@ -84,9 +84,9 @@ We can call the left over regions `left navigation` and `right panel` as `with-l
 <div class="three-rows with-left-right" data-layout="three-rows with-left-right">
   <header class="three-rows-header" data-region="header">{{=it.header}}</header>
   <div class="three-rows-middle">
-    <nav class="three-rows-left-navigation" data-region="left-navigation">{{=it.leftNavigation}}</nav> <!- We didn't extend the three-rows-left-right-middle CSS class ->
-    <main class="three-rows-body" data-region="body">{{=it.body}}</main> <!-  We didn't extend the three-rows-left-right-middle CSS class ->
-    <aside class="three-rows-right-panel" data-region="body">{{=it.rightPanel}}</aside> <!- We didn't extend the three-rows-left-right-middle CSS class ->
+    <nav class="three-rows-left-navigation" data-region="left-navigation">{{=it.leftNavigation}}</nav>
+    <main class="three-rows-body" data-region="body">{{=it.body}}</main>
+    <aside class="three-rows-right-panel" data-region="body">{{=it.rightPanel}}</aside>
   </div>
   <footer class="three-rows-footer" data-region="footer">{{=it.footer}}</footer>
 </div>
