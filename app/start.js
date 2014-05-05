@@ -34,6 +34,12 @@ switch(process.env.NODE_ENV) {
 global.ENV = ENV;
 
 /**
+ * Requirejs
+ */
+
+GLOBAL.requirejs = require('requirejs');
+
+/**
  * Module dependencies.
  */
 
