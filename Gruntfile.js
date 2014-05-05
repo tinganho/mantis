@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 
 
     compass: {
-      dist: {
+      prod: {
         options: {
           config         : 'app/conf/compass.rb',
           require        : [

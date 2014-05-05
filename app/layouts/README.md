@@ -36,6 +36,11 @@ In the example below, we have a contaniner element called `middle`. That contain
   </div>
 ```
 ##Styles
+###Imports
+You need to import the layout styles in `app/documents/styles/default.scss`.
+
+###Compilation
+Compile all your templates using `grunt compass`
 
 ##Layout naming
 There might not exist a perfect solution to naming a layout. Many are naming the layout based on the page they are in, like landing, app etc. The good things are that the names are short. The bad thing is that you can't reuse the layout on other pages. We think the most optimal solution is to have a name that represent all regions of a layout.
