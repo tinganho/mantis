@@ -9,7 +9,7 @@
  * Module dependencies
  */
 
-var config = require('../libraries/server/config');
+var config = require('../../core/config');
 
 /**
  * Core client configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -73,17 +73,10 @@ var configs = {
   AJAX_TIMEOUT : 10000,
 
   /**
-   * We want to prevent people from JSON hijacking. Other site can include
-   * script tags and override Object and Array constructor to read any kind
-   * of JSON content we provide. We can prevent this if we have a script that
-   * crashes the web page.
-   *
-   * More info: http://stackoverflow.com/questions/2669690/why-does-google-prepend-while1-to-their-json-responses
-   *
-   * @type {String}
+   * @import cf.JSON_HIJACK_PREFIX
    */
 
-  JSON_HIJACKING_PREFIX : 'while(1);',
+  JSON_HIJACK_PREFIX : cf.JSON_HIJACK_PREFIX,
 
   /**
    * X-Request-By header for protecting against CSRF attacks.
@@ -115,7 +108,7 @@ configs = config.formatConfigs(configs);
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONFIGS);
+configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONF);
 
 /**
  * Export config

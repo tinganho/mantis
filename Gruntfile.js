@@ -206,27 +206,60 @@ module.exports = function(grunt) {
       }
     },
 
-    dot: {
+    dot : {
+      core : {
+        options : {
+          variable : 'tmpl',
+          requirejs : true,
+          node : true
+        },
+        src : ['app/core/**/*.dot'],
+        dest : 'app/public/templates/core/tmpl.js'
+      },
+
       documents : {
         options : {
-          variable  : 'documents',
-          root      : __dirname + '/app',
+          variable : 'tmpl',
           requirejs : true,
-          node      : true
+          node : true
         },
-        src : ['app/page/document/*.dot'],
-        dest : 'app/page/document/build/tmpl.js'
+        src : ['app/documents/**/*.dot'],
+        dest : 'app/public/templates/documents/tmpl.js'
       },
-      layout : {
+
+      layouts : {
         options : {
-          variable  : 'layouts',
-          root      : __dirname + '/app',
+          variable : 'tmpl',
           requirejs : true,
-          node      : true
+          node : true
         },
-        src : ['app/page/layout/*.dot'],
-        dest : 'app/page/layout/build/tmpl.js'
+        src : ['app/layouts/**/*.dot'],
+        dest : 'app/public/templates/layouts/tmpl.js'
+      },
+
+      content_app : {
+        options : {
+          variable : 'tmpl',
+          requirejs : true,
+          node : true
+        },
+        src : [
+          'app/content/translations/**/*.dot',
+          'app/content/search/**/*.dot',
+          'app/content/translation/**/*.dot'
+        ],
+        dest : 'app/public/templates/content/app.js'
       }
+    },
+
+    mocha: {
+      test: {
+        src: ['interface/specifications/*.html'],
+        options: {
+          run: false,
+          reporter: './node_modules/mocha/lib/reporters/spec.js'
+        }
+      },
     },
 
     translate: {

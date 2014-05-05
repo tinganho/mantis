@@ -6,10 +6,10 @@
 var _ = require('underscore')
   , fs = require('fs')
   , path = require('path')
-  , _Model = requirejs('lib/Model')
-  , _Collection = requirejs('lib/Collection')
+  , _Model = requirejs('libraries/Model')
+  , _Collection = requirejs('libraries/Collection')
   , glob = require('glob')
-  , isArray = require('../lib/isArray')
+  , isArray = require('../libraries/isArray')
   , importNames = []
   , imports = []
   , pages = [];

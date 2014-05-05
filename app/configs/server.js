@@ -3,8 +3,10 @@
  * Module dependencies
  */
 
-var config = require('../libraries/server/config')
-  , path = require('path');
+var config = require('../core/config')
+  , path = require('path')
+  , glob = require('glob')
+  , corePath = require('../core/path');
 
 /**
  * Core server configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -99,7 +101,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONFIGS_GLOB : 'configs/client/*.js',
+  CLIENT_CONFIG_GLOB : 'configs/client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -109,7 +111,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONFIGS_BUILD : 'public/configs',
+  CLIENT_CONFIG_BUILD : 'public/scripts/configs',
 
   /**
    * Path to the default favicon for your website
@@ -182,8 +184,7 @@ var configs = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'page/document/build/templates',
-
+  DOCUMENT_TEMPLATES : 'public/templates/documents/tmpl',
 
   /**
    * Layout built templates path
@@ -191,15 +192,60 @@ var configs = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'page/layout/build/templates',
+  LAYOUT_TEMPLATES : 'public/templates/layouts/tmpl',
 
   /**
-   * Locale cookie max age
+   * Layout built templates path
    *
-   * @type {Number}
+   * @type {String}
    */
 
-  LOCALE_COOKIE_MAX_AGE : 2*360*24*3600*1000
+  CORE_TEMPLATES : 'public/templates/core/tmpl',
+
+  /**
+   * Requirejs path
+   *
+   * @type {String}
+   */
+
+  REQUIREJS : corePath.requirejs(),
+
+  /**
+   * Modernizr path
+   *
+   * @type {String}
+   */
+
+  MODERNIZR : corePath.modernizr(),
+
+  /**
+   * Default main path
+   *
+   * @type {String}
+   */
+
+  DEFAULT_MAIN : 'mains/default',
+
+  /**
+   * We want to prevent people from JSON hijacking. Other site can include
+   * script tags and override Object and Array constructor to read any kind
+   * of JSON content we provide. We can prevent this if we have a script that
+   * crashes the web page.
+   *
+   * More info: http://stackoverflow.com/questions/2669690/why-does-google-prepend-while1-to-their-json-responses
+   *
+   * @type {String}
+   */
+
+  JSON_HIJACK_PREFIX : 'while(1);',
+
+  /**
+   * Path of composite router
+   *
+   * @type {String}
+   */
+
+  COMPOSITE_ROUTER_PATH : 'public/scripts/routers/composer.js'
 };
 
 /**

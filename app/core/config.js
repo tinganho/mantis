@@ -83,16 +83,16 @@ Config.prototype.mergeExternalConfigs = function(configs) {
  */
 
 Config.prototype.writeClientConfigs = function() {
-  var confPath = cf.ROOT_FOLDER + cf.CLIENT_CONF_BUILD;
-  if(!fs.existsSync(confPath)) {
-    fs.mkdirSync(confPath);
+  var configPath = cf.ROOT_FOLDER + cf.CLIENT_CONFIG_BUILD;
+  if(!fs.existsSync(configPath)) {
+    fs.mkdirSync(configPath);
   }
-  var files = glob.sync(cf.CLIENT_CONF_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
+  var files = glob.sync(cf.CLIENT_CONFIG_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
   files.forEach(function(file) {
     fs.unlinkSync(cf.ROOT_FOLDER + file);
   });
 
-  glob(cf.CLIENT_CONF_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
+  glob(cf.CLIENT_CONFIG_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
     for(var i = 0; i < matches.length; i++) {
       var configurations = require(cf.ROOT_FOLDER + matches[i]);
 
@@ -102,7 +102,7 @@ Config.prototype.writeClientConfigs = function() {
         , endWrap    = 'return configs; })();';
 
       var str = startWrap + body + makeRegExp + endWrap;
-      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGS_BUILD + '/' + configurations.NAMESPACE + '.js', str);
+      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIG_BUILD + '/' + configurations.NAMESPACE + '.js', str);
     }
   });
 };

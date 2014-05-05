@@ -1,5 +1,12 @@
 
 /**
+ * Set inServer and inClient globals
+ */
+
+GLOBAL.inServer = true;
+GLOBAL.inClient = false;
+
+/**
  * Environmental vars dependencies
  */
 
@@ -34,10 +41,21 @@ switch(process.env.NODE_ENV) {
 global.ENV = ENV;
 
 /**
- * Requirejs
+ * Requirejs.
  */
 
-GLOBAL.requirejs = require('requirejs');
+var requirejs = require('requirejs');
+
+/**
+ * Requirejs config.
+ */
+
+requirejs.config({
+  baseUrl: __dirname,
+  nodeRequire: require
+});
+
+global.requirejs = requirejs;
 
 /**
  * Module dependencies.
@@ -54,9 +72,15 @@ var express = require('express')
   , helmet = require('helmet')
   , scf = require('./configs/server')
   , autoroute = require('autoroute')
-  , config = require('./libraries/config')
-  , configure = require('./conf/app')
-  , autoroutes = require('./conf/autoRoutes');
+  , config = require('./core/config')
+  , configure = require('./configs/express')
+  , autoroutes = require('./configs/autoRoutes');
+
+/**
+ * Globals.
+ */
+
+GLOBAL.cf = scf;
 
 /**
  * Define cluster
@@ -76,15 +100,6 @@ if(cluster.isMaster && process.env.NODE_ENV === 'production') {
   });
 }
 else {
-
-  /**
-   * RequireJS config.
-   */
-
-  requirejs.config({
-    baseUrl: path.join(__dirname),
-    nodeRequire: require
-  });
 
   /**
    * Globals.
