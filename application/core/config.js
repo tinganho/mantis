@@ -88,7 +88,7 @@ Config.prototype.writeClientConfigs = function() {
     fs.mkdirSync(configPath);
   }
   var files = glob.sync(cf.CLIENT_CONFIG_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
-  files.forEach(function(file) {
+  files.forEach(function(file) {
     fs.unlinkSync(cf.ROOT_FOLDER + file);
   });
 
