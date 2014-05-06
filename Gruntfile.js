@@ -1,3 +1,7 @@
+
+var jshintGlobals = require('jshint-globals')
+  , compassRequires = ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation', 'compass-h5bp'];
+
 module.exports = function(grunt) {
 
   'use strict';
@@ -83,48 +87,29 @@ module.exports = function(grunt) {
     },
 
 
-    compass: {
-      prod: {
-        options: {
-          config         : 'application/configs/compass.rb',
-          require        : [
-            'compass-placeholder',
-            'compass-retina-sprites',
-            'breakpoint',
-            'animation',
-            'sass-css-importer'
-          ],
-          sassDir        : 'scaffolds',
-          cssDir         : 'public/styles',
-          debugInfo      : false,
+    compass : {
+      documents : {
+        options : {
+          require : compassRequires,
+          sassDir : 'interface/documents/styles',
+          cssDir : 'interface/public/styles/documents',
+          debugInfo : true,
           noLineComments : true,
-          imagesDir      : 'public/images',
-          outputStyle    : 'compressed'
+          imagesDir : 'interface/public/images',
+          relativeAssets : true
         }
       },
 
-      dev: {
-        options: {
-          config         : 'application/configs/compass.rb',
-          require        : [
-            'compass-placeholder',
-            'compass-retina-sprites',
-            'breakpoint',
-            'animation',
-            'sass-css-importer'
-          ],
-          sassDir        : 'scaffolds',
-          cssDir         : 'public/styles',
-          debugInfo      : true,
-          noLineComments : false,
-          imagesDir      : 'public/images'
+      content : {
+        options : {
+          require : compassRequires,
+          sassDir : 'interface/content/styles',
+          cssDir : 'interface/public/styles/content',
+          debugInfo : true,
+          noLineComments : true,
+          imagesDir : 'interface/public/images',
+          relativeAssets : true
         }
-      }
-    },
-
-    exec: {
-      gt : {
-        command: 'gt compile'
       }
     },
 

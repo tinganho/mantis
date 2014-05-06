@@ -162,6 +162,8 @@ else {
    * Server start.
    */
 
+  require('./pages/index')(page);
+
   http.createServer(app).listen(app.get('port'), function() {
     console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
   });

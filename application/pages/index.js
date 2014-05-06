@@ -3,9 +3,6 @@ module.exports = function(page) {
   page('/')
     .hasDocument('default')
       .withProperties({
-        title : null,
-        description : null,
-        locale : 'en',
         styles : [
           '/public/styles/documents/default.css',
           '/public/styles/content/app.css'
