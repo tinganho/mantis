@@ -25,5 +25,5 @@ module.exports = function(page) {
           view : 'content/translation/TranslationView'
         }
       })
-    .handleErrorsUsing(function(err) {});
+    .handleErrorsUsing(function(error) {});
 };

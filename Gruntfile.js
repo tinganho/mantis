@@ -91,11 +91,11 @@ module.exports = function(grunt) {
       documents : {
         options : {
           require : compassRequires,
-          sassDir : 'interface/documents/styles',
-          cssDir : 'interface/public/styles/documents',
+          sassDir : 'application/documents/styles',
+          cssDir : 'application/public/styles/documents',
           debugInfo : true,
           noLineComments : true,
-          imagesDir : 'interface/public/images',
+          imagesDir : 'application/public/images',
           relativeAssets : true
         }
       },
@@ -103,11 +103,11 @@ module.exports = function(grunt) {
       content : {
         options : {
           require : compassRequires,
-          sassDir : 'interface/content/styles',
-          cssDir : 'interface/public/styles/content',
+          sassDir : 'application/content/styles',
+          cssDir : 'application/public/styles/content',
           debugInfo : true,
           noLineComments : true,
-          imagesDir : 'interface/public/images',
+          imagesDir : 'application/public/images',
           relativeAssets : true
         }
       }

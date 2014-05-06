@@ -132,7 +132,7 @@ else {
    * App namespace.
    */
 
-  var app = express();
+  global.app = express();
 
   /**
    * Add default security
