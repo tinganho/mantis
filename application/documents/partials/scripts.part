@@ -10,3 +10,6 @@ Scripts tag
 {{~it.scripts :src:index}}
 <script src="{{=src}}" type="text/javascript"></script>
 {{~}}
+{{?it.webView}}
+  <script type="text/javascript" src="phonegap.js"></script>
+{{?}}

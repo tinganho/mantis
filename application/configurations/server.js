@@ -184,7 +184,7 @@ var configurations = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'public/templates/documents/tmpl',
+  DOCUMENT_TEMPLATES : 'public/templates/documents/templates',
 
   /**
    * Layout built templates path
@@ -192,7 +192,7 @@ var configurations = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'public/templates/layouts/tmpl',
+  LAYOUT_TEMPLATES : 'public/templates/layouts/templates',
 
   /**
    * Layout built templates path
@@ -200,7 +200,7 @@ var configurations = {
    * @type {String}
    */
 
-  CORE_TEMPLATES : 'public/templates/core/tmpl',
+  CORE_TEMPLATES : 'public/templates/core/templates',
 
   /**
    * Requirejs path

@@ -1,1 +1,0 @@
-define(['backbone','jquery',], function(Backbone,$,) {var Constructor = Backbone.Router.extend({routes : {},});Constructor.prototype.content = {};return Constructor;});

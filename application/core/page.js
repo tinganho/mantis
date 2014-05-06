@@ -326,7 +326,7 @@ module.exports = function(url) {
 
 module.exports.createComposer = function() {
   var router = coreTmpls['compositeRouter']({ pages : pages, imports : imports });
-  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_PATH, router);
+  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router);
 };
 
 /**
