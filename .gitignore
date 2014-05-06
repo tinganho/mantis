@@ -9,6 +9,7 @@ application/public/styles/*
 application/public/scripts/*
 application/public/templates/*
 application/vendor
+mative/platform
 test/translations/cache/latestSearch.json
 test/translations/output/
 Gemfile.lock

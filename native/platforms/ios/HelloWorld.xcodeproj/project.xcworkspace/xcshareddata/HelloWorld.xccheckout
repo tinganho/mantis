@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4005B8C0-0DE6-4AD5-AF51-DFF90133F537</string>
+	<key>IDESourceControlProjectName</key>
+	<string>HelloWorld</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7874C6AD-707B-47B5-8573-8D39F2EB88CB</key>
+		<string>ssh://github.com/tinganho/mantis.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>native/platforms/ios/HelloWorld.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7874C6AD-707B-47B5-8573-8D39F2EB88CB</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/tinganho/mantis.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7874C6AD-707B-47B5-8573-8D39F2EB88CB</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7874C6AD-707B-47B5-8573-8D39F2EB88CB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>p1-recruit</string>
+		</dict>
+	</array>
+</dict>
+</plist>
