@@ -96,13 +96,13 @@ Config.prototype.writeClientConfigurations = function() {
     for(var i = 0; i < matches.length; i++) {
       var configurations = require(cf.ROOT_FOLDER + matches[i]);
 
-      var startWrap  = 'window.' + configurations.NAMESPACE + ' = (function() { var configs = '
+      var startWrap  = 'window.' + configurations.NAME_SPACE + ' = (function() { var configs = '
         , body       = JSON.stringify(configurations, null, 2) + ';'
         , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
         , endWrap    = 'return configs; })();';
 
       var str = startWrap + body + makeRegExp + endWrap;
-      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAMESPACE + '.js', str);
+      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js', str);
     }
   });
 };
