@@ -1,6 +1,6 @@
 
 /**
- * Specify your phonegap resources. All resources that is used that
+ * Specify your phonegap resources. All resources that are used and
  * originates from phonegap needs to be delared below.
  */
 
