@@ -36,8 +36,8 @@ function Page(url) {
   }
 
   this._url = url;
-  this._documentTmpls = documentTmpls;
-  this._layoutTmpls = layoutTmpls;
+  this._documentTemplates = documentTemplates;
+  this._layoutTemplates = layoutTemplates;
 
   _.bindAll(this, '_next');
 
@@ -54,11 +54,11 @@ function Page(url) {
  */
 
 Page.prototype.hasDocument = function(name, props) {
-  if(typeof this._documentTmpls[name] === 'undefined') {
+  if(typeof this._documentTemplates[name] === 'undefined') {
     throw new TypeError('document ' + name + ' does not exist');
   }
 
-  this._documentTmpl = this._documentTmpls[name];
+  this._documentTemplates = this._documentTemplates[name];
 
   return this;
 };
@@ -73,7 +73,7 @@ Page.prototype.hasDocument = function(name, props) {
  */
 
 Page.prototype.withProperties = function(properties) {
-  this._documentProps = properties;
+  this._documentProperties = properties;
 
   return this;
 };
@@ -87,13 +87,13 @@ Page.prototype.withProperties = function(properties) {
  */
 
 Page.prototype.hasLayout = function(name) {
-  if(typeof this._layoutTmpls[name] === 'undefined') {
+  if(typeof this._layoutTemplates[name] === 'undefined') {
     throw new TypeError(name + ' layout doesn\'t exists');
   }
 
   this._layout = name;
 
-  this._layoutTmpl = this._layoutTmpls[name];
+  this._layoutTemplates = this._layoutTemplates[name];
 
   return this;
 };
@@ -124,6 +124,10 @@ Page.prototype.withRegions = function(regions) {
 Page.prototype._getRegions = function(callback, req) {
   var n = 0, regions = {}, _this = this, size = _.size(this.regions)
     , jsonScripts = '';
+
+  if(size === 0) {
+    return callback(regions, '');
+  }
 
   for(var name in this.regions) {
     if(!this.regions[name].model) {
@@ -161,7 +165,7 @@ Page.prototype._getRegions = function(callback, req) {
           }
 
           // Push json scripts
-          jsonScripts += coreTmpls.jsonScript({
+          jsonScripts += coreTemplates.jsonScript({
             name : _this.regions[name].model.split('/')[2].toLowerCase(),
             json : JSON.stringify(model.toJSON())
           });
@@ -220,19 +224,25 @@ Page.prototype._serve = function() {
 Page.prototype._next = function(req, res) {
   var _this = this;
 
+  var webView = cf.WEB_VIEW_DETECT.exec(req.headers['host']);
+  if(webView && webView.length) {
+    webView = webView[1];
+  }
+
   this._getRegions(function(regions, jsonScripts) {
-    var html = _this._documentTmpl({
-      title : _this._documentProps.title,
-      description : _this._documentProps.description,
-      noScroll : _this._documentProps.noScroll,
-      locale : _this._documentProps.locale,
-      styles : _this._documentProps.styles,
-      main : _this._documentProps.main,
+    var html = _this._documentTemplates({
+      title : _this._documentProperties.title,
+      description : _this._documentProperties.description,
+      noScroll : _this._documentProperties.noScroll,
+      locale : req.cookies.locale,
+      styles : _this._documentProperties.styles,
+      main : _this._documentProperties.main,
       jsonScripts : jsonScripts,
-      layout : _this._layoutTmpl(regions),
+      layout : _this._layoutTemplates(regions),
       modernizr : cf.MODERNIZR,
       requirejs : cf.REQUIREJS,
-      cf : cf.CLIENT_CONFIG_BUILD + '/cf.js'
+      webView : webView,
+      cf : cf.CLIENT_CONFIGURATIONS_BUILD + '/cf.js'
     });
 
     res.send(html);
@@ -308,10 +318,10 @@ Page.prototype._addPages = function() {
     views.push(model.toLowerCase());
     regions.push(map);
   }
-  page.contentScript = coreTmpls['contentScript'](regions);
-  page.renderScript = coreTmpls['renderScript'](regions);
-  page.mapScript = coreTmpls['mapScript'](regions);
-  page.noViewsScript = coreTmpls['noViewsScript'](views);
+  page.contentScript = coreTemplates['contentScript'](regions);
+  page.renderScript = coreTemplates['renderScript'](regions);
+  page.mapScript = coreTemplates['mapScript'](regions);
+  page.noViewsScript = coreTemplates['noViewsScript'](views);
   pages.push(page);
 };
 
@@ -325,7 +335,7 @@ module.exports = function(url) {
 
 
 module.exports.createComposer = function() {
-  var router = coreTmpls['compositeRouter']({ pages : pages, imports : imports });
+  var router = coreTemplates['compositeRouter']({ pages : pages, imports : imports });
   fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router);
 };
 
@@ -336,7 +346,7 @@ module.exports.createComposer = function() {
  * @return {void}
  */
 
-module.exports.readTmpls = function() {
+module.exports.readTemplates = function() {
   if(!fs.existsSync(path.join(__dirname, '../', cf.DOCUMENT_TEMPLATES + '.js'))) {
     console.log('[:(]'.red + ' Have you built your document templates yet?');
     process.exit();
@@ -346,7 +356,7 @@ module.exports.readTmpls = function() {
     process.exit();
   }
 
-  GLOBAL.documentTmpls = requirejs(cf.DOCUMENT_TEMPLATES);
-  GLOBAL.layoutTmpls = requirejs(cf.LAYOUT_TEMPLATES);
-  GLOBAL.coreTmpls = requirejs(cf.CORE_TEMPLATES);
+  global.documentTemplates = requirejs(cf.DOCUMENT_TEMPLATES);
+  global.layoutTemplates = requirejs(cf.LAYOUT_TEMPLATES);
+  global.coreTemplates = requirejs(cf.CORE_TEMPLATES);
 };

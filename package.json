@@ -37,8 +37,7 @@
     "grunt-dot-compiler": "~0.5.10",
     "sinon": "~1.7.3",
     "sinon-chai": "~2.4.0",
-    "jshint-globals": "~0.1.0",
-    "connect-modrewrite": "~0.7.2"
+    "jshint-globals": "~0.1.0"
   },
   "author": "Tingan Ho",
   "readmeFilename": "README.md",
@@ -53,7 +52,7 @@
     "gm": "~1.8.2",
     "superagent": "~0.15.2",
     "grunt": "~0.4.1",
-    "connect-modrewrite": "~0.5.8",
+    "connect-modrewrite": "^0.7.4",
     "redis": "~0.8.4",
     "hiredis": "~0.1.15",
     "step": "0.0.5",

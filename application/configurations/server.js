@@ -136,16 +136,18 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  LOCALES : ['en-US'],
+  LANGUAGES : ['en'],
 
   /**
-   * The default locale used for the website. Recommend use locale name.
-   * See locale name definition above.
+   * The default locale used for the website.
    *
    * @type {Array.<String>}
    */
 
-  DEFAULT_LOCALE : 'en-US',
+  DEFAULT_LOCALE : {
+    code : 'en',
+    region : 'US'
+  },
 
   /**
    * Maximum number of sockets.
@@ -245,7 +247,16 @@ var configurations = {
    * @type {String}
    */
 
-  COMPOSER_BUILD_PATH : 'public/scripts/routers/composer.js'
+  COMPOSER_BUILD_PATH : 'public/scripts/routers/composer.js',
+
+  /**
+   * Detect webview. The first match marked with parenthesis will indicate the
+   * underluying platform OS.
+   *
+   * @type {RegExp}
+   */
+
+  WEB_VIEW_DETECT : /^(.+)\.webview\.*/i
 };
 
 /**

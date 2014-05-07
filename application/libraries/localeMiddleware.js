@@ -1,3 +1,4 @@
+
 /**
  * Export middleware
  *
@@ -16,11 +17,8 @@ var localeSyntax = /^[a-z]{2}$/
  * Accept language configuration
  */
 
-acceptLanguage.default({
-  code : 'en',
-  region : 'US'
-});
-acceptLanguage.codes(['en', 'zh']);
+acceptLanguage.default(cf.DEFAULT_LOCALE);
+acceptLanguage.codes(cf.LANGUAGES);
 
 /**
  * Export middleware

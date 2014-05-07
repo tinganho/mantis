@@ -20,7 +20,7 @@
 define([
 
   'backbone',
-  'jquery',
+  'jquery'{{?it.imports && it.imports.length}},{{?}}
   {{~it.imports :_import:index}}
     '{{=_import.view.path}}',
     '{{=_import.model.path}}'
@@ -30,7 +30,7 @@ define([
 ], function(
 
   Backbone,
-  $,
+  ${{?it.imports && it.imports.length}},{{?}}
   {{~it.imports :_import:index}}
     {{=_import.view.name}},
     {{=_import.model.name}}

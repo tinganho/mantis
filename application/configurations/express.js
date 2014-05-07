@@ -3,7 +3,8 @@ var modrewrite = require('connect-modrewrite')
   , modrewrites = require('./modrewrites')
   , path = require('path')
   , helmet = require('helmet')
-  , express = require('express');
+  , express = require('express')
+  , localeMiddleware = require('../libraries/localeMiddleware');
 
 module.exports = function(app) {
 
@@ -16,11 +17,12 @@ module.exports = function(app) {
     app.use(express.compress());
     app.set('port', process.env.PORT || cf.DEFAULT_PORT);
     app.set('dist', path.dirname(__dirname) === 'dist');
-    app.use(express.favicon(cf.FAVICON, { maxAge: 2592000000 }));
     app.use(helmet.xframe('SAMEORIGIN'));
     app.use(modrewrite(modrewrites));
     app.use(express.errorHandler());
     app.use(express.cookieParser());
+    app.use(localeMiddleware);
+    app.use('/native/platforms', express.static(path.join(__dirname, '../../', 'native/platforms')));
     app.use(express.bodyParser({ uploadDir: __dirname + cf.UPLOAD_FOLDER }));
     app.use(app.router);
   });
@@ -30,7 +32,7 @@ module.exports = function(app) {
    */
 
   app.configure('development', function() {
-    app.use(express.static(__dirname + '/'));
+    app.use(express.static(path.join(__dirname, '../')));
   });
 
   /**
@@ -53,8 +55,8 @@ module.exports = function(app) {
       }
       next();
     });
-    app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
-    app.use('/vendor', express.static(path.join(__dirname, 'vendor'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
+    app.use('/public', express.static(path.join(__dirname, '../', 'public'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
+    app.use('/vendor', express.static(path.join(__dirname, '../', 'vendor'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
   });
 
   /**

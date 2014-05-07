@@ -58,6 +58,12 @@ requirejs.config({
 global.requirejs = requirejs;
 
 /**
+ * Configurations.
+ */
+
+global.cf = require('./configurations/server')
+
+/**
  * Module dependencies.
  */
 
@@ -69,20 +75,14 @@ var express = require('express')
   , cluster = require('cluster')
   /*jshint unused:false */
   , helmet = require('helmet')
-  , cf = require('./configurations/server')
   , autoRoute = require('autoroute')
   , autoRoutes = require('./configurations/autoRoutes')
   , configuration = require('./core/configuration')
   , configure = require('./configurations/express')
   , page = require('./core/page')
-  , readTmpls = page.readTmpls
+  , readTemplates = page.readTemplates
   , createComposer = page.createComposer;
 
-/**
- * Globals.
- */
-
-global.cf = cf;
 
 /**
  * Define cluster
@@ -107,7 +107,7 @@ else {
    * Read document and layout templates
    */
 
-  readTmpls();
+  readTemplates();
 
   /**
    * Create necessary folders

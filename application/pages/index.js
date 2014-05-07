@@ -12,18 +12,6 @@ module.exports = function(page) {
       })
     .hasLayout('three-rows')
       .withRegions({
-        search : {
-          model : 'content/search/Search',
-          view : 'content/search/SearchView'
-        },
-        body : {
-          model : 'content/translations/Translations',
-          view : 'content/translations/TranslationsView'
-        },
-        translation : {
-          model : 'content/translation/Translation',
-          view : 'content/translation/TranslationView'
-        }
       })
     .handleErrorsUsing(function(error) {});
 };
