@@ -29,15 +29,14 @@ define(function(require) {
      */
 
     _bind : function() {
-      this
-        ._setElements()
-        ._addListeners();
+      this._setElements();
+      this._addListeners();
     },
 
     /**
      * Add listeners
      *
-     * @return {this}
+     * @return {boid}
      * @api private
      */
 
@@ -46,22 +45,18 @@ define(function(require) {
         .on('change:title', this.updateTitle, this)
         .on('change:description', this.updateDescription, this)
         .on('change:noScroll', this.updateScroll, this);
-
-      return this;
     },
 
     /**
      * Set elements
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
     _setElements : function() {
       this.$title = document.querySelector('title');
       this.$description = document.querySelector('[name=description]');
-
-      return this;
     },
 
     /**
@@ -72,8 +67,6 @@ define(function(require) {
 
     updateTitle : function() {
       this.$title.innerHTML = this._model.get('title');
-
-      return this;
     },
 
     /**
