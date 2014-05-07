@@ -1,8 +1,7 @@
 
 /**
- * Specify your phonegap resources
- *
- * @type {Array}
+ * Specify your phonegap resources. All resources that is used that
+ * originates from phonegap needs to be delared below.
  */
 
 var phonegapResources = [
@@ -16,9 +15,7 @@ var phonegapResources = [
 
 /**
  * Platforms. Use lowercase letters to specify all platforms used
- * for webview
- *
- * @type {Array}
+ * for webview.
  */
 
 var phoneGapPlatforms = [
