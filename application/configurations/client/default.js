@@ -1,7 +1,7 @@
 
 /**
  * @fileoverview Client configs file. This file will be compiled
- * as an requirejs module. All unrelated environment configs
+ * as an requirejs module. All unrelated environment configurationss
  * will be stripped off.
  */
 
@@ -79,7 +79,7 @@ var configurations = {
   JSON_HIJACK_PREFIX : cf.JSON_HIJACK_PREFIX,
 
   /**
-   * X-Request-By header for protecting against CSRF attacks.
+   * X-Request-By header is used for protecting against CSRF attacks.
    *
    * More info: http://www.adambarth.com/papers/2008/barth-jackson-mitchell-b.pdf
    *
@@ -89,7 +89,7 @@ var configurations = {
   X_REQUESTED_BY : '1',
 
   /**
-   * You can log client errors by prvoiding a path to the POST request
+   * You can log client errors by providing a path to the POST request
    * See `error.part` in `/html/document/custom-header-scripts/error.part`
    *
    * @type {String}

@@ -20,6 +20,6 @@ module.exports = function(req) {
     return 'ios-web';
   }
   else {
-    return 'web';
+    return 'desktop-web';
   }
 };
