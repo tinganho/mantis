@@ -59,10 +59,20 @@ module.exports = function(app) {
     app.use('/vendor', express.static(path.join(__dirname, '../', 'vendor'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
   });
 
+
   /**
    * Production configurations
    */
 
-   app.configure('production', function() {
+  app.configure('development', function() {
+    app.use(function(req, res, next) {
+      res.send('404', { status: 404, url: req.url });
+    });
+    app.use(function(err, req, res, next) {
+      res.send('500', {
+          status: err.status || 500
+        , error: err
+      });
+    });
   });
 };
