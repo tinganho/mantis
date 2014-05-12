@@ -23,30 +23,34 @@ function Config() {
 }
 
 /**
- * Format configs. Formatting removes DEV__, DIST__ and PROD__
+ * Format configurations. Formatting removes DEV__, DIST__ and PROD__
  * prefixes.
  *
- * @param {Object} configs
+ * @param {Object} configurations
  * @return {Object}
  * @api public
  */
 
-Config.prototype.formatConfigurations = function(configs) {
-  if(typeof configs !== 'object') {
+Config.prototype.formatConfigurations = function(configurations) {
+  if(typeof configurations !== 'object') {
     throw new TypeError('first parameter must be of type object');
   }
-  for(var key in configs) {
+  for(var key in configurations) {
+    // All functions should be cached
+    if(typeof configurations[key] === 'function') {
+      configurations[key] = configurations[key]();
+    }
     if(this.envPrefixRegExp.test(key)) {
       var env = this.envRegExp.exec(key)[1]
         , _key = key.replace(this.envRegExp, '');
       if(env === this.env) {
-        configs[_key] = configs[key];
+        configurations[_key] = configurations[key];
       }
-      delete configs[key];
+      delete configurations[key];
     }
   }
 
-  return configs;
+  return configurations;
 };
 
 /**

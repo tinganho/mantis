@@ -256,7 +256,33 @@ var configurations = {
    * @type {RegExp}
    */
 
-  WEB_VIEW_DETECT : /^(.+)\.webview\.*/i
+  WEB_VIEW_DETECT : /^(.+)\.webview\.*/i,
+
+  /**
+   * Client ID for OAuth2
+   *
+   * @type {String}
+   */
+
+  CLIENT_ID     : '100001',
+
+  /**
+   * Client secret for OAuth2
+   *
+   * @type {String}
+   */
+
+  CLIENT_SECRET : 'opkewpofkfepokewfpokepkwepf',
+
+  /**
+   * Authorization header
+   *
+   * @type {Function}
+   */
+
+  AUTHORIZATION : function() {
+    return this.CLIENT_ID + ':' + CLIENT_SECRET;
+  }
 };
 
 /**
