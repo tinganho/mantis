@@ -59,7 +59,6 @@ module.exports = function(app) {
     app.use('/vendor', express.static(path.join(__dirname, '../', 'vendor'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
   });
 
-
   /**
    * Production configurations
    */
