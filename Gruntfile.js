@@ -229,7 +229,6 @@ module.exports = function(grunt) {
           node : true
         },
         src : [
-          'application/content/landing/**/*.dot'
         ],
         dest : 'application/public/templates/content/templates.js'
       }
