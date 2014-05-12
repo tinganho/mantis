@@ -281,7 +281,7 @@ var configurations = {
    */
 
   AUTHORIZATION : function() {
-    return 'Basic ' + btoa(this.CLIENT_ID + ':' + CLIENT_SECRET);
+    return 'Basic ' + new Buffer(this.CLIENT_ID + ':' + this.CLIENT_SECRET),toString('base64');
   }
 };
 
