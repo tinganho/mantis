@@ -281,7 +281,7 @@ var configurations = {
    */
 
   AUTHORIZATION : function() {
-    return this.CLIENT_ID + ':' + CLIENT_SECRET;
+    return 'Basic ' + btoa(this.CLIENT_ID + ':' + CLIENT_SECRET);
   }
 };
 
