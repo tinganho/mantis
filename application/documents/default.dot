@@ -17,6 +17,7 @@ The default document
 {{##def.features : load('./partials/features.part') #}}
 {{##def.styles : load('./partials/styles.part') #}}
 {{##def.scripts : load('./partials/scripts.part') #}}
+{{##def.configurations : load('./partials/configurations.part') #}}
 {{##def.globals : load('./partials/globals.part') #}}
 
 <!DOCTYPE html>

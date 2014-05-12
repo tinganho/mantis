@@ -4,6 +4,7 @@
  */
 
 var fs = require('fs')
+  , path = require('path')
   , glob = require('glob');
 
 /**
@@ -75,6 +76,24 @@ Config.prototype.mergeExternalConfigurations = function(configurations) {
   }
 
   return configurations;
+};
+
+/**
+ * User sets configurations in their page manifests. They use names instead of aliases
+ * to set the configurations. We need a way to map the names to aliases.
+ *
+ * @return {void}
+ * @api public
+ */
+
+Config.prototype.setClientConfigurationMappings = function() {
+  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER });
+  for(var i = 0; i < files.length; i++) {
+    var configurations = require(cf.ROOT_FOLDER + files[i])
+      , name = path.basename(files[i], '.js');
+     // Set name to alias mapping
+    cf.CLIENT_CONFIGURATIONS_MAP[name] = configurations.NAME_SPACE;
+  }
 };
 
 /**

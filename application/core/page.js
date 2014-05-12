@@ -233,7 +233,7 @@ Page.prototype._next = function(req, res) {
     var html = _this._documentTemplates({
       title : _this._documentProperties.title,
       description : _this._documentProperties.description,
-      noScroll : _this._documentProperties.noScroll,
+      configurations : _this._documentProps.configurations,
       locale : req.cookies.locale,
       styles : _this._documentProperties.styles,
       main : _this._documentProperties.main,
@@ -241,8 +241,7 @@ Page.prototype._next = function(req, res) {
       layout : _this._layoutTemplates(regions),
       modernizr : cf.MODERNIZR,
       requirejs : cf.REQUIREJS,
-      webView : webView,
-      cf : cf.CLIENT_CONFIGURATIONS_BUILD + '/cf.js'
+      webView : webView
     });
 
     res.send(html);

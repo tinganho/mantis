@@ -126,6 +126,7 @@ else {
    * Write client config file
    */
 
+  configurations.setClientConfigurationMappings();
   configuration.writeClientConfigurations();
 
   /**
