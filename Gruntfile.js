@@ -122,26 +122,6 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
 
-      loginTemplates: {
-        files: [
-          'application/components/**/*.{dot,part}',
-          'application/modules/**/*.{dot,part}',
-          'application/scaffolds/**/*.{dot,part}',
-          '!application/modules/streetstyle/**/*.{dot,part}',
-          '!application/scaffolds/streetstyle/**/*.{dot,part}'
-        ],
-        tasks: ['dot:devLogin']
-      },
-
-      streetStyleTemplates: {
-        files: [
-          'application/components/**/*.{dot,part}',
-          'application/modules/streetstyle/**/*.{dot,part}',
-          'application/scaffolds/streetstyle/**/*.{dot,part}'
-        ],
-        tasks: ['dot:devStreetstyle']
-      },
-
       compass: {
         files: ['application/**/*.scss'],
         tasks: ['compass:dev']
