@@ -259,6 +259,14 @@ var configurations = {
   WEB_VIEW_DETECT : /^(.+)\.webview\.*/i,
 
   /**
+   * Client configuration map. name to alias mapping.
+   *
+   * @type {Map}
+   */
+
+  CLIENT_CONFIGURATIONS_MAP : {},
+
+  /**
    * Client ID for OAuth2
    *
    * @type {String}
