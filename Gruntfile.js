@@ -229,11 +229,9 @@ module.exports = function(grunt) {
           node : true
         },
         src : [
-          'application/content/translations/**/*.dot',
-          'application/content/search/**/*.dot',
-          'application/content/translation/**/*.dot'
+          'application/content/landing/**/*.dot'
         ],
-        dest : 'application/public/templates/content/app.js'
+        dest : 'application/public/templates/content/templates.js'
       }
     },
 
@@ -288,8 +286,6 @@ module.exports = function(grunt) {
       }
     },
 
-
-
     uglify: {
       dist: {
         files: {
@@ -307,8 +303,7 @@ module.exports = function(grunt) {
         cwd : 'application/public/images',
         src : [
           '*.{jpg,png}',
-          'mobile/*.{jpg,png}',
-          'streetstyle/*.{jpg,png}'
+          'backgrounds/*.{jpg,png}'
         ],
         dest : 'application/public/images-webp'
       },
@@ -317,8 +312,7 @@ module.exports = function(grunt) {
         cwd: 'dist/public/images',
         src: [
           '*.{jpg,png}',
-          'mobile/*.{jpg,png}',
-          'streetstyle/*.{jpg,png}'
+          'backgrounds/*.{jpg,png}'
         ],
         dest: 'dist/public/images-webp'
       },
