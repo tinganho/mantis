@@ -26,6 +26,16 @@ var configuration = require('../core/configuration')
 var configurations = {
 
   /**
+   * Set backend origin, It will be used as the default one in all issued request
+   *
+   * @type {String}
+   */
+
+  DEV_BACKEND_ORIGIN : 'localhost',
+  STAG_BACKEND_ORIGIN : 'localhost',
+  PROD_BACKEND_ORIGIN : 'localhost',
+
+  /**
    * Default user agent string in all outgoing requests
    *
    * @type {String}

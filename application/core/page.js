@@ -74,9 +74,16 @@ Page.prototype.hasDocument = function(name, props) {
 
 Page.prototype.withProperties = function(properties) {
   properties.configurations = properties.configurations.map(function(configuration) {
-    return  '/' + cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+    return '/' + cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
   });
-  this._documentProps = properties;
+
+  // Set default properties
+  _.defaults(properties, {
+    title: '',
+    description: ''
+  });
+
+  this._documentProperties = properties;
   return this;
 };
 
@@ -111,6 +118,7 @@ Page.prototype.hasLayout = function(name) {
 Page.prototype.withRegions = function(regions) {
   this.regions = regions;
   this._serve();
+  this.error = this._defaultErrorHandler
 
   return this;
 };
@@ -123,7 +131,7 @@ Page.prototype.withRegions = function(regions) {
  * @api private
  */
 
-Page.prototype._getRegions = function(callback, req) {
+Page.prototype._getRegions = function(request, response, callback) {
   var n = 0, regions = {}, _this = this, size = _.size(this.regions)
     , jsonScripts = '';
 
@@ -149,8 +157,8 @@ Page.prototype._getRegions = function(callback, req) {
     var model = new Model
       , view = new View(model);
 
-    model.sync = function(method, model, opts) {
-      Model.prototype.sync.call(this, method, model, opts, req);
+    model.sync = function(method, model, options) {
+      Model.prototype.sync.call(this, method, model, options, request);
     };
 
     try {
@@ -177,10 +185,16 @@ Page.prototype._getRegions = function(callback, req) {
             callback(regions, jsonScripts);
           }
         },
-        error : this.fail
+
+        // The backbone takes in argument  model, response and options
+        // We send in the error object in the middle argument. So we rename
+        // response to error instead.
+        error : function(model, error, options) {
+          _this.error(error, request, response);
+        }
       });
     }
-    catch(err) {
+    catch(error) {
       if(err.message === 'A "url" property or function must be specified') {
         regions[name] = view.toHTML();
         n++;
@@ -189,7 +203,7 @@ Page.prototype._getRegions = function(callback, req) {
         }
       }
       else {
-        throw err;
+        this.error(error, request, response);
       }
     }
   }
@@ -202,7 +216,18 @@ Page.prototype._getRegions = function(callback, req) {
  */
 
 Page.prototype.handleErrorsUsing = function(callback) {
-  this.error = callback;
+  this.error = callback || this._defaultErrorHandler;
+};
+
+/**
+ * Default error handler
+ *
+ * @delegate
+ */
+
+Page.prototype._defaultErrorHandler = function(error, request, response) {
+  console.log(error);
+  response.redirect(500, '/500');
 };
 
 /**
@@ -231,11 +256,11 @@ Page.prototype._next = function(req, res) {
     webView = webView[1];
   }
 
-  this._getRegions(function(regions, jsonScripts) {
+  this._getRegions(req, res, function(regions, jsonScripts) {
     var html = _this._documentTemplates({
       title : _this._documentProperties.title,
       description : _this._documentProperties.description,
-      configurations : _this._documentProps.configurations,
+      configurations : _this._documentProperties.configurations,
       locale : req.cookies.locale,
       styles : _this._documentProperties.styles,
       main : _this._documentProperties.main,
@@ -247,7 +272,7 @@ Page.prototype._next = function(req, res) {
     });
 
     res.send(html);
-  }, req);
+  });
 };
 
 /**
@@ -334,6 +359,12 @@ module.exports = function(url) {
   return new Page(url);
 };
 
+/**
+ * Create compose object
+ *
+ * @return {void}
+ * @api public
+ */
 
 module.exports.createComposer = function() {
   var router = coreTemplates['compositeRouter']({ pages : pages, imports : imports });

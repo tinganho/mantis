@@ -12,7 +12,7 @@ var request = require('superagent');
  */
 
 function Request(origin) {
-  this.origin = origin;
+  this.origin = origin || cf.BACKEND_ORIGIN;
   this.authorization;
 }
 

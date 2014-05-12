@@ -29,6 +29,12 @@ var configuration = require('../../core/configuration');
 var configurations = {
 
   /**
+   * @import cf.BACKEND_ORIGN
+   */
+
+  BACKEND_ORIGN : cf.BACKEND_ORIGN,
+
+  /**
    * We will have a compiler the compiles this object and namespace the file
    * to window.[NAMESPACE]. It will be a global configuration for your client
    * to use.
