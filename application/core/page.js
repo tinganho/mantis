@@ -73,8 +73,10 @@ Page.prototype.hasDocument = function(name, props) {
  */
 
 Page.prototype.withProperties = function(properties) {
-  this._documentProperties = properties;
-
+  properties.configurations = properties.configurations.map(function(configuration) {
+    return cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+  });
+  this._documentProps = properties;
   return this;
 };
 
