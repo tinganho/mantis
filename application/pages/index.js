@@ -5,10 +5,10 @@ module.exports = function(page) {
       .withProperties({
         styles : [
           '/public/styles/documents/default.css',
-          '/public/styles/content/app.css'
+          '/public/styles/content/content.css'
         ],
         main : '/documents/mains/app',
-        templates : '/public/templates/content/app.js'
+        templates : '/public/templates/content/templates.js'
       })
     .hasLayout('three-rows')
       .withRegions({

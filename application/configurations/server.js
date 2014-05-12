@@ -251,7 +251,7 @@ var configurations = {
 
   /**
    * Detect webview. The first match marked with parenthesis will indicate the
-   * underluying platform OS.
+   * underlying platform OS.
    *
    * @type {RegExp}
    */
