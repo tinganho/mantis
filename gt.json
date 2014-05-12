@@ -1,0 +1,17 @@
+{
+  "quiet": false,
+  "interface": {
+    "autoOpenBrowser": false,
+    "port": 3000
+  },
+  "locales": {
+    "en-US": "English (US)"
+  },
+  "defaultLocale": "en-US",
+  "programmingLanguage": "javascript",
+  "store": "application/l10n/",
+  "output": "application/l10n/output/",
+  "src": [
+    "!node_modules/**"
+  ]
+}
