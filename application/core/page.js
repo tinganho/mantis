@@ -39,10 +39,26 @@ function Page(url) {
   this._documentTemplates = documentTemplates;
   this._layoutTemplates = layoutTemplates;
 
+  this._platform = cf.DEFAULT_PLATFORM;
+
   _.bindAll(this, '_next');
 
   return this;
 }
+
+/**
+ * Specify platform
+ *
+ * @param {String} platform
+ * @return {Page}
+ * @api public
+ */
+
+Page.prototype.onPlatform = function(platform) {
+  this._platform = platform;
+
+  return this;
+};
 
 /**
  * Set document
@@ -195,7 +211,7 @@ Page.prototype._getRegions = function(request, response, callback) {
       });
     }
     catch(error) {
-      if(err.message === 'A "url" property or function must be specified') {
+      if(error.message === 'A "url" property or function must be specified') {
         regions[name] = view.toHTML();
         n++;
         if(n === size) {
@@ -226,6 +242,9 @@ Page.prototype.handleErrorsUsing = function(callback) {
  */
 
 Page.prototype._defaultErrorHandler = function(error, request, response) {
+  if(process.env.NODE_ENV !== 'production') {
+    throw error;
+  }
   console.log(error);
   response.redirect(500, '/500');
 };
@@ -245,33 +264,106 @@ Page.prototype._serve = function() {
 };
 
 /**
+ * Check if request is a web view page request
+ *
+ * @param {HTTPRequest} request
+ * @param {String} forcedPlatform
+ * @return {Boolean}
+ * @api private
+ */
+
+Page.prototype._isWebViewPageRequest = function(request, forcedPlatform) {
+  var definedWebView = cf.WEB_VIEW_DETECT.exec(this._platform);
+  if(definedWebView && definedWebView.length >= 1) {
+    definedWebView = definedWebView[1];
+    var requestedWebView = cf.WEB_VIEW_DETECT.exec(request.headers['host']);
+    if(requestedWebView && requestedWebView.length >= 1) {
+      requestedWebView = requestedWebView[1];
+      if(definedWebView !== requestedWebView) {
+        var forcedWebView = cf.WEB_VIEW_DETECT.exec(forcedPlatform);
+        if(forcedWebView && forcedWebView.length >= 1) {
+          forcedWebView = forcedWebView[1];
+          if(forcedWebView !== definedWebView) {
+            return false;
+          }
+        }
+        else {
+          return false;
+        }
+      }
+    }
+    else {
+      var forcedWebView = cf.WEB_VIEW_DETECT.exec(forcedPlatform);
+      if(forcedWebView && forcedWebView.length >= 1) {
+        forcedWebView = forcedWebView[1];
+        if(forcedWebView !== definedWebView) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+};
+
+/**
+ * Check if request is a mobile page request
+ *
+ * @param {HTTPRequest} request
+ * @param {String} forcedPlatform
+ * @return {Boolean}
+ * @api private
+ */
+
+Page.prototype._isMobilePageRequest = function(request, forcedPlatform) {
+  var userAgent = request.headers['user-agent'];
+  if(!(cf.MOBILE_DEVICE_DETECT_1.test(userAgent) || cf.MOBILE_DEVICE_DETECT_2.test(userAgent.substr(0,4)))) {
+    if(forcedPlatform && forcedPlatform !== 'mobile') {
+      return false;
+    }
+    else {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+/**
  * Next callback
  */
 
-Page.prototype._next = function(req, res) {
+Page.prototype._next = function(request, response, next) {
   var _this = this;
 
-  var webView = cf.WEB_VIEW_DETECT.exec(req.headers['host']);
-  if(webView && webView.length) {
-    webView = webView[1];
+  var forcedPlatform = request.param('platform');
+
+  // Mobile platform check.
+  if(!this._isMobilePageRequest(request, forcedPlatform)) {
+    return next();
   }
 
-  this._getRegions(req, res, function(regions, jsonScripts) {
+  // Webview platform check.
+  if(!this._isWebViewPageRequest(request, forcedPlatform)) {
+    return next();
+  }
+
+  this._getRegions(request, response, function(regions, jsonScripts) {
     var html = _this._documentTemplates({
       title : _this._documentProperties.title,
       description : _this._documentProperties.description,
       configurations : _this._documentProperties.configurations,
-      locale : req.cookies.locale,
+      locale : request.cookies.locale,
       styles : _this._documentProperties.styles,
       main : _this._documentProperties.main,
       jsonScripts : jsonScripts,
       layout : _this._layoutTemplates(regions),
       modernizr : cf.MODERNIZR,
       requirejs : cf.REQUIREJS,
-      webView : webView
+      platform : _this._platform
     });
 
-    res.send(html);
+    response.send(html);
   });
 };
 
