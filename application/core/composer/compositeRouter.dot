@@ -78,7 +78,7 @@ define([
       }
       else {
         app.$layout.remove();
-        app.$body.append(app.layoutTmpls.{{=page.layout}}({
+        app.$body.append(app.layoutTmpls['{{=page.layout}}']({
           {{=page.mapScript}}
         }));
       }
