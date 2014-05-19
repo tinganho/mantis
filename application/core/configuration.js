@@ -55,6 +55,23 @@ Config.prototype.formatConfigurations = function(configurations) {
 };
 
 /**
+ * Set global require locale `requireLocale` function
+ *
+ * @return {void}
+ * @api public
+ */
+
+Config.prototype.setRequireLocale = function() {
+  var locales = {};
+  cf.LOCALES.forEach(function(locale) {
+    locales[locale]  = require('../l10n/output/' + locale);
+  });
+  global.requireLocale = function(locale) {
+    return locales[locale];
+  };
+};
+
+/**
  * Merge external configs from a JSON file defined
  * in environmental variable GLOBAL_CORE_CONF
  *
@@ -67,8 +84,8 @@ Config.prototype.mergeExternalConfigurations = function(configurations) {
   if(typeof configurations !== 'object') {
     throw new TypeError('first parameter must be of type object');
   }
-  if(fs.existsSync(process.env.EXTERNAL_CORE_CONFIGURATIONS)) {
-    var globalConfig = require(process.env.EXTERNAL_CORE_CONFIGURATIONS);
+  if(fs.existsSync(configurations.EXTERNAL_SERVER_CONFIGURATIONS_PATH)) {
+    var globalConfig = require(configurations.EXTERNAL_SERVER_CONFIGURATIONS_PATH);
     for(var key in globalConfig) {
       delete configurations[key];
       configurations[key] = globalConfig[key];
