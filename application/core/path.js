@@ -23,10 +23,10 @@ function Path() {
 Path.prototype.requirejs = function() {
   if(this._requirejs) return this._requirejs;
 
-  var prodPath = glob.sync('/vendor/requirejs/build/*.js', { root : path.join(__dirname, '../') })
-    , devPath ='/vendor/requirejs/require.js'
+  var distributionPath =  glob.sync('/vendor/requirejs/*.require.js', { root : path.join(__dirname, '../') })
+    , developmentPath = '/vendor/requirejs/require.js';
 
-  this._requirejs = (process.env.NODE_ENV === 'development' || !prodPath.length) ? devPath : prodPath[0];
+  this._requirejs = inDistribution ? '/' + path.relative(rootFolder, distributionPath[0]) : developmentPath;
 
   return this._requirejs;
 };
@@ -41,10 +41,10 @@ Path.prototype.requirejs = function() {
 Path.prototype.modernizr = function() {
   if(this._modernizr) return this._modernizr;
 
-  var prodPath = glob.sync('/vendor/modernizr/build/*.js', { root : path.join(__dirname, '../') })
-    , devPath ='/vendor/modernizr/modernizr.js'
+  var distributionPath = glob.sync('/vendor/modernizr/*.modernizr.js', { root : global.rootFolder })
+    , developmentPath = '/vendor/modernizr/modernizr.js';
 
-  this._modernizr = (process.env.NODE_ENV === 'development' || !prodPath.length) ? devPath : prodPath[0];
+  this._modernizr = inDistribution ? '/' + path.relative(rootFolder, distributionPath[0]) : developmentPath;
 
   return this._modernizr;
 };
