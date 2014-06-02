@@ -41,6 +41,19 @@ switch(process.env.NODE_ENV) {
 global.ENV = ENV;
 
 /**
+ * Set distribution mode
+ */
+
+var paths = __dirname.split('/');
+global.inDistribution = paths[paths.length - 1] === 'distribution';
+
+/**
+ * Set root folder
+ */
+
+global.rootFolder = __dirname;
+
+/**
  * Requirejs.
  */
 
@@ -67,8 +80,7 @@ global.cf = require('./configurations/server')
  * Module dependencies.
  */
 
-var express = require('express')
-  , fs = require('fs')
+var fs = require('fs')
   , requirejs = require('requirejs')
   , http = require('http')
   , path = require('path')
@@ -104,6 +116,12 @@ if(cluster.isMaster && process.env.NODE_ENV === 'production') {
 else {
 
   /**
+   * Content templates
+   */
+
+  global.content_appTemplates = requirejs('./public/templates/content/templates');
+
+  /**
    * Read document and layout templates
    */
 
@@ -123,17 +141,28 @@ else {
   }
 
   /**
+   * Set global `requireLocale`
+   */
+
+  configuration.setRequireLocale();
+
+  /**
+   * Set client configuration mapping
+   */
+
+  configuration.setClientConfigurationMappings();
+
+  /**
    * Write client config file
    */
 
-  configurations.setClientConfigurationMappings();
   configuration.writeClientConfigurations();
 
   /**
    * App namespace.
    */
 
-  global.app = express();
+  global.app = require('./core/app');
 
   /**
    * Add default security
@@ -154,6 +183,12 @@ else {
   autoRoute(autoRoutes, app);
 
   /**
+   * Pages
+   */
+
+  require('./pages/index')(page);
+
+  /**
    * Create composer object.
    */
 
@@ -162,8 +197,6 @@ else {
   /**
    * Server start.
    */
-
-  require('./pages/index')(page);
 
   http.createServer(app).listen(app.get('port'), function() {
     console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
