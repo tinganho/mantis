@@ -131,6 +131,7 @@ var configurations = {
 
   FAVICON : 'public/images/favicon.ico',
 
+
   /**
    * Locales for your website. You could define it any format you want
    * but we suggest using standard locale names.
@@ -146,7 +147,19 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  LANGUAGES : ['en'],
+  LOCALES: ['en-US', 'zh-CN'],
+
+  /**
+   * Languages
+   *
+   * @type {Function}
+   */
+
+  LANGUAGES: function() {
+    return _.uniq(this.LOCALES.map(function(locale) {
+      return locale.substr(0, 2);
+    }));
+  },
 
   /**
    * The default locale used for the website.
@@ -154,10 +167,7 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  DEFAULT_LOCALE : {
-    code : 'en',
-    region : 'US'
-  },
+  DEFAULT_LOCALE: 'en-US',
 
   /**
    * Maximum number of sockets.
