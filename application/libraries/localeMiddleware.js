@@ -28,7 +28,7 @@ module.exports = function(req, res, next) {
   if(typeof req.cookies.locale === 'undefined'
   || !localeSyntax.test(req.cookies.locale)
   || /\.webview\./i.test(req.headers.host)
-  || /platform=(ios|android)/.test(req.url)) {
+  || /platform=/.test(req.url)) {
     var languages = acceptLanguage.parse(req.get('Accept-Language'));
     res.cookie('locale', languages[0].code, { maxAge : cf.LOCALE_COOKIE_MAX_AGE });
     req.cookies.locale = languages[0].code;
