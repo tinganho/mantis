@@ -23,10 +23,12 @@ The default document
 <!DOCTYPE html>
 <html lang="{{=it.locale}}" class="locale-{{=it.locale}}">
   <head>
-    <script src="{{=it.modernizr}}"></script>
-    <script src="{{=it.cf}}"></script>
 
     {{#def.metas}}
+
+    <script src="{{=it.modernizr}}"></script>
+
+    {{#def.configurations}}
     {{#def.favicon}}
     {{#def.title}}
     {{#def.features}}
