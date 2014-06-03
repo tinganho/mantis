@@ -73,7 +73,7 @@ define([
     {{~it.pages :page:index}}
     'render {{=page.path}}' : function() {
       app.document.trigger('renderstart');
-      if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
+      if(document.querySelectorAll('[data-layout="{{=page.layout}}"]').length) {
         {{=page.renderScript}}
       }
       else {
