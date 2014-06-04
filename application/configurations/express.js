@@ -49,7 +49,7 @@ module.exports = function(app) {
 
   app.configure('staging', 'production', function() {
     app.use(function(req, res, next) {
-      if(/^\/public/.test(req.url)) {
+      if(/^\/public|^\/vendor/.test(req.url)) {
         res.setHeader('Cache-Control', 'public, max-age=' + cf.LONG_TIME_CACHE_LIFE_TIME/1000);
         res.setHeader('Expires', new Date(Date.now() + cf.LONG_TIME_CACHE_LIFE_TIME).toUTCString());
       }
