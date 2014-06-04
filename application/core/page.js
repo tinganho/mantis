@@ -38,6 +38,7 @@ function Page(url) {
   this._url = url;
   this._documentTemplates = documentTemplates;
   this._layoutTemplates = layoutTemplates;
+  this._usingDistributionProperties = false;
 
   this._platform = cf.DEFAULT_PLATFORM;
 
@@ -177,51 +178,56 @@ Page.prototype._getRegions = function(request, response, callback) {
       Model.prototype.sync.call(this, method, model, options, request);
     };
 
-    try {
-      model.fetch({
-        success : function() {
-          view = new View(model)
+
+    (function(name, view, Model, View) {
+
+      try {
+        model.fetch({
+          success : function() {
+            view = new View(model);
+            regions[name] = view.toHTML();
+
+            if(typeof model.page.title === 'string' && model.page.title.length > 0) {
+              _this._documentProperties.title = model.page.title;
+            }
+            if(typeof model.page.description === 'string' && model.page.description.length > 0) {
+              _this._documentProperties.description = model.page.description;
+            }
+
+            // Push json scripts
+            jsonScripts += coreTemplates.jsonScript({
+              name : _this.regions[name].model.split('/')[2].toLowerCase(),
+              json : JSON.stringify(model.toJSON())
+            });
+
+            n++;
+            if(n === size) {
+              callback(regions, jsonScripts);
+            }
+          },
+
+          // The backbone takes in argument  model, response and options
+          // We send in the error object in the middle argument. So we rename
+          // response to error instead.
+          error : function(model, error, options) {
+            _this.error(error, request, response);
+          }
+        });
+      }
+      catch(error) {
+        if(error.message === 'A "url" property or function must be specified') {
           regions[name] = view.toHTML();
-
-          if(typeof model.page.title === 'string' && model.page.title.length > 0) {
-            _this._documentProps.title = model.page.title;
-          }
-          if(typeof model.page.description === 'string' && model.page.description.length > 0) {
-            _this._documentProps.description = model.page.description;
-          }
-
-          // Push json scripts
-          jsonScripts += coreTemplates.jsonScript({
-            name : _this.regions[name].model.split('/')[2].toLowerCase(),
-            json : JSON.stringify(model.toJSON())
-          });
-
           n++;
           if(n === size) {
             callback(regions, jsonScripts);
           }
-        },
-
-        // The backbone takes in argument  model, response and options
-        // We send in the error object in the middle argument. So we rename
-        // response to error instead.
-        error : function(model, error, options) {
+        }
+        else {
           _this.error(error, request, response);
         }
-      });
-    }
-    catch(error) {
-      if(error.message === 'A "url" property or function must be specified') {
-        regions[name] = view.toHTML();
-        n++;
-        if(n === size) {
-          callback(regions, jsonScripts);
-        }
       }
-      else {
-        this.error(error, request, response);
-      }
-    }
+
+    })(name, view, Model, View);
   }
 };
 
@@ -242,11 +248,15 @@ Page.prototype.handleErrorsUsing = function(callback) {
  */
 
 Page.prototype._defaultErrorHandler = function(error, request, response) {
-  if(process.env.NODE_ENV !== 'production') {
-    throw error;
+  if(typeof error.status === 'number' && error.status === 404) {
+    response.send(404, 'Page not found');
   }
-  console.log(error);
-  response.redirect(500, '/500');
+  else {
+    if(process.env.NODE_ENV !== 'production') {
+      throw error;
+    }
+    response.send(500, 'Internal server error');
+  }
 };
 
 /**
@@ -272,7 +282,8 @@ Page.prototype._serve = function() {
  * @api private
  */
 
-Page.prototype._isWebViewPageRequest = function(request, forcedPlatform) {
+Page.prototype._isWebViewPageRequest = function(request) {
+  var forcedPlatform = request.param('platform');
   var definedWebView = cf.WEB_VIEW_DETECT.exec(this._platform);
   if(definedWebView && definedWebView.length >= 1) {
     definedWebView = definedWebView[1];
@@ -300,6 +311,9 @@ Page.prototype._isWebViewPageRequest = function(request, forcedPlatform) {
           return false;
         }
       }
+      else {
+        return false;
+      }
     }
   }
 
@@ -315,14 +329,14 @@ Page.prototype._isWebViewPageRequest = function(request, forcedPlatform) {
  * @api private
  */
 
-Page.prototype._isMobilePageRequest = function(request, forcedPlatform) {
-  var userAgent = request.headers['user-agent'];
-  if(!(cf.MOBILE_DEVICE_DETECT_1.test(userAgent) || cf.MOBILE_DEVICE_DETECT_2.test(userAgent.substr(0,4)))) {
-    if(forcedPlatform && forcedPlatform !== 'mobile') {
-      return false;
-    }
-    else {
-      return false;
+Page.prototype._isMobilePageRequest = function(request) {
+  var forcedPlatform = request.param('platform');
+  if(this._platform === 'mobile') {
+    var userAgent = request.headers['user-agent'];
+    if(!(cf.MOBILE_DEVICE_DETECT_1.test(userAgent) || cf.MOBILE_DEVICE_DETECT_2.test(userAgent.substr(0,4)))) {
+      if(!forcedPlatform || forcedPlatform !== 'mobile') {
+        return false;
+      }
     }
   }
 
@@ -336,32 +350,46 @@ Page.prototype._isMobilePageRequest = function(request, forcedPlatform) {
 Page.prototype._next = function(request, response, next) {
   var _this = this;
 
-  var forcedPlatform = request.param('platform');
-
   // Mobile platform check.
-  if(!this._isMobilePageRequest(request, forcedPlatform)) {
+  if(!this._isMobilePageRequest(request)) {
     return next();
   }
 
   // Webview platform check.
-  if(!this._isWebViewPageRequest(request, forcedPlatform)) {
+  if(!this._isWebViewPageRequest(request)) {
     return next();
   }
 
+  // If in a distribution use minified/uglified scripts
+  if(inDistribution && !this._usingDistributionProperties) {
+    _this._documentProperties.main = '/' + glob.sync(
+      cf.DISTRIBUTION_MAIN_FOLDER +
+      '/*.' +
+      path.basename(_this._documentProperties.main) +
+      '.js'
+      , { cwd: rootFolder });
+
+    if(!this._usingDistributionStyles) {
+      _this._documentProperties.styles = _this._documentProperties.styles.map(function(style) {
+        var paths = style.split('/');
+        paths[paths.length - 1] = '*.' + paths[paths.length - 1];
+
+        return '/' + glob.sync(paths.join('/').substr(1), { cwd: rootFolder })[0];
+      });
+
+      this._usingDistributionProperties = true;
+    }
+  }
+
   this._getRegions(request, response, function(regions, jsonScripts) {
-    var html = _this._documentTemplates({
-      title : _this._documentProperties.title,
-      description : _this._documentProperties.description,
-      configurations : _this._documentProperties.configurations,
+    var html = _this._documentTemplates(_.extend(_this._documentProperties, {
       locale : request.cookies.locale,
-      styles : _this._documentProperties.styles,
-      main : _this._documentProperties.main,
       jsonScripts : jsonScripts,
       layout : _this._layoutTemplates(regions),
       modernizr : cf.MODERNIZR,
       requirejs : cf.REQUIREJS,
       platform : _this._platform
-    });
+    }));
 
     response.send(html);
   });
