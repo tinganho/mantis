@@ -131,14 +131,8 @@ else {
    * Create necessary folders
    */
 
-  var uploadFolderPath = cf.ROOT_FOLDER + cf.UPLOAD_FOLDER;
-  if(!fs.existsSync(uploadFolderPath)) {
-    fs.mkdirSync(uploadFolderPath);
-  }
-  var tmpFolderPath = cf.ROOT_FOLDER + cf.TEMPORARY_FOLDER;
-  if(!fs.existsSync(tmpFolderPath)) {
-    fs.mkdirSync(tmpFolderPath);
-  }
+  fs.mkdir(cf.ROOT_FOLDER + cf.UPLOAD_FOLDER, function(error) {});
+  fs.mkdir(cf.ROOT_FOLDER + cf.TEMPORARY_FOLDER, function(error) {});
 
   /**
    * Set global `requireLocale`

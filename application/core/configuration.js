@@ -64,7 +64,7 @@ Config.prototype.formatConfigurations = function(configurations) {
 Config.prototype.setRequireLocale = function() {
   var locales = {};
   cf.LOCALES.forEach(function(locale) {
-    locales[locale]  = require('../l10n/output/' + locale);
+    locales[locale]  = require('../localizations/output/' + locale);
   });
   global.requireLocale = function(locale) {
     return locales[locale];
@@ -104,7 +104,7 @@ Config.prototype.mergeExternalConfigurations = function(configurations) {
  */
 
 Config.prototype.setClientConfigurationMappings = function() {
-  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER });
+  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd: cf.ROOT_FOLDER });
   for(var i = 0; i < files.length; i++) {
     var configurations = require(cf.ROOT_FOLDER + files[i])
       , name = path.basename(files[i], '.js');
@@ -123,27 +123,29 @@ Config.prototype.setClientConfigurationMappings = function() {
  */
 
 Config.prototype.writeClientConfigurations = function() {
-  var configurationPath = cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD;
-  if(!fs.existsSync(configurationPath)) {
-    fs.mkdirSync(configurationPath);
-  }
-  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
-  files.forEach(function(file) {
-    fs.unlinkSync(cf.ROOT_FOLDER + file);
-  });
+  fs.mkdir(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD, function(error) {
+    var files = glob.sync(cf.CLIENT_CONFIGURATIONS_BUILD + '/*.js', { cwd: cf.ROOT_FOLDER });
+    var n = 0;
+    files.forEach(function(file) {
+      fs.unlink(cf.ROOT_FOLDER + file, function(error) {
+        n++;
+        if(n === files.length) {
+          glob(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd: cf.ROOT_FOLDER }, function(err, matches) {
+            for(var i = 0; i < matches.length; i++) {
+              var configurations = require(cf.ROOT_FOLDER + matches[i]);
 
-  glob(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
-    for(var i = 0; i < matches.length; i++) {
-      var configurations = require(cf.ROOT_FOLDER + matches[i]);
+              var startWrap  = 'window.' + configurations.NAME_SPACE + ' = (function() { var configs = '
+                , body       = JSON.stringify(configurations, null, 2) + ';'
+                , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
+                , endWrap    = 'return configs; })();';
 
-      var startWrap  = 'window.' + configurations.NAME_SPACE + ' = (function() { var configs = '
-        , body       = JSON.stringify(configurations, null, 2) + ';'
-        , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
-        , endWrap    = 'return configs; })();';
-
-      var str = startWrap + body + makeRegExp + endWrap;
-      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js', str);
-    }
+              var str = startWrap + body + makeRegExp + endWrap;
+              fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js', str);
+            }
+          });
+        }
+      });
+    });
   });
 };
 
