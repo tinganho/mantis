@@ -94,13 +94,14 @@ Page.prototype.withProperties = function(properties) {
     return '/' + cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
   });
 
-  // Set default properties
-  _.defaults(properties, {
-    title: '',
-    description: ''
-  });
-
   this._documentProperties = properties;
+
+  if(typeof properties.title === 'string') {
+    this._documentProps.renderedTitle = properties.title;
+  }
+  if(typeof properties.description === 'string') {
+    this._documentProps.renderedDescription = properties.description;
+  }
   return this;
 };
 
@@ -187,11 +188,15 @@ Page.prototype._getRegions = function(request, response, callback) {
             view = new View(model);
             regions[name] = view.toHTML();
 
-            if(typeof model.page.title === 'string' && model.page.title.length > 0) {
-              _this._documentProperties.title = model.page.title;
+            if(typeof model.page.title === 'string'
+            && model.page.title.length > 0
+            && typeof _this._documentProperties.title !== 'string') {
+              _this._documentProperties.renderedTitle = model.page.title;
             }
-            if(typeof model.page.description === 'string' && model.page.description.length > 0) {
-              _this._documentProperties.description = model.page.description;
+            if(typeof model.page.description === 'string'
+            && model.page.description.length > 0
+            && typeof _this._documentProperties.description !== 'string') {
+              _this._documentProperties.renderedDescription = model.page.description;
             }
 
             // Push json scripts
@@ -383,12 +388,14 @@ Page.prototype._next = function(request, response, next) {
 
   this._getRegions(request, response, function(regions, jsonScripts) {
     var html = _this._documentTemplates(_.extend(_this._documentProperties, {
-      locale : request.cookies.locale,
-      jsonScripts : jsonScripts,
-      layout : _this._layoutTemplates(regions),
-      modernizr : cf.MODERNIZR,
-      requirejs : cf.REQUIREJS,
-      platform : _this._platform
+      title: _this._documentProperties.renderedTitle,
+      description: _this._documentProperties.renderedDescription,
+      locale: request.cookies.locale,
+      jsonScripts: jsonScripts,
+      layout: _this._layoutTemplates(regions),
+      modernizr: cf.MODERNIZR,
+      requirejs: cf.REQUIREJS,
+      platform: _this._platform
     }));
 
     response.send(html);

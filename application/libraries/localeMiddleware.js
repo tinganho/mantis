@@ -18,7 +18,7 @@ var localeSyntax = /^[a-z]{2}$/
  */
 
 acceptLanguage.default(cf.DEFAULT_LOCALE);
-acceptLanguage.codes(cf.LANGUAGES);
+acceptLanguage.languages(cf.LANGUAGES);
 
 /**
  * Export middleware
@@ -28,10 +28,10 @@ module.exports = function(req, res, next) {
   if(typeof req.cookies.locale === 'undefined'
   || !localeSyntax.test(req.cookies.locale)
   || /\.webview\./i.test(req.headers.host)
-  || /platform=/.test(req.url)) {
+  || /platform=(ios|android)/.test(req.url)) {
     var languages = acceptLanguage.parse(req.get('Accept-Language'));
-    res.cookie('locale', languages[0].code, { maxAge : cf.LOCALE_COOKIE_MAX_AGE });
-    req.cookies.locale = languages[0].code;
+    res.cookie('locale', languages[0].language, { maxAge : cf.LOCALE_COOKIE_MAX_AGE });
+    req.cookies.locale = languages[0].language;
   }
   next();
 };

@@ -1,3 +1,4 @@
+if(inServer) {
 
 /**
  * Module dependenices.
@@ -11,10 +12,39 @@ var request = require('superagent');
  * @constructor Request
  */
 
-function Request(origin) {
-  this.origin = origin || cf.BACKEND_ORIGIN;
+function Request() {
+  var apiUrl;
+
+  if(cf.DEFAULT_API_URL === 'undefined') {
+    throw new TypeError('You must set DEFAULT_API_URL in your configuration');
+  }
+  apiUrl = cf[cf.DEFAULT_API_URL.toUpperCase() + '_API_URL'];
+  if(typeof apiUrl === 'undefined') {
+    throw new TypeError('Default API URL is undefined');
+  }
+  this.apiUrl = apiUrl;
   this.authorization;
 }
+
+/**
+* Set API
+*
+* @param {String} name
+* @return {Request}
+* @api public
+*/
+
+Request.prototype.api = function(name) {
+  var apiUrl = name.toUpperCase() + '_API_URL';
+  if(typeof cf[apiName] === 'undefined') {
+    throw new TypeError('API: ' + name + ' is undefined');
+  }
+
+  this.apiUrl = apiUrl;
+
+  return this;
+};
+
 
 /**
  * Set `Authroization header
@@ -35,6 +65,7 @@ function Request(origin) {
 
 Request.prototype.setAccessToken = function(accessToken) {
   this.authorization = 'Bearer ' + accessToken;
+
   return this;
 };
 
@@ -57,6 +88,7 @@ Request.prototype.setAccessToken = function(accessToken) {
 
 Request.prototype.setAuthorization = function(authorization) {
   this.authorization = authorization;
+
   return this;
 };
 
@@ -79,6 +111,7 @@ Request.prototype.setAuthorization = function(authorization) {
 
 Request.prototype.setContentType = function(contentType) {
   this.contentType = contentType;
+
   return this;
 };
 
@@ -91,10 +124,9 @@ Request.prototype.setContentType = function(contentType) {
  * @api private
  */
 
-Request.prototype._getReqestObject = function(method, url) {
-  url = /^http/.test(url) ? url : this.origin + url;
-
-  var req = request[method](url);
+Request.prototype._getReqestObject = function(method, path) {
+  var url = this.apiUrl + path
+    , req = request[method](url);
 
   if(this.authorization !== false) {
     req.set('Authorization', (this.authorization || cf.AUTHORIZATION) + '');
@@ -123,8 +155,8 @@ Request.prototype._getReqestObject = function(method, url) {
  * @api public
  */
 
-Request.prototype.get = function(url) {
-  return this._getReqestObject('get', url);
+Request.prototype.get = function(path) {
+  return this._getReqestObject('get', path);
 };
 
 /**
@@ -145,8 +177,8 @@ Request.prototype.get = function(url) {
  * @api public
  */
 
-Request.prototype.post = function(url) {
-  return this._getReqestObject('post', url);
+Request.prototype.post = function(path) {
+  return this._getReqestObject('post', path);
 };
 
 /**
@@ -164,8 +196,8 @@ Request.prototype.post = function(url) {
  * @api public
  */
 
-Request.prototype.put = function(url) {
-  return this._getReqestObject('put', url);
+Request.prototype.put = function(path) {
+  return this._getReqestObject('put', path);
 };
 
 /**
@@ -183,8 +215,8 @@ Request.prototype.put = function(url) {
  * @api public
  */
 
-Request.prototype.patch = function(url) {
-  return this._getReqestObject('patch', url);
+Request.prototype.patch = function(path) {
+  return this._getReqestObject('patch', path);
 };
 
 /**
@@ -202,8 +234,8 @@ Request.prototype.patch = function(url) {
  * @api public
  */
 
-Request.prototype.delete = function(url) {
-  return this._getReqestObject('del', url);
+Request.prototype.delete = function(path) {
+  return this._getReqestObject('del', path);
 };
 
 /**
@@ -221,8 +253,16 @@ Request.prototype.delete = function(url) {
  * @api public
  */
 
-Request.prototype.head = function(url) {
-  return this._getReqestObject('head', url);
+Request.prototype.head = function(path) {
+  return this._getReqestObject('head', path);
+};
+
+/**
+ * Export request object
+ */
+
+module.exports = function() {
+  return new Request();
 };
 
 /**
@@ -230,3 +270,5 @@ Request.prototype.head = function(url) {
  */
 
 module.exports.Requst = Request;
+
+}
