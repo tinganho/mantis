@@ -59,11 +59,6 @@ Config.prototype.formatConfigurations = function(configurations) {
       delete configurations[key];
     }
 
-    // Convert all syntax values to regular expression objects
-    if(this.syntaxRegExp.test(key)) {
-      configurations[key] = new RegExp(configurations[key]);
-    }
-
     // API_URLS should be deleted. And every URL defined should be accessible
     // directly by [API_NAME] + _API_URL
     if(this.apiPrefixRegExp.test(key)) {
@@ -168,7 +163,7 @@ Config.prototype.writeClientConfigurations = function() {
 
       var startWrap  = 'window.' + configurations.NAME_SPACE + ' = (function() { var configs = '
         , body       = JSON.stringify(configurations, null, 2) + ';'
-        , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
+        , makeRegExp = 'for(var key in configs) { if(/_SYNTAX$/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
         , endWrap    = 'return configs; })();';
 
       var str = startWrap + body + makeRegExp + endWrap;
