@@ -20,12 +20,14 @@ function Config() {
 
   this.env = ENV;
   this.envPrefixRegExp = /^DEV__|^STAG__|^PROD__/;
+  this.apiPrefixRegExp = /^API_URLS/;
+  this.syntaxRegExp = /_SYNTAX$/;
   this.envRegExp = /^([A-Z]{3,4})__/;
 }
 
 /**
  * Format configurations. Formatting removes DEV__, DIST__ and PROD__
- * prefixes.
+ * prefixes. It also format all api urls correctly
  *
  * @param {Object} configurations
  * @return {Object}
@@ -37,15 +39,43 @@ Config.prototype.formatConfigurations = function(configurations) {
     throw new TypeError('first parameter must be of type object');
   }
   for(var key in configurations) {
-    // All functions should be cached
+    // All functions should be cached.
     if(typeof configurations[key] === 'function') {
       configurations[key] = configurations[key]();
     }
+
+    var env, _key;
+
+    // We normalize all environmental prefixes. So DEV__, STAG__ and PROD___
+    // will be removed. These configurations could be referenced later without
+    // prefixes in the confguration project.
     if(this.envPrefixRegExp.test(key)) {
-      var env = this.envRegExp.exec(key)[1]
-        , _key = key.replace(this.envRegExp, '');
+      env = this.envRegExp.exec(key)[1];
+      _key = key.replace(this.envRegExp, '');
+
       if(env === this.env) {
         configurations[_key] = configurations[key];
+      }
+      delete configurations[key];
+    }
+
+    // Convert all syntax values to regular expression objects
+    if(this.syntaxRegExp.test(key)) {
+      configurations[key] = new RegExp(configurations[key]);
+    }
+
+    // API_URLS should be deleted. And every URL defined should be accessible
+    // directly by [API_NAME] + _API_URL
+    if(this.apiPrefixRegExp.test(key)) {
+      for(var apiKey in configurations[key]) {
+        if(this.envPrefixRegExp.test(apiKey)) {
+          env = this.envRegExp.exec(apiKey)[1];
+          _key = apiKey.replace(this.envRegExp, '');
+
+          if(env === this.env) {
+            configurations[_key + '_API_URL'] = configurations[key][apiKey];
+          }
+        }
       }
       delete configurations[key];
     }
@@ -104,7 +134,7 @@ Config.prototype.mergeExternalConfigurations = function(configurations) {
  */
 
 Config.prototype.setClientConfigurationMappings = function() {
-  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd: cf.ROOT_FOLDER });
+  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER });
   for(var i = 0; i < files.length; i++) {
     var configurations = require(cf.ROOT_FOLDER + files[i])
       , name = path.basename(files[i], '.js');
@@ -123,29 +153,27 @@ Config.prototype.setClientConfigurationMappings = function() {
  */
 
 Config.prototype.writeClientConfigurations = function() {
-  fs.mkdir(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD, function(error) {
-    var files = glob.sync(cf.CLIENT_CONFIGURATIONS_BUILD + '/*.js', { cwd: cf.ROOT_FOLDER });
-    var n = 0;
-    files.forEach(function(file) {
-      fs.unlink(cf.ROOT_FOLDER + file, function(error) {
-        n++;
-        if(n === files.length) {
-          glob(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd: cf.ROOT_FOLDER }, function(err, matches) {
-            for(var i = 0; i < matches.length; i++) {
-              var configurations = require(cf.ROOT_FOLDER + matches[i]);
+  var configurationPath = cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD;
+  if(!fs.existsSync(configurationPath)) {
+    fs.mkdirSync(configurationPath);
+  }
+  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
+  files.forEach(function(file) {
+    fs.unlinkSync(cf.ROOT_FOLDER + file);
+  });
 
-              var startWrap  = 'window.' + configurations.NAME_SPACE + ' = (function() { var configs = '
-                , body       = JSON.stringify(configurations, null, 2) + ';'
-                , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
-                , endWrap    = 'return configs; })();';
+  glob(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
+    for(var i = 0; i < matches.length; i++) {
+      var configurations = require(cf.ROOT_FOLDER + matches[i]);
 
-              var str = startWrap + body + makeRegExp + endWrap;
-              fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js', str);
-            }
-          });
-        }
-      });
-    });
+      var startWrap  = 'window.' + configurations.NAME_SPACE + ' = (function() { var configs = '
+        , body       = JSON.stringify(configurations, null, 2) + ';'
+        , makeRegExp = 'for(var key in configs) { if(/REGEX/.test(key)) { configs[key] = new RegExp(configs[key]); } }'
+        , endWrap    = 'return configs; })();';
+
+      var str = startWrap + body + makeRegExp + endWrap;
+      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js', str);
+    }
   });
 };
 
