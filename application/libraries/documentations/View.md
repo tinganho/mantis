@@ -41,7 +41,7 @@ Get text from labels and content. `_getText()` will just return a merged object 
 
 ```javascript
 setLabels: function(locale) {
-  var gt = gt || requireLocale(locale);
+  var gt = gt || requireLocale(locale);
   this.labels: {
     buttonText: gt('BASE__DONE'),
     ...
