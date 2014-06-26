@@ -21,9 +21,9 @@ var configuration = require('../../core/configuration');
  *
  *   Example:
  *
- *     DEV__X_REQUESTED_BY : '1',
- *     STAG__X_REQUESTED_BY : '1',
- *     PROD__X_REQUESTED_BY : '1',
+ *     DEV__X_REQUESTED_BY: '1',
+ *     STAG__X_REQUESTED_BY: '1',
+ *     PROD__X_REQUESTED_BY: '1',
  */
 
 var configurations = {
@@ -32,7 +32,7 @@ var configurations = {
    * @import cf.BACKEND_ORIGN
    */
 
-  BACKEND_ORIGN : cf.BACKEND_ORIGN,
+  BACKEND_ORIGN: cf.BACKEND_ORIGN,
 
   /**
    * We will have a compiler the compiles this object and namespace the file
@@ -42,7 +42,7 @@ var configurations = {
    * @type {String}
    */
 
-  NAME_SPACE : 'cf',
+  NAME_SPACE: 'cf',
 
   /**
    * Minimum page load time for a client request. If the developer don't want
@@ -52,7 +52,7 @@ var configurations = {
    * @type {Number}
    */
 
-  MIN_PAGE_LOAD_TIME : 500,
+  MIN_PAGE_LOAD_TIME: 500,
 
   /**
    * Convinient configuration for mobile width.
@@ -60,7 +60,7 @@ var configurations = {
    * @type {Number}
    */
 
-  MOBILE_WIDTH : 500,
+  MOBILE_WIDTH: 500,
 
   /**
    * The range from touch start and release of finger in pixels.
@@ -68,7 +68,7 @@ var configurations = {
    * @type {Number}
    */
 
-  TOUCH_OUT_OF_RANGE : 10,
+  TOUCH_OUT_OF_RANGE: 10,
 
   /**
    * Default AJAX timeout for every request measured in ms.
@@ -76,13 +76,13 @@ var configurations = {
    * @type {Number}
    */
 
-  AJAX_TIMEOUT : 10000,
+  AJAX_TIMEOUT: 10000,
 
   /**
    * @import cf.JSON_HIJACK_PREFIX
    */
 
-  JSON_HIJACK_PREFIX : cf.JSON_HIJACK_PREFIX,
+  JSON_HIJACK_PREFIX: cf.JSON_HIJACK_PREFIX,
 
   /**
    * X-Request-By header is used for protecting against CSRF attacks.
@@ -92,7 +92,7 @@ var configurations = {
    * @type {String}
    */
 
-  X_REQUESTED_BY : '1',
+  X_REQUESTED_BY: '1',
 
   /**
    * You can log client errors by providing a path to the POST request
@@ -101,7 +101,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_ERROR_PATH : '/log/error'
+  CLIENT_ERROR_PATH: '/log/error'
 };
 
 /**
