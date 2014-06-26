@@ -142,16 +142,26 @@ define(function(require) {
     remove: function() {},
 
     /**
+     * Show is called by the composer if `should()` returns 'keep'.
+     *
+     * @return {void}
+     * @api public
+     * @autocalled
+     */
+
+    show: function() {},
+
+    /**
      * A method for deciding if a view should render, keep or remove itself.
      * The composer object
      *
-     * @return {String} (update|keep|remove)
+     * @return {String} (keep|update|remove)
      * @api public
      * @autocalled
      */
 
     should: function() {
-      return 'update';
+      return 'keep';
     }
   });
 
