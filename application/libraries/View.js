@@ -4,7 +4,8 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Backbone = require('backbone');
+  var Backbone = require('backbone')
+    , _ = require('underscore');
 
   /**
    * View
@@ -21,7 +22,7 @@ define(function(require) {
      * @overrides _ensureElement
      */
 
-    _ensureElement : function() {
+    _ensureElement: function() {
       if(inClient) {
         Backbone.View.prototype._ensureElement.call(this, arguments);
       }
@@ -37,7 +38,7 @@ define(function(require) {
      * @return {Boolean}
      */
 
-    fingerIsOutOfButtonRange : function(event) {
+    fingerIsOutOfButtonRange: function(event) {
       var isOutOfRange = false;
 
       if(typeof event !== 'undefined'
@@ -56,15 +57,70 @@ define(function(require) {
     },
 
     /**
-     * CompositeRouter is always executing this callback if it doesn't
-     * render the view for this model.
+     * Bind DOM. This method is automatically called be the `Composer`
+     * object. The user need to define the method body and its purpose
+     * is to bind event from DOM with delegates from the `View` object.
+     * It should also set `Boolean boundDOM` to true after executed.
      *
-     * @param {String} path
      * @return {void}
      * @api public
+     * @autocalled
      */
 
-    onHistoryChange : function(path) {},
+    bindDOM: function() {
+      this.setElements();
+      this.addMouseInteractions();
+      this.addTouchInteractions();
+    },
+
+    /**
+     * Bind method handlers
+     *
+     * @return {void}
+     * @api private
+     */
+
+    bindMethods: function() {
+      _.bindAll(this, 'addTouchInteractions', 'addMouseInteractions');
+    },
+
+    /**
+     * Set relevant view elements
+     *
+     * @api public
+     * @autocalled
+     */
+
+    setElements: function() {},
+
+    /**
+     * Add mouse interactions
+     *
+     * @return {void}
+     * @api private
+     */
+
+    addMouseInteractions: function() {},
+
+    /**
+     * Add touch interactions
+     *
+     * @return {void}
+     * @api private
+     */
+
+    addTouchInteractions: function() {},
+
+    /**
+     * Bind model. This method should be used to bind the view to model events. This method
+     * is called by the composer directly after the DOM have been created.
+     *
+     * @return {void}
+     * @api public
+     * @autocalled
+     */
+
+    bindModel: function() {},
 
     /**
      * Render noop.
@@ -73,8 +129,30 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {}
+    toHTML: function() {},
 
+    /**
+     * Remove is called by the composer if `should()` returns 'remove'.
+     *
+     * @return {void}
+     * @api public
+     * @autocalled
+     */
+
+    remove: function() {},
+
+    /**
+     * A method for deciding if a view should render, keep or remove itself.
+     * The composer object
+     *
+     * @return {String} (update|keep|remove)
+     * @api public
+     * @autocalled
+     */
+
+    should: function() {
+      return 'update';
+    }
   });
 
   /**
