@@ -292,7 +292,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_ID   : '100001',
+  CLIENT_ID: '100001',
 
   /**
    * Client secret for OAuth2
