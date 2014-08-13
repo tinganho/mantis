@@ -7,5 +7,6 @@ Application/Public/Styles/*
 Application/Public/Scripts/*
 Application/Public/Templates/*
 Application/Vendors
+Distribution
 native/platforms
 Gemfile.lock
