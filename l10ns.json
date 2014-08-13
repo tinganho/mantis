@@ -1,0 +1,19 @@
+{
+  "defaultProject": "tantan-games",
+  "projects": {
+    "tantan-games": {
+      "interface": {
+        "autoOpen": true,
+        "port": 3001
+      },
+      "locales": {
+        "en-US": "English (US)"
+      },
+      "defaultLocale": "en-US",
+      "programmingLanguage": "javascript",
+      "store": "application/localizations/",
+      "output": "application/localizations/output/",
+      "source": []
+    }
+  }
+}
