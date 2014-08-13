@@ -14,9 +14,9 @@ define(function(require) {
      * @†ype {Object}
      */
 
-    defaults : {
-      title : document.querySelector('title').innerHMTL,
-      description : document.querySelector('meta[name=description]').getAttribute('content')
+    defaults: {
+      title: document.querySelector('title').innerHMTL,
+      description: document.querySelector('meta[name=description]').getAttribute('content')
     }
   });
 });

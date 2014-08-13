@@ -23,8 +23,8 @@ function Path() {
 Path.prototype.requirejs = function() {
   if(this._requirejs) return this._requirejs;
 
-  var distributionPath =  glob.sync('/vendor/requirejs/*.require.js', { root : path.join(__dirname, '../') })
-    , developmentPath = '/vendor/requirejs/require.js';
+  var distributionPath =  glob.sync('/Vendors/requirejs/*.require.js', { root : path.join(__dirname, '../') })
+    , developmentPath = '/Vendors/requirejs/require.js';
 
   this._requirejs = inDistribution ? '/' + path.relative(rootFolder, distributionPath[0]) : developmentPath;
 
@@ -41,8 +41,8 @@ Path.prototype.requirejs = function() {
 Path.prototype.modernizr = function() {
   if(this._modernizr) return this._modernizr;
 
-  var distributionPath = glob.sync('/vendor/modernizr/*.modernizr.js', { root : global.rootFolder })
-    , developmentPath = '/vendor/modernizr/modernizr.js';
+  var distributionPath = glob.sync('/Vendors/modernizr/*.modernizr.js', { root : global.rootFolder })
+    , developmentPath = '/Vendors/modernizr/modernizr.js';
 
   this._modernizr = inDistribution ? '/' + path.relative(rootFolder, distributionPath[0]) : developmentPath;
 

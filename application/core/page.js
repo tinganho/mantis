@@ -247,7 +247,7 @@ Page.prototype._getRegions = function(request, response, callback) {
             }
 
             // Push json scripts
-            jsonScripts += coreTemplates.jsonScript({
+            jsonScripts += coreTemplates.JsonScript({
               name: platform.regions[name].model.split('/')[2].toLowerCase(),
               json: JSON.stringify(model.toJSON())
             });
@@ -521,10 +521,10 @@ Page.prototype._addPages = function() {
     regions.push(map);
   }
 
-  page.platforms[this._latestPlatformName].contentScript = coreTemplates['contentScript'](regions);
-  page.platforms[this._latestPlatformName].renderScript = coreTemplates['renderScript'](regions);
-  page.platforms[this._latestPlatformName].mapScript = coreTemplates['mapScript'](regions);
-  page.platforms[this._latestPlatformName].noViewsScript = coreTemplates['noViewsScript'](views);
+  page.platforms[this._latestPlatformName].contentScript = coreTemplates['ContentScript'](regions);
+  page.platforms[this._latestPlatformName].renderScript = coreTemplates['RenderScript'](regions);
+  page.platforms[this._latestPlatformName].mapScript = coreTemplates['MapScript'](regions);
+  page.platforms[this._latestPlatformName].noViewsScript = coreTemplates['NoViewsScript'](views);
 
   pages.push(page);
 };
@@ -545,7 +545,7 @@ module.exports = function(url) {
  */
 
 module.exports.createComposer = function() {
-  var router = coreTemplates['compositeRouter']({ pages: pages, imports: imports });
+  var router = coreTemplates['CompositeRouter']({ pages: pages, imports: imports });
   fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router);
 };
 

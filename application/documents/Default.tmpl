@@ -1,0 +1,47 @@
+
+<!--
+
+The default document
+
+@param {String} title
+@param {String} description
+@param {Array} styles
+@param {Array} scripts
+@param {HTML} layout
+
+!-->
+
+{{##def.metas : load('./Partials/Metas.part') #}}
+{{##def.favicon : load('./Partials/Favicon.part') #}}
+{{##def.title : load('./Partials/Title.part') #}}
+{{##def.features : load('./Partials/Features.part') #}}
+{{##def.styles : load('./Partials/Styles.part') #}}
+{{##def.scripts : load('./Partials/Scripts.part') #}}
+{{##def.configurations : load('./Partials/Configurations.part') #}}
+{{##def.globals : load('./Partials/Globals.part') #}}
+
+<!DOCTYPE html>
+<html lang="{{=it.locale}}" class="locale-{{=it.locale}}">
+  <head>
+
+    {{#def.metas}}
+
+    <script src="{{=it.modernizr}}"></script>
+
+    {{#def.configurations}}
+    {{#def.favicon}}
+    {{#def.title}}
+    {{#def.features}}
+    {{#def.styles}}
+    {{#def.globals}}
+
+  </head>
+  <body>
+
+    {{#def.scripts}}
+    {{=it.layout}}
+    {{=it.jsonScripts}}
+
+    <script data-main="{{=it.main}}" src="{{=it.requirejs}}"></script>
+  </body>
+</html>

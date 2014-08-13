@@ -91,7 +91,7 @@ var fs = require('fs')
   , autoRoutes = require('./configurations/autoRoutes')
   , configuration = require('./core/configuration')
   , configure = require('./configurations/express')
-  , page = require('./core/page')
+  , page = require('./Core/Page')
   , readTemplates = page.readTemplates
   , createComposer = page.createComposer;
 
@@ -156,7 +156,7 @@ else {
    * App namespace.
    */
 
-  global.app = require('./core/app');
+  global.app = require('./Core/Application');
 
   /**
    * Add default security
@@ -180,7 +180,7 @@ else {
    * Pages
    */
 
-  require('./pages/index')(page);
+  require('./Pages/RollingNumbers')(page);
 
   /**
    * Create composer object.

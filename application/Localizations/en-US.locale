@@ -1,0 +1,14 @@
+{
+  "id": "xRzAXMq4IX",
+  "key": "INDEX__GAME_DESCRIPTION",
+  "variables": [],
+  "text": "Is it bigger or smaller than previos number?",
+  "files": [
+    "Application/Contents/RollingNumbers/RollingNumbers.js"
+  ],
+  "values": [
+    "Is it bigger or smaller than previos number?"
+  ],
+  "timestamp": 1407921616734
+}
+

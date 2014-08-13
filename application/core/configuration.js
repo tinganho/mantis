@@ -13,7 +13,7 @@ var fs = require('fs')
  * @constructor
  */
 
-function Config() {
+function Configuration() {
   if(!ENV) {
     throw new TypeError('global variable ENV is not set');
   }
@@ -34,7 +34,7 @@ function Config() {
  * @api public
  */
 
-Config.prototype.formatConfigurations = function(configurations) {
+Configuration.prototype.formatConfigurations = function(configurations) {
   if(typeof configurations !== 'object') {
     throw new TypeError('first parameter must be of type object');
   }
@@ -86,10 +86,12 @@ Config.prototype.formatConfigurations = function(configurations) {
  * @api public
  */
 
-Config.prototype.setRequireLocale = function() {
+Configuration.prototype.setRequireLocale = function() {
   var locales = {};
   cf.LOCALES.forEach(function(locale) {
-    locales[locale]  = require('../localizations/output/' + locale);
+    if(fs.existsSync(path.join(__dirname, '../Localizations/Output/' + locale + '.js'))) {
+      locales[locale]  = require('../Localizations/Output/' + locale);
+    }
   });
   global.requireLocale = function(locale) {
     return locales[locale];
@@ -105,7 +107,7 @@ Config.prototype.setRequireLocale = function() {
  * @api public
  */
 
-Config.prototype.mergeExternalConfigurations = function(configurations) {
+Configuration.prototype.mergeExternalConfigurations = function(configurations) {
   if(typeof configurations !== 'object') {
     throw new TypeError('first parameter must be of type object');
   }
@@ -128,7 +130,7 @@ Config.prototype.mergeExternalConfigurations = function(configurations) {
  * @api public
  */
 
-Config.prototype.setClientConfigurationMappings = function() {
+Configuration.prototype.setClientConfigurationMappings = function() {
   var files = glob.sync(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER });
   for(var i = 0; i < files.length; i++) {
     var configurations = require(cf.ROOT_FOLDER + files[i])
@@ -147,7 +149,7 @@ Config.prototype.setClientConfigurationMappings = function() {
  * @api public
  */
 
-Config.prototype.writeClientConfigurations = function() {
+Configuration.prototype.writeClientConfigurations = function() {
   var configurationPath = cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD;
   if(!fs.existsSync(configurationPath)) {
     fs.mkdirSync(configurationPath);
@@ -176,4 +178,4 @@ Config.prototype.writeClientConfigurations = function() {
  * Export `config` instance
  */
 
-module.exports = new Config;
+module.exports = new Configuration;

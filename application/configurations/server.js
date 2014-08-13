@@ -6,7 +6,8 @@
 var configuration = require('../core/configuration')
   , path = require('path')
   , glob = require('glob')
-  , corePath = require('../core/path');
+  , corePath = require('../core/path')
+  , _ = require('underscore');
 
 /**
  * Core server configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -41,7 +42,7 @@ var configurations = {
    * @type {String}
    */
 
-  USER_AGENT: 'mantis-server',
+  USER_AGENT: 'MantisServer',
 
   /**
    * Default port for express server
@@ -93,7 +94,7 @@ var configurations = {
    * @type {String}
    */
 
-  TEMPORARY_FOLDER: 'public/tmp',
+  TEMPORARY_FOLDER: 'Public/Temporary',
 
   /**
    * All uploads will be stored on this folder
@@ -101,7 +102,7 @@ var configurations = {
    * @type {String}
    */
 
-  UPLOAD_FOLDER: 'public/uploads',
+  UPLOAD_FOLDER: 'Public/Uploads',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -111,7 +112,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATIONS_GLOB: 'configurations/client/*.js',
+  CLIENT_CONFIGURATIONS_GLOB: 'Configurations/Client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -121,7 +122,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATIONS_BUILD: 'public/scripts/configurations',
+  CLIENT_CONFIGURATIONS_BUILD: 'Public/Scripts/Configurations',
 
   /**
    * Path to the default favicon for your website
@@ -129,7 +130,7 @@ var configurations = {
    * @type {String}
    */
 
-  FAVICON: 'public/images/favicon.ico',
+  FAVICON: 'Public/Images/favicon.ico',
 
 
   /**
@@ -206,7 +207,7 @@ var configurations = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES: 'public/templates/documents/templates',
+  DOCUMENT_TEMPLATES: 'Public/Templates/Documents/Templates',
 
   /**
    * Layout built templates path
@@ -214,7 +215,7 @@ var configurations = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES: 'public/templates/layouts/templates',
+  LAYOUT_TEMPLATES: 'Public/Templates/Layouts/Templates',
 
   /**
    * Layout built templates path
@@ -222,7 +223,7 @@ var configurations = {
    * @type {String}
    */
 
-  CORE_TEMPLATES: 'public/templates/core/templates',
+  CORE_TEMPLATES: 'Public/Templates/Core/Templates',
 
   /**
    * Requirejs path
@@ -246,7 +247,7 @@ var configurations = {
    * @type {String}
    */
 
-  DEFAULT_MAIN: 'mains/default',
+  DEFAULT_MAIN: 'Mains/Default',
 
   /**
    * We want to prevent people from JSON hijacking. Other site can include
@@ -267,7 +268,7 @@ var configurations = {
    * @type {String}
    */
 
-  COMPOSER_BUILD_PATH: 'public/scripts/routers/composer.js',
+  COMPOSER_BUILD_PATH: 'Public/Scripts/Routers/Composer.js',
 
   /**
    * Detect webview. The first match marked with parenthesis will indicate the

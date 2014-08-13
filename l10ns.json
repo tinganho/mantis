@@ -7,13 +7,14 @@
         "port": 3001
       },
       "locales": {
-        "en-US": "English (US)"
+        "en-US": "English (US)",
+        "zh-CN": "Chinese"
       },
       "defaultLocale": "en-US",
       "programmingLanguage": "javascript",
-      "store": "application/localizations/",
-      "output": "application/localizations/output/",
-      "source": []
+      "store": "Application/Localizations",
+      "output": "Application/Localizations/Output",
+      "source": ["Application/Contents/**/*.js"]
     }
   }
 }

@@ -132,16 +132,6 @@ define(function(require) {
     toHTML: function() {},
 
     /**
-     * Remove is called by the composer if `should()` returns 'remove'.
-     *
-     * @return {void}
-     * @api public
-     * @autocalled
-     */
-
-    remove: function() {},
-
-    /**
      * Show is called by the composer if `should()` returns 'keep'.
      *
      * @return {void}

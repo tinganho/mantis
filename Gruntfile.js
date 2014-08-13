@@ -76,13 +76,13 @@ module.exports = function(grunt) {
 
       files: [
         'grunt.js',
-        'application/**/*.js',
+        'Application/**/*.js',
         'lib/**/*.js',
-        '!application/build/tmpl.js',
-        '!application/vendor/**',
-        '!application/public/templates/**/*.js',
-        '!application/public/scripts/**/*.js',
-        '!application/translations/output/**/*.js',
+        '!Application/build/tmpl.js',
+        '!Application/vendor/**',
+        '!Application/public/templates/**/*.js',
+        '!Application/public/scripts/**/*.js',
+        '!Application/translations/output/**/*.js',
         'src/**/*.js'
       ]
     },
@@ -91,31 +91,31 @@ module.exports = function(grunt) {
     compass: {
       dev_documents: {
         options: {
-          config: 'application/configurations/compass.rb',
+          config: 'Application/Configurations/Compass.rb',
           require: compassRequires,
-          sassDir: 'documents/styles',
-          cssDir: 'public/styles/documents',
+          sassDir: 'Documents/Styles',
+          cssDir: 'Public/Styles/documents',
           debugInfo: true,
           noLineComments: true,
-          imagesDir: 'application/public/images'
+          imagesDir: 'Application/Public/Images'
         }
       },
 
       dev_contents: {
         options: {
-          config: 'application/configurations/compass.rb',
+          config: 'Application/Configurations/Compass.rb',
           require: compassRequires,
-          sassDir: 'contents/styles',
-          cssDir: 'public/styles/contents',
+          sassDir: 'Contents/Styles',
+          cssDir: 'Public/Styles/Contents',
           debugInfo: true,
           noLineComments: true,
-          imagesDir: 'public/images'
+          imagesDir: 'Public/Images'
         }
       },
 
       dist_documents: {
         options: {
-          config: 'application/configurations/compass.rb',
+          config: 'Application/Configurations/Compass.rb',
           require: compassRequires,
           sassDir: 'documents/styles',
           cssDir: 'public/styles/documents',
@@ -128,13 +128,13 @@ module.exports = function(grunt) {
 
       dist_contents: {
         options: {
-          config: 'application/configurations/compass.rb',
+          config: 'Application/Configurations/Compass.rb',
           require: compassRequires,
-          sassDir: 'contents/styles',
-          cssDir: 'public/styles/contents',
+          sassDir: 'Contents/Styles',
+          cssDir: 'Public/Styles/Contents',
           debugInfo: true,
           noLineComments: true,
-          imagesDir: 'public/images',
+          imagesDir: 'Public/Images',
           outputStyle: 'compressed'
         }
       }
@@ -143,34 +143,34 @@ module.exports = function(grunt) {
     watch: {
       jshint: {
         files: [
-          'application/contents/**/*.js',
-          'application/configurations/**/*.js',
-          'application/core/**/*.js',
-          'application/libraries/**/*.js'
+          'Application/Contents/**/*.js',
+          'Application/Configurations/**/*.js',
+          'Application/Core/**/*.js',
+          'Application/Libraries/**/*.js'
         ],
         tasks: ['jshint']
       },
 
       templates : {
         files: [
-          'application/contents/**/*.{part,dot}',
-          'application/layouts/**/*.{part,dot}',
-          'application/documents/**/*.{part,dot}'
+          'Application/Contents/**/*.{part,dot}',
+          'Application/Layouts/**/*.{part,dot}',
+          'Application/Documents/**/*.{part,dot}'
         ],
         tasks: ['dot']
       },
 
       compass_documents: {
         files: [
-          'application/documents/**/*.scss',
-          'application/layouts/**/*.scss',
-          'application/components/**/*.scss'
+          'Application/Documents/**/*.scss',
+          'Application/Layouts/**/*.scss',
+          'Application/Components/**/*.scss'
         ],
         tasks: ['compass:dev_documents']
       },
 
       compass_contents: {
-        files: ['application/contents/**/*.scss'],
+        files: ['Application/contents/**/*.scss'],
         tasks: ['compass:dev_contents']
       }
     },
@@ -178,22 +178,21 @@ module.exports = function(grunt) {
     clean: {
       app: [
         'distribution',
-        'application/public/styles/*',
-        'application/public/scripts/configurations/*',
-        'application/public/scripts/distribution/*',
-        'application/public/images-webp/*',
-        'application/public/tmp/*',
-        'application/public/uploads/*',
-        'application/public/templates/*'
+        'Application/Public/Styles/*',
+        'Application/Public/Scripts/Configurations/*',
+        'Application/Public/Scripts/Distribution/*',
+        'Application/Public/ImagesWEBP/*',
+        'Application/Public/Uploads/*',
+        'Application/Public/Templates/*'
       ],
       deploy: ['deploy'],
-      css: ['application/public/styles/*']
+      css: ['Application/public/styles/*']
     },
 
     copy: {
       dist: {
         files: [
-          { expand: true, cwd: 'application/', src: ['**'], dest: 'distribution/' }
+          { expand: true, cwd: 'Application/', src: ['**'], dest: 'distribution/' }
         ]
       }
     },
@@ -205,8 +204,8 @@ module.exports = function(grunt) {
           requirejs: true,
           node: true
         },
-        src: ['application/core/**/*.dot'],
-        dest: 'application/public/templates/core/templates.js'
+        src: ['Application/Core/**/*.tmpl'],
+        dest: 'Application/Public/Templates/Core/Templates.js'
       },
 
       dev_documents: {
@@ -215,8 +214,8 @@ module.exports = function(grunt) {
           requirejs: true,
           node: true
         },
-        src: ['application/documents/**/*.dot'],
-        dest: 'application/public/templates/documents/templates.js'
+        src: ['Application/Documents/**/*.tmpl'],
+        dest: 'Application/Public/Templates/Documents/Templates.js'
       },
 
       dev_layouts: {
@@ -225,8 +224,8 @@ module.exports = function(grunt) {
           requirejs: true,
           node: true
         },
-        src: ['application/layouts/**/*.dot'],
-        dest: 'application/public/templates/layouts/templates.js'
+        src: ['Application/Layouts/**/*.tmpl'],
+        dest: 'Application/Public/Templates/Layouts/Templates.js'
       },
 
       dev_content_app: {
@@ -236,9 +235,9 @@ module.exports = function(grunt) {
           node: true
         },
         src: [
-          'application/contents/share/**/*.dot'
+          'Application/Contents/RollingNumbers/**/*.tmpl'
         ],
-        dest: 'application/public/templates/content/templates.js'
+        dest: 'Application/Public/Templates/Contents/Templates.js'
       },
 
       dist_core: {
@@ -247,8 +246,8 @@ module.exports = function(grunt) {
           requirejs: true,
           node: true
         },
-        src: ['distribution/core/**/*.dot'],
-        dest: 'distribution/public/templates/core/templates.js'
+        src: ['Distribution/Core/**/*.tmpl'],
+        dest: 'Distribution/Public/Templates/Core/Templates.js'
       },
 
       dist_documents: {
@@ -257,8 +256,8 @@ module.exports = function(grunt) {
           requirejs: true,
           node: true
         },
-        src: ['distribution/documents/**/*.dot'],
-        dest: 'distribution/public/templates/documents/templates.js'
+        src: ['Distribution/Documents/**/*.tmpl'],
+        dest: 'Distribution/Public/Templates/Documents/Templates.js'
       },
 
       dist_layouts: {
@@ -267,8 +266,8 @@ module.exports = function(grunt) {
           requirejs: true,
           node: true
         },
-        src: ['distribution/layouts/**/*.dot'],
-        dest: 'distribution/public/templates/layouts/templates.js'
+        src: ['Distribution/Layouts/**/*.tmpl'],
+        dest: 'Distribution/Public/Templates/Layouts/Templates.js'
       },
 
       dist_content_app: {
@@ -278,9 +277,9 @@ module.exports = function(grunt) {
           node: true
         },
         src: [
-          'distribution/contents/share/**/*.dot'
+          'Distribution/Contents/RollingNumbers/**/*.tmpl'
         ],
-        dest: 'distribution/public/templates/content/templates.js'
+        dest: 'Distribution/Public/Templates/Contents/Templates.js'
       }
     },
 
@@ -312,7 +311,7 @@ module.exports = function(grunt) {
     },
 
     usemin: {
-      html: ['distribution/**/*.dot', 'distribution/**/*.part'],
+      html: ['distribution/**/*.tmpl', 'distribution/**/*.part'],
       css: ['distribution/public/**/*.css', '!distribution/vendor/**'],
       options: {
         root : 'distribution',
@@ -324,22 +323,22 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         files: {
-          'distribution/vendor/requirejs/require.js': ['distribution/vendor/requirejs/require.js'],
-          'distribution/vendor/modernizr/modernizr.js': ['distribution/vendor/modernizr/modernizr.js']
+          'Distribution/Vendors/requirejs/require.js': ['Distribution/Vendors/requirejs/require.js'],
+          'Distribution/Vendors/modernizr/modernizr.js': ['Distribution/Vendors/modernizr/modernizr.js']
         }
       }
     },
 
     requirejs: {
-      application: {
+      Application: {
         options: {
           optimize: 'uglify',
           preserveLicenseComments : false,
           // generateSourceMaps : true,
-          baseUrl: 'application',
-          mainConfigFile: 'application/documents/mains/application.js',
-          out: 'application/public/scripts/distribution/application.js',
-          name: 'documents/mains/application',
+          baseUrl: 'Application',
+          mainConfigFile: 'Application/documents/mains/Application.js',
+          out: 'Application/public/scripts/distribution/Application.js',
+          name: 'Documents/Mains/Application',
           paths: {
             'modernizr': 'empty:'
           }
@@ -350,57 +349,24 @@ module.exports = function(grunt) {
     webp: {
       dev: {
         expand: true,
-        cwd: 'application/public/images',
+        cwd: 'Application/Public/Images',
         src: [
           '*.{jpg,png}',
           'backgrounds/*.{jpg,png}'
         ],
-        dest: 'application/public/images-webp'
+        dest: 'Application/Public/ImagesWEBP'
       },
       dist: {
         expand: true,
-        cwd: 'distribution/public/images',
+        cwd: 'Distribution/Public/Images',
         src: [
           '*.{jpg,png}',
           'backgrounds/*.{jpg,png}'
         ],
-        dest: 'distribution/public/images-webp'
+        dest: 'Distribution/Public/ImagesWEBP'
       },
       options: {
         lossless: true,
-      }
-    },
-
-    modernizr: {
-      dist: {
-        'devFile': 'distribution/vendor/modernizr/modernizr.js',
-        'outputFile': 'distribution/vendor/modernizr/modernizr.js',
-
-        // Based on default settings on http://modernizr.com/download/
-        'extra' : {
-          'shiv' : true,
-          'printshiv' : false,
-          'load' : true,
-          'mq' : false,
-          'cssclasses' : true
-        },
-
-        // Based on default settings on http://modernizr.com/download/
-        'extensibility' : {
-          'addtest' : false
-        },
-
-        // By default, source is uglified before saving
-        'uglify' : true,
-
-        // Define any tests you want to implicitly include.
-        'tests' : [
-          'csstransforms'
-        ],
-
-        // When parseFiles = true, matchCommunityTests = true will attempt to
-        // match user-contributed tests.
-        'matchCommunityTests' : false
       }
     }
   });
@@ -457,6 +423,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-zip');
   grunt.loadNpmTasks('grunt-webp');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks("grunt-modernizr");
 
 };

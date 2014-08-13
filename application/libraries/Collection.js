@@ -4,13 +4,10 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Backbone;
+  var Backbone = require('backbone');
 
-  if(inClient) {
-    Backbone = require('backbone');
-  }
-  else if(inServer) {
-    Backbone = require('backbone-relational');
+  if(inServer) {
+   require('backbone-relational');
   }
 
   /**

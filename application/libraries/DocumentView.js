@@ -16,7 +16,7 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this._model = model;
       this._bind();
     },
@@ -28,7 +28,7 @@ define(function(require) {
      * @api private
      */
 
-    _bind : function() {
+    _bind: function() {
       this._setElements();
       this._addListeners();
     },
@@ -40,7 +40,7 @@ define(function(require) {
      * @api private
      */
 
-    _addListeners : function() {
+    _addListeners: function() {
       this._model
         .on('change:title', this.updateTitle, this)
         .on('change:description', this.updateDescription, this)
@@ -54,7 +54,7 @@ define(function(require) {
      * @api private
      */
 
-    _setElements : function() {
+    _setElements: function() {
       this.$title = document.querySelector('title');
       this.$description = document.querySelector('[name=description]');
     },
@@ -65,7 +65,7 @@ define(function(require) {
      * @delegate
      */
 
-    updateTitle : function() {
+    updateTitle: function() {
       this.$title.innerHTML = this._model.get('title');
     },
 
@@ -75,7 +75,7 @@ define(function(require) {
      * @delegate
      */
 
-    updateDescription : function() {
+    updateDescription: function() {
       this.$description.setAttribute('content', this._model.get('description'));
     },
 
@@ -85,7 +85,7 @@ define(function(require) {
      * @delegate
      */
 
-    updateScroll : function() {
+    updateScroll: function() {
       var classList = document.documentElement.classList;
       if(this._model.get('noScroll')) {
         _.defer(function() {

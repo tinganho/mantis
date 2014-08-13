@@ -13,6 +13,7 @@ window.inServer = false;
 window.inClient = true;
 window.has = Modernizr;
 window.no = Modernizr;
+window.platform = '{{=it.platform}}';
 if(typeof String.prototype.toFirstLetterUpperCase === 'undefined') {
   String.prototype.toFirstLetterUpperCase = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
