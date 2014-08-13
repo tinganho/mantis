@@ -50,41 +50,211 @@ define([
 
     {{~it.pages :page:index}}
       'compose {{=page.path}}' : function() {
-        var _this = this
-          , incorrectRegions = 0
-          , n = 0;
 
-        app.document.trigger('fetchstart', '{{=page.path}}');
+        {{?page.platforms.mobile}}
+          if(platform === 'mobile') {
+            var _this = this
+              , incorrectRegions = 0
+              , n = 0;
 
-        {{=page.contentScript}}
+            app.document.trigger('fetchstart', '{{=page.path}}');
 
-        for(var view in app.views) {
-          if({{=page.noViewsScript}}) {
-            app.views[view].remove();
-            delete app.views[view];
-            if(typeof app.models[view] !== 'undefined') {
-              Backbone.Relational.store.unregister(app.models[view]);
-              delete app.models[view];
+            {{=page.platforms.mobile.contentScript}}
+
+            for(var view in app.views) {
+              if({{=page.noViewsScript}}) {
+                app.views[view].remove();
+                delete app.views[view];
+                if(typeof app.models[view] !== 'undefined') {
+                  Backbone.Relational.store.unregister(app.models[view]);
+                }
+              }
             }
           }
-        }
+        {{?}}
+
+
+        {{?page.platforms.ios}}
+          if(platform === 'ios') {
+            var _this = this
+              , incorrectRegions = 0
+              , n = 0;
+
+            app.document.trigger('fetchstart', '{{=page.path}}');
+
+            {{=page.platforms.ios.contentScript}}
+
+            for(var view in app.views) {
+              if({{=page.noViewsScript}}) {
+                app.views[view].remove();
+                delete app.views[view];
+                if(typeof app.models[view] !== 'undefined') {
+                  Backbone.Relational.store.unregister(app.models[view]);
+                }
+              }
+            }
+          }
+        {{?}}
+
+        {{?page.platforms.android}}
+          if(platform === 'android') {
+            var _this = this
+              , incorrectRegions = 0
+              , n = 0;
+
+            app.document.trigger('fetchstart', '{{=page.path}}');
+
+
+            {{=page.platforms.android.contentScript}}
+
+            for(var view in app.views) {
+              if({{=page.noViewsScript}}) {
+                app.views[view].remove();
+                delete app.views[view];
+                if(typeof app.models[view] !== 'undefined') {
+                  Backbone.Relational.store.unregister(app.models[view]);
+                }
+              }
+            }
+          }
+        {{?}}
+
+        {{?page.platforms.desktop}}
+          if(platform === 'desktop') {
+            var _this = this
+              , incorrectRegions = 0
+              , n = 0;
+
+            app.document.trigger('fetchstart', '{{=page.path}}');
+
+            {{=page.platforms.desktop.contentScript}}
+
+            for(var view in app.views) {
+              if({{=page.noViewsScript}}) {
+                app.views[view].remove();
+                delete app.views[view];
+                if(typeof app.models[view] !== 'undefined') {
+                  Backbone.Relational.store.unregister(app.models[view]);
+                }
+              }
+            }
+          }
+        {{?}}
+
+        {{?page.platforms.all}}
+          if(platform === 'desktop') {
+            var _this = this
+              , incorrectRegions = 0
+              , n = 0;
+
+            app.document.trigger('fetchstart', '{{=page.path}}');
+
+            {{=page.platforms.all.contentScript}}
+
+            for(var view in app.views) {
+              if({{=page.noViewsScript}}) {
+                app.views[view].remove();
+                delete app.views[view];
+                if(typeof app.models[view] !== 'undefined') {
+                  Backbone.Relational.store.unregister(app.models[view]);
+                }
+              }
+            }
+          }
+        {{?}}
       },
     {{~}}
 
     {{~it.pages :page:index}}
     'render {{=page.path}}' : function() {
-      app.document.trigger('renderstart');
-      if(document.querySelectorAll('[data-layout="{{=page.layout}}"]').length) {
-        {{=page.renderScript}}
-      }
-      else {
-        app.$layout.remove();
-        app.$body.append(app.layoutTemplates['{{=page.layout}}']({
-          {{=page.mapScript}}
-        }));
-      }
+      {{?page.platforms.mobile}}
+        if(platform === 'mobile') {
+          app.document.trigger('renderstart');
+          if(document.querySelectorAll('[data-layout="{{=page.platforms.mobile.layout}}"]').length) {
+            {{=page.platforms.mobile.renderScript}}
+          }
+          else {
+            app.$layout.remove();
+            app.$body.append(app.layoutTemplates['{{=page.platforms.mobile.layout}}']({
+              {{=page.platforms.mobile.mapScript}}
+            }));
+          }
 
-      app.document.trigger('renderend');
+          app.document.trigger('renderend');
+        }
+      {{?}}
+
+
+      {{?page.platforms.ios}}
+        if(platform === 'ios') {
+          app.document.trigger('renderstart');
+          if(document.querySelectorAll('[data-layout="{{=page.platforms.ios.layout}}"]').length) {
+            {{=page.platforms.ios.renderScript}}
+          }
+          else {
+            app.$layout.remove();
+            app.$body.append(app.layoutTemplates['{{=page.platforms.ios.layout}}']({
+              {{=page.platforms.ios.mapScript}}
+            }));
+          }
+
+          app.document.trigger('renderend');
+        }
+      {{?}}
+
+
+      {{?page.platforms.android}}
+        if(platform === 'android') {
+          app.document.trigger('renderstart');
+          if(document.querySelectorAll('[data-layout="{{=page.platforms.android.layout}}"]').length) {
+            {{=page.platforms.android.renderScript}}
+          }
+          else {
+            app.$layout.remove();
+            app.$body.append(app.layoutTemplates['{{=page.platforms.android.layout}}']({
+              {{=page.platforms.android.mapScript}}
+            }));
+          }
+
+          app.document.trigger('renderend');
+        }
+      {{?}}
+
+
+      {{?page.platforms.desktop}}
+        if(platform === 'desktop') {
+          app.document.trigger('renderstart');
+          if(document.querySelectorAll('[data-layout="{{=page.platforms.desktop.layout}}"]').length) {
+            {{=page.platforms.desktop.renderScript}}
+          }
+          else {
+            app.$layout.remove();
+            app.$body.append(app.layoutTemplates['{{=page.platforms.desktop.layout}}']({
+              {{=page.platforms.desktop.mapScript}}
+            }));
+          }
+
+          app.document.trigger('renderend');
+        }
+      {{?}}
+
+
+      {{?page.platforms.all}}
+        if(platform === 'all') {
+          app.document.trigger('renderstart');
+          if(document.querySelectorAll('[data-layout="{{=page.platforms.all.layout}}"]').length) {
+            {{=page.platforms.mobile.renderScript}}
+          }
+          else {
+            app.$layout.remove();
+            app.$body.append(app.layoutTemplates['{{=page.platforms.all.layout}}']({
+              {{=page.platforms.all.mapScript}}
+            }));
+          }
+
+          app.document.trigger('renderend');
+        }
+      {{?}}
     },
     {{~}}
   });

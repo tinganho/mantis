@@ -6,13 +6,22 @@
 var _ = require('underscore')
   , fs = require('fs')
   , path = require('path')
+  , Backbone = require('backbone')
   , _Model = requirejs('libraries/Model')
   , _Collection = requirejs('libraries/Collection')
   , glob = require('glob')
   , isArray = require('../libraries/isArray')
+  , imports = []
   , importNames = []
-  , imports = []
+  , importPaths = []
+  , urlPaths = []
   , pages = [];
+
+/**
+ * Add backbone relational
+ */
+
+require('backbone-relational');
 
 /**
  * Add terminal colors
@@ -39,8 +48,9 @@ function Page(url) {
   this._documentTemplates = documentTemplates;
   this._layoutTemplates = layoutTemplates;
   this._usingDistributionProperties = false;
+  this._attachedUrlHandler = false;
 
-  this._platform = cf.DEFAULT_PLATFORM;
+  this._platforms = {};
 
   _.bindAll(this, '_next');
 
@@ -56,7 +66,14 @@ function Page(url) {
  */
 
 Page.prototype.onPlatform = function(platform) {
-  this._platform = platform;
+  this._platforms[platform] = {
+    imports: [],
+    importNames: []
+  };
+
+  this._latestPlatform = this._platforms[platform];
+  this._latestPlatformName = platform;
+
 
   return this;
 };
@@ -75,7 +92,11 @@ Page.prototype.hasDocument = function(name, props) {
     throw new TypeError('document ' + name + ' does not exist');
   }
 
-  this._documentTemplates = this._documentTemplates[name];
+  if(typeof this._latestPlatform === 'undefined') {
+    throw new TypeError('You must define a platform with .onPlatform() method.')
+  }
+
+  this._latestPlatform._documentTemplate = this._documentTemplates[name];
 
   return this;
 };
@@ -90,18 +111,27 @@ Page.prototype.hasDocument = function(name, props) {
  */
 
 Page.prototype.withProperties = function(properties) {
-  properties.configurations = properties.configurations.map(function(configuration) {
-    return '/' + cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+  properties.configurations = properties.configurations
+    .map(function(configuration) {
+      if(cf.RESOURCE_NAMESPACE) {
+        return '/' + cf.RESOURCE_NAMESPACE + '/'
+          + cf.CLIENT_CONFIGURATIONS_BUILD + '/'
+          + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+      }
+      else {
+        return '/' + cf.CLIENT_CONFIGURATIONS_BUILD + '/'
+        + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+      }
+    });
+
+  // Set default properties
+  _.defaults(properties, {
+    title: '',
+    description: ''
   });
 
-  this._documentProperties = properties;
+  this._latestPlatform._documentProperties = properties;
 
-  if(typeof properties.title === 'string') {
-    this._documentProps.renderedTitle = properties.title;
-  }
-  if(typeof properties.description === 'string') {
-    this._documentProps.renderedDescription = properties.description;
-  }
   return this;
 };
 
@@ -118,9 +148,8 @@ Page.prototype.hasLayout = function(name) {
     throw new TypeError(name + ' layout doesn\'t exists');
   }
 
-  this._layout = name;
-
-  this._layoutTemplates = this._layoutTemplates[name];
+  this._latestPlatform._layout = name;
+  this._latestPlatform._layoutTemplates = this._layoutTemplates[name];
 
   return this;
 };
@@ -134,11 +163,28 @@ Page.prototype.hasLayout = function(name) {
  */
 
 Page.prototype.withRegions = function(regions) {
-  this.regions = regions;
+  this._latestPlatform.regions = regions;
   this._serve();
-  this.error = this._defaultErrorHandler
+  this.error = this._defaultErrorHandler;
 
   return this;
+};
+
+/**
+ * Serve the page
+ *
+ * @return {void}
+ * @api private
+ */
+
+Page.prototype._serve = function() {
+  var _this = this;
+  this._addContent();
+  this._addPages();
+  if(!this._attachedUrlHandler) {
+    app.get(this._url, _this._next);
+    this._attachedUrlHandler = true;
+  }
 };
 
 /**
@@ -150,27 +196,33 @@ Page.prototype.withRegions = function(regions) {
  */
 
 Page.prototype._getRegions = function(request, response, callback) {
-  var n = 0, regions = {}, _this = this, size = _.size(this.regions)
+  var _this = this
+    , regions = {}
+    , n = 0
+    , platform = this._platforms[request.platform]
+    , size = _.size(platform.regions)
     , jsonScripts = '';
 
   if(size === 0) {
     return callback(regions, '');
   }
 
-  for(var name in this.regions) {
-    if(!this.regions[name].model) {
+  for(var name in platform.regions) {
+    if(!platform.regions[name].model) {
       throw new TypeError('name `' + name + '` doesn\'t have a model');
     }
-    if(!this.regions[name].view) {
+    if(!platform.regions[name].view) {
       throw new TypeError('name `' + name + '` doesn\'t have a view');
     }
 
-    var Model = require('../' + this.regions[name].model)
-      , View = require('../' + this.regions[name].view);
+    var Model = require('../' + platform.regions[name].model)
+      , View = require('../' + platform.regions[name].view);
 
     if(!Model.prototype.fetch) {
-      throw new TypeError(this.regions[name].model + ' is not an instance of Model or Collection');
+      throw new TypeError(platform.regions[name].model + ' is not an instance of Model or Collection');
     }
+
+    Backbone.Relational.store.reset();
 
     var model = new Model
       , view = new View(model);
@@ -180,29 +232,24 @@ Page.prototype._getRegions = function(request, response, callback) {
     };
 
 
-    (function(name, view, Model, View) {
-
+    (function(name, view, Model, View, platform) {
       try {
         model.fetch({
-          success : function() {
+          success: function() {
             view = new View(model);
             regions[name] = view.toHTML();
 
-            if(typeof model.page.title === 'string'
-            && model.page.title.length > 0
-            && typeof _this._documentProperties.title !== 'string') {
-              _this._documentProperties.renderedTitle = model.page.title;
+            if(typeof model.page.title === 'string' && model.page.title.length > 0) {
+              platform._documentProperties.title = model.page.title;
             }
-            if(typeof model.page.description === 'string'
-            && model.page.description.length > 0
-            && typeof _this._documentProperties.description !== 'string') {
-              _this._documentProperties.renderedDescription = model.page.description;
+            if(typeof model.page.description === 'string' && model.page.description.length > 0) {
+              platform._documentProperties.description = model.page.description;
             }
 
             // Push json scripts
             jsonScripts += coreTemplates.jsonScript({
-              name : _this.regions[name].model.split('/')[2].toLowerCase(),
-              json : JSON.stringify(model.toJSON())
+              name: platform.regions[name].model.split('/')[2].toLowerCase(),
+              json: JSON.stringify(model.toJSON())
             });
 
             n++;
@@ -214,7 +261,7 @@ Page.prototype._getRegions = function(request, response, callback) {
           // The backbone takes in argument  model, response and options
           // We send in the error object in the middle argument. So we rename
           // response to error instead.
-          error : function(model, error, options) {
+          error: function(model, error, options) {
             _this.error(error, request, response);
           }
         });
@@ -232,7 +279,7 @@ Page.prototype._getRegions = function(request, response, callback) {
         }
       }
 
-    })(name, view, Model, View);
+    })(name, view, Model, View, platform);
   }
 };
 
@@ -265,20 +312,6 @@ Page.prototype._defaultErrorHandler = function(error, request, response) {
 };
 
 /**
- * Serve the page
- *
- * @return {void}
- * @api private
- */
-
-Page.prototype._serve = function() {
-  var _this = this;
-  this._addContent();
-  this._addPages();
-  app.get(this._url, _this._next);
-};
-
-/**
  * Check if request is a web view page request
  *
  * @param {HTTPRequest} request
@@ -288,41 +321,23 @@ Page.prototype._serve = function() {
  */
 
 Page.prototype._isWebViewPageRequest = function(request) {
-  var forcedPlatform = request.param('platform');
-  var definedWebView = cf.WEB_VIEW_DETECT.exec(this._platform);
-  if(definedWebView && definedWebView.length >= 1) {
-    definedWebView = definedWebView[1];
-    var requestedWebView = cf.WEB_VIEW_DETECT.exec(request.headers['host']);
-    if(requestedWebView && requestedWebView.length >= 1) {
-      requestedWebView = requestedWebView[1];
-      if(definedWebView !== requestedWebView) {
-        var forcedWebView = cf.WEB_VIEW_DETECT.exec(forcedPlatform);
-        if(forcedWebView && forcedWebView.length >= 1) {
-          forcedWebView = forcedWebView[1];
-          if(forcedWebView !== definedWebView) {
-            return false;
-          }
-        }
-        else {
-          return false;
-        }
-      }
-    }
-    else {
-      var forcedWebView = cf.WEB_VIEW_DETECT.exec(forcedPlatform);
-      if(forcedWebView && forcedWebView.length >= 1) {
-        forcedWebView = forcedWebView[1];
-        if(forcedWebView !== definedWebView) {
-          return false;
-        }
-      }
-      else {
+  var forcedPlatform = request.param('platform')
+    , definedWebView = cf.WEB_VIEW_DETECT.exec(this._platform)
+    , platforms = Object.keys(this._platforms);
+
+  if(cf.WEB_VIEW_DETECT.test(request.headers['host'])) {
+    if(platforms.indexOf('ios') !== -1
+    || platforms.indexOf('android') !== -1) {
+      if(forcedPlatform !== 'ios' && forcedPlatform !== 'android') {
         return false;
       }
+
+      return true;
     }
+
   }
 
-  return true;
+  return false;
 };
 
 /**
@@ -336,10 +351,10 @@ Page.prototype._isWebViewPageRequest = function(request) {
 
 Page.prototype._isMobilePageRequest = function(request) {
   var forcedPlatform = request.param('platform');
-  if(this._platform === 'mobile') {
+  if(Object.keys(this._platforms).indexOf('mobile') !== -1) {
     var userAgent = request.headers['user-agent'];
     if(!(cf.MOBILE_DEVICE_DETECT_1.test(userAgent) || cf.MOBILE_DEVICE_DETECT_2.test(userAgent.substr(0,4)))) {
-      if(!forcedPlatform || forcedPlatform !== 'mobile') {
+      if(forcedPlatform !== 'mobile') {
         return false;
       }
     }
@@ -353,31 +368,40 @@ Page.prototype._isMobilePageRequest = function(request) {
  */
 
 Page.prototype._next = function(request, response, next) {
-  var _this = this;
+  var _this = this, platform = 'all';
 
   // Mobile platform check.
-  if(!this._isMobilePageRequest(request)) {
-    return next();
+  if(this._isMobilePageRequest(request)) {
+    platform = 'mobile';
   }
-
-  // Webview platform check.
-  if(!this._isWebViewPageRequest(request)) {
-    return next();
+  else if(this._isWebViewPageRequest(request)) {
+    platform = cf.WEB_VIEW_DETECT.exec(request.headers['host'])[1];
+  }
+  else if(Object.keys(this._platforms).indexOf('desktop')) {
+    platform = 'desktop';
   }
 
   // If in a distribution use minified/uglified scripts
   if(inDistribution && !this._usingDistributionProperties) {
-    _this._documentProperties.main = '/' + glob.sync(
+    this._platforms[platform]._documentProperties.main = '/' + glob.sync(
       cf.DISTRIBUTION_MAIN_FOLDER +
       '/*.' +
-      path.basename(_this._documentProperties.main) +
+      path.basename(this._platforms[platform]._documentProperties.main) +
       '.js'
       , { cwd: rootFolder });
 
+    if(cf.RESOURCE_NAMESPACE) {
+      this._platforms[platform]._documentProperties.main = '/' + cf.RESOURCE_NAMESPACE + this._platforms[platform]._documentProperties.main
+    }
+
     if(!this._usingDistributionStyles) {
-      _this._documentProperties.styles = _this._documentProperties.styles.map(function(style) {
+      this._platforms[platform]._documentProperties.styles = this._platforms[platform]._documentProperties.styles.map(function(style) {
         var paths = style.split('/');
         paths[paths.length - 1] = '*.' + paths[paths.length - 1];
+
+        if(cf.RESOURCE_NAMESPACE) {
+          return '/' + cf.RESOURCE_NAMESPACE + '/' + glob.sync(paths.join('/').substr(1), { cwd: rootFolder })[0];
+        }
 
         return '/' + glob.sync(paths.join('/').substr(1), { cwd: rootFolder })[0];
       });
@@ -386,16 +410,18 @@ Page.prototype._next = function(request, response, next) {
     }
   }
 
+  // Set platform variable so that .getRegions() will know which platform
+  // it comes from.
+  request.platform = platform;
+
   this._getRegions(request, response, function(regions, jsonScripts) {
-    var html = _this._documentTemplates(_.extend(_this._documentProperties, {
-      title: _this._documentProperties.renderedTitle,
-      description: _this._documentProperties.renderedDescription,
+    var html = _this._platforms[platform]._documentTemplate(_.extend(_this._platforms[platform]._documentProperties, {
       locale: request.cookies.locale,
       jsonScripts: jsonScripts,
-      layout: _this._layoutTemplates(regions),
-      modernizr: cf.MODERNIZR,
-      requirejs: cf.REQUIREJS,
-      platform: _this._platform
+      layout: _this._platforms[platform]._layoutTemplates(regions),
+      modernizr: cf.RESOURCE_NAMESPACE ? '/' + cf.RESOURCE_NAMESPACE + cf.MODERNIZR : cf.MODERNIZR,
+      requirejs: cf.RESOURCE_NAMESPACE ? '/' + cf.RESOURCE_NAMESPACE + cf.REQUIREJS : cf.REQUIREJS,
+      platform: platform
     }));
 
     response.send(html);
@@ -414,7 +440,7 @@ Page.prototype._getConstructorName = function(path) {
 };
 
 /**
- * We want to add content to the content varaiable, to compile
+ * We want to add content to the content variable, to compile
  * the composite routers.
  *
  * @param {Object} content
@@ -422,28 +448,43 @@ Page.prototype._getConstructorName = function(path) {
  */
 
 Page.prototype._addContent = function() {
-  for(var i in this.regions) {
-    var region = this.regions[i];
+  for(var i in this._latestPlatform.regions) {
+    var region = this._latestPlatform.regions[i];
     var name = this._getConstructorName(region.model);
 
     // If content have been stored continue the loop
-    if(importNames.indexOf(name) !== -1) {
+    if(typeof this._latestPlatform.importNames !== 'undefined'
+    && this._latestPlatform.importNames.indexOf(name) !== -1) {
       continue;
     }
 
     var _import = {
-      model : {
-        name : name,
-        path : region.model
+      model: {
+        name: name,
+        path: region.model
       },
-      view : {
-        name : this._getConstructorName(region.view),
-        path : region.view
+      view: {
+        name: this._getConstructorName(region.view),
+        path: region.view
       }
+    };
+
+    if(importPaths.indexOf(name) === -1) {
+      imports.push(_import);
+      importNames.push(name);
+      importPaths.push(region.model);
     }
-    imports.push(_import);
-    importNames.push(name);
   }
+};
+
+Page.prototype._findPage = function(path) {
+  for(var i in pages) {
+    if(pages[i].path === path) {
+      return pages.splice(i, 1)[0];
+    }
+  }
+
+  return null;
 };
 
 /**
@@ -456,25 +497,35 @@ Page.prototype._addContent = function() {
 
 Page.prototype._addPages = function() {
   var path = this._url.substr(1);
-  var page = {
-    path : path,
-    layout : this._layout
+
+  var page = this._findPage(path);
+  if(!page) {
+    page = {};
+    page.path = path;
+    page.platforms = {};
+  }
+
+  page.platforms[this._latestPlatformName] = {
+    layout: this._latestPlatform._layout
   };
+
   var regions = [], views = [];
-  for(var name in this.regions) {
+  for(var name in this._latestPlatform.regions) {
     var map = {};
-    var model = this._getConstructorName(this.regions[name].model);
+    var model = this._getConstructorName(this._latestPlatform.regions[name].model);
     map['model'] = model;
-    map['view'] = this._getConstructorName(this.regions[name].view);
+    map['view'] = this._getConstructorName(this._latestPlatform.regions[name].view);
     map['region'] = name;
     map['path'] = path;
     views.push(model.toLowerCase());
     regions.push(map);
   }
-  page.contentScript = coreTemplates['contentScript'](regions);
-  page.renderScript = coreTemplates['renderScript'](regions);
-  page.mapScript = coreTemplates['mapScript'](regions);
-  page.noViewsScript = coreTemplates['noViewsScript'](views);
+
+  page.platforms[this._latestPlatformName].contentScript = coreTemplates['contentScript'](regions);
+  page.platforms[this._latestPlatformName].renderScript = coreTemplates['renderScript'](regions);
+  page.platforms[this._latestPlatformName].mapScript = coreTemplates['mapScript'](regions);
+  page.platforms[this._latestPlatformName].noViewsScript = coreTemplates['noViewsScript'](views);
+
   pages.push(page);
 };
 
@@ -494,7 +545,7 @@ module.exports = function(url) {
  */
 
 module.exports.createComposer = function() {
-  var router = coreTemplates['compositeRouter']({ pages : pages, imports : imports });
+  var router = coreTemplates['compositeRouter']({ pages: pages, imports: imports });
   fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router);
 };
 
